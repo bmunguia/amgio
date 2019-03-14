@@ -105,7 +105,7 @@
 
 
 #include <errno.h>
-#include <libmeshb7.h>
+#include "libmeshb7.h"
 
 // [Bruno] Using portable printf modifier from pstdint.h
 // (alternative: use "%zd" under Linux and "%Id" under Windows)

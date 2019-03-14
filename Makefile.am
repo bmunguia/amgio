@@ -1,7 +1,7 @@
 pkg_cppflags  = @INRIA_CPPFLAGS@ -I$(srcdir)
 pkg_sources = \
-        legacy_sources/v6/libmesh6.h \
-        legacy_sources/v6/libmesh6.c
+        sources/libmeshb7.h \
+        sources/libmeshb7.c
 
 ######################################################################
 AUTOMAKE_OPTIONS = subdir-objects
