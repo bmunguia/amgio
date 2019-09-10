@@ -1,0 +1,35 @@
+===================================
+pyAMG : Adaptive Mesh Generation
+
+
+Adrien Loseille, Copyright. INRIA, 2018- 
+adrien.loseille@inria.fr
+
+====================================
+
+
+python -pip  install  pyamg-1.0.0-cp27-cp27m-linux_x86_64.whl	
+
+or
+
+python -pip  install  pyamg-1.0.0-cp27-cp27mu-linux_x86_64.whl
+
+or
+
+python -pip install pyamg-1.0.0-cp27-cp27m-macosx_10_9_x86_64.whl
+
+
+If you dont't have root privliged, you can install pyamg in your local package directory with : python -pip  install --user  pyamg-1.0.0-cp27-cp27m-linux_x86_64.whl	
+
+To validate the package
+cd test
+python demo_pyamg.py
+
+
+For more details, visit https://pyamg.saclay.inria.fr
+
+
+
+
+
+
