@@ -60,7 +60,7 @@ int py_ConvertInriatoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *Out
 		return 0;
 	}
 	
-	return ConvertGMFtoSU2Sol (mshopt);
+	return ConvertGMFtoSU2Sol (mshopt, BndMshNam);
 	
 	
 	return 1;

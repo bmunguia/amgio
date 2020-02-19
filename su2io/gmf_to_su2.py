@@ -34,12 +34,15 @@ def main():
         sys.stdout.flush()
     else:
         options.solfilename = str(options.solfilename)
-    if options.boundmeshfilename = None:
+    if options.boundmeshfilename == None:
         raise RuntimeError , 'No .su2 file provided with MARKER_TAG information. Run with -h for full list of options.\n'
+    else:
+        options.boundmeshfilename = str(options.boundmeshfilename)
     options.outfilename = str(options.outfilename)
 
     gmf_to_su2(options.meshfilename,
     	       options.solfilename,
+               options.boundmeshfilename,
     	       options.outfilename)
 
 #: def main()
@@ -48,11 +51,12 @@ def main():
 #  Mesh and Solution Conversion Function
 # -------------------------------------------------------------------
 
-def gmf_to_su2( meshfilename ,
-                solfilename  ,
-                outfilename  ):
+def gmf_to_su2( meshfilename      ,
+                solfilename       ,
+                boundmeshfilename ,
+                outfilename       ):
 
-	amgio.py_ConvertInriatoSU2(meshfilename, solfilename, outfilename)
+	amgio.py_ConvertInriatoSU2(meshfilename, solfilename, boundmeshfilename, outfilename)
 
 #: def gmf_to_su2()
 
