@@ -16,11 +16,11 @@ def main():
 
     # Command Line Options
     parser = OptionParser()
-    parser.add_option("-m", "--mesh", dest="meshfilename",
+    parser.add_option("-m", "--mesh", dest="meshfilename", type="string",
                       help="read mesh from MESHFILE", metavar="MESHFILE")
-    parser.add_option("-s", "--sol", dest="solfilename", default=None,
+    parser.add_option("-s", "--sol", dest="solfilename", type="string", default=None,
                       help="read sol from SOLFILE", metavar="SOLFILE")
-    parser.add_option("-o", "--out", dest="outfilename", default="out",
+    parser.add_option("-o", "--out", dest="outfilename", type="string", default="out",
                       help="write output to OUTFILE", metavar="OUTFILE")
     (options, args)=parser.parse_args()
 
