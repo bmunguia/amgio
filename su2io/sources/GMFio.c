@@ -394,7 +394,7 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
   //printf("  %%%% %s OPENED (WRITE)\n",OutFil);
   
   //--- Write vertices
-  GmfSetKwd(OutMsh, GmfVertices, NbrVer);
+  GmfSetKwd(OutMsh, GmfVertices, NbrVer, 0, 0);
 
 	if ( Msh->Dim == 2 ) {
   	for (iVer=1; iVer<=NbrVer; ++iVer) {
@@ -412,7 +412,7 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
 	
 	if ( Msh->Tri > 0 ) {
   	//--- Write triangles
-  	GmfSetKwd(OutMsh, GmfTriangles, NbrTri);
+  	GmfSetKwd(OutMsh, GmfTriangles, NbrTri, 0, 0);
   	for (iTri=1; iTri<=NbrTri; ++iTri) {
   	  for (i=0; i<3; ++i) {
   	    idx[i] = (long long)(Tri[iTri][i]);
@@ -423,7 +423,7 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
 	
 	if ( Msh->Qua > 0 ) {
   	//--- Write quads
-  	GmfSetKwd(OutMsh, GmfQuadrilaterals, NbrQua);
+  	GmfSetKwd(OutMsh, GmfQuadrilaterals, NbrQua, 0, 0);
   	for (iQua=1; iQua<=NbrQua; ++iQua) {
   	  for (i=0; i<4; ++i) {
   	    idx[i] = (long long)(Qua[iQua][i]);
@@ -435,7 +435,7 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
 
 	if ( Msh->NbrTet > 0 ) {
   	//--- Write tetrahedra
-  	GmfSetKwd(OutMsh, GmfTetrahedra, Msh->NbrTet);
+  	GmfSetKwd(OutMsh, GmfTetrahedra, Msh->NbrTet, 0, 0);
   	for (iTet=1; iTet<=Msh->NbrTet; ++iTet) {
   	  for (i=0; i<4; ++i) {
   	    idx[i] = (long long)(Tet[iTet][i]);
@@ -447,7 +447,7 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
 
 	if ( Msh->NbrPri > 0  ) {
   	//--- Write prisms
-  	GmfSetKwd(OutMsh, GmfPrisms, Msh->NbrPri);
+  	GmfSetKwd(OutMsh, GmfPrisms, Msh->NbrPri, 0, 0);
   	for (i=1; i<=Msh->NbrPri; ++i) {
   	  for (j=0; j<6; ++j) {
   	    idx[j] = (long long)(Msh->Pri[i][j]);
@@ -459,7 +459,7 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
 
 	if ( Msh->NbrPyr > 0 ) {
   	//--- Write pyr
-  	GmfSetKwd(OutMsh, GmfPyramids, Msh->NbrPyr);
+  	GmfSetKwd(OutMsh, GmfPyramids, Msh->NbrPyr, 0, 0);
   	for (i=1; i<=Msh->NbrPyr; ++i) {
   	  for (j=0; j<5; ++j) {
   	    idx[j] = (long long)(Msh->Pyr[i][j]);
@@ -470,7 +470,7 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
 	
 	if ( Msh->NbrEfr ) {
   	//--- Write Edges
-  	GmfSetKwd(OutMsh, GmfEdges, NbrEfr);
+  	GmfSetKwd(OutMsh, GmfEdges, NbrEfr, 0, 0);
   	for (iEfr=1; iEfr<=NbrEfr; ++iEfr) {
   	  for (i=0; i<2; ++i) {
   	    idx[i] = (long long)(Efr[iEfr][i]);
@@ -481,7 +481,7 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
 
   if ( Msh->NbrCor ) {
   	//--- Write corners
-  	GmfSetKwd(OutMsh, GmfCorners, NbrCor);
+  	GmfSetKwd(OutMsh, GmfCorners, NbrCor, 0, 0);
   	for (iCor=1; iCor<=NbrCor; ++iCor) {
  	    idx[0] = (long long)(Cor[iCor]);
   	  GmfSetLin(OutMsh, GmfCorners,idx[0]);  
