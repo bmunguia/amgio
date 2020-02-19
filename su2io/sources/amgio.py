@@ -104,9 +104,9 @@ def py_ConvertInriatoSU2(MshNam, SolNam, OutNam):
     return _amgio.py_ConvertInriatoSU2(MshNam, SolNam, OutNam)
 py_ConvertInriatoSU2 = _amgio.py_ConvertInriatoSU2
 
-def py_ConvertInriatoSU2(MshNam, SolNam, BndMshNam, OutNam):
-    return _amgio.py_ConvertInriatoSU2(MshNam, SolNam, BndMshNam, OutNam)
-py_ConvertInriatoSU2 = _amgio.py_ConvertInriatoSU2
+def py_ConvertInriaWithBoundtoSU2(MshNam, SolNam, BndMshNam, OutNam):
+    return _amgio.py_ConvertInriaWithBoundtoSU2(MshNam, SolNam, BndMshNam, OutNam)
+py_ConvertInriaWithBoundtoSU2 = _amgio.py_ConvertInriaWithBoundtoSU2
 
 def py_SplitSolution(SolNam, dim, prefix, adap_sensor):
     return _amgio.py_SplitSolution(SolNam, dim, prefix, adap_sensor)

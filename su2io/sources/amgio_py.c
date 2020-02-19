@@ -45,7 +45,7 @@ int py_ConvertInriatoSU2( char *MshNam, char *SolNam, char *OutNam )
 	return 1;
 }
 
-int py_ConvertInriatoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam ) 
+int py_ConvertInriaWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam ) 
 {
 	
 	Options *mshopt = AllocOptions();
