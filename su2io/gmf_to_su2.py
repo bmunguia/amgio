@@ -25,7 +25,7 @@ def main():
     (options, args)=parser.parse_args()
 
     if options.solfilename == None:
-        options.solfilename = "\0"
+        options.solfilename = ""
 
     gmf_to_su2(options.meshfilename,
     	       options.solfilename,
