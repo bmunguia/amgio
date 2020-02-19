@@ -5,7 +5,7 @@
 #  \author Brian Mungu\'ia
 #
 
-from ... import _amgio as amgio
+import _amgio as amgio
 
 # -------------------------------------------------------------------
 #  Main 
