@@ -42,6 +42,8 @@
 #define GmfIntTab 5
 #define GmfLongTab 6
 
+#define GmfMaxSizMsh  1083 /* (GmfMaxKwd+2+GmfMaxTyp)  */
+
 enum GmfKwdCod
 {
    GmfReserved1,
