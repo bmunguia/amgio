@@ -431,7 +431,7 @@ void CopyBoundaryMarkers (Mesh *Msh, Mesh *BndMsh)
 {
   int iMark;
   if (Msh->NbrMarkers == BndMsh->NbrMarkers) {
-    for (iMark = 0; iMark < BndMsh->NbrMarkers; iMark++) {
+    for (iMark = 1; iMark <= BndMsh->NbrMarkers; iMark++) {
       strcpy(Msh->Markers[iMark], BndMsh->Markers[iMark]);
     }
   }
