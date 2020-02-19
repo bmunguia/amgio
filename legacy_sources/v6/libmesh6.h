@@ -33,6 +33,8 @@
 #define GmfInt 3
 #define GmfLong 4
 
+#define GmfMaxSizMsh  1083 /* BCM: (GmfMaxKwd+2+GmfMaxTyp)  */
+
 enum GmfKwdCod
 {
 	GmfReserved1, \
@@ -129,6 +131,18 @@ enum GmfKwdCod
 	GmfTrianglesP4, \
 	GmfEdgesP3, \
 	GmfEdgesP4, \
+	 /* BCM */
+    GmfVirtualEdges, \
+    GmfFaceEdges, \
+    GmfFaceP2Edges, \
+    GmfVolumeEdges, \
+    GmfBoundaryVertices, \
+    GmfReferences, \
+    GmfLines, \
+    GmfSurfaces, \
+    GmfPlanes, \
+	GmfFileType, \
+    /*end BCM*/
 	GmfLastKeyword
 };
 
