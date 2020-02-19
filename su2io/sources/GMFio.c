@@ -8,7 +8,7 @@ int AddGMFMeshSize (char *MshNam, int *SizMsh)
 {
 	int dim, FilVer, InpMsh, i; 
 	
-	for (i=0; i<GmfMaxSizMsh; i++)
+	for (i=0; i<GmfMaxKwd; i++)
 		SizMsh[i] = 0;
 
   if ( !(InpMsh = GmfOpenMesh(MshNam,GmfRead,&FilVer,&dim)) ) {
