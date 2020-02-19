@@ -24,7 +24,7 @@ def main():
                       help="write output to OUTFILE", metavar="OUTFILE")
     (options, args)=parser.parse_args()
 
-    su2_to_gmf(options.meshfilename,
+    gmf_to_su2(options.meshfilename,
     	       options.solfilename,
     	       options.outfilename)
 
@@ -34,13 +34,13 @@ def main():
 #  Mesh and Solution Conversion Function
 # -------------------------------------------------------------------
 
-def su2_to_gmf( meshfilename ,
+def gmf_to_su2( meshfilename ,
                 solfilename  ,
                 outfilename  ):
 
 	amgio.py_ConvertInriatoSU2(meshfilename, solfilename, outfilename)
 
-#: def su2_to_gmf()
+#: def gmf_to_su2()
 
 # -------------------------------------------------------------------
 #  Run Main Program
