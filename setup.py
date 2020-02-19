@@ -13,7 +13,7 @@ def setup_amgio(argv=[]):
     os.chdir(file_dir);
     setup(ext_modules=[ \
           Extension("_amgio",
-          sources=[ "./sources/libmesh7.c", \
+          sources=[ "./sources/libmeshb7.c", \
                     "./su2io/sources/amgio_py.c", \
      				"./su2io/sources/mesh.c", \
      				"./su2io/sources/GMFio.c", \
