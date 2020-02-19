@@ -430,13 +430,8 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
 void CopyBoundaryMarkers (Mesh *Msh, Mesh *BndMsh)
 {
   int iMark;
-  if (Msh->NbrMarkers == BndMsh->NbrMarkers) {
-    for (iMark = 1; iMark <= BndMsh->NbrMarkers; iMark++) {
-      strcpy(Msh->Markers[iMark], BndMsh->Markers[iMark]);
-    }
-  }
-  else {
-    printf("  ## ERROR CopyBoundaryMarkers : Different number of markers in Mesh and BoundMesh.\n");
+  for (iMark = 1; iMark <= BndMsh->NbrMarkers; iMark++) {
+    strcpy(Msh->Markers[iMark], BndMsh->Markers[iMark]);
   }
 }
 
