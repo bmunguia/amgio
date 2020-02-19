@@ -42,7 +42,7 @@
 #define GmfIntTab 5
 #define GmfLongTab 6
 
-#define GmfMaxSizMsh  1083 /* (GmfMaxKwd+2+GmfMaxTyp)  */
+#define GmfMaxSizMsh  1083 /* BCM: (GmfMaxKwd+2+GmfMaxTyp)  */
 
 enum GmfKwdCod
 {
@@ -245,6 +245,19 @@ enum GmfKwdCod
    GmfPrismReferenceElement,         
    GmfHexahedronReferenceElement,    
    GmfLastKeyword
+
+   /* BCM */
+   GmfVirtualEdges, \
+   GmfFaceEdges, \
+   GmfFaceP2Edges, \
+   GmfVolumeEdges, \
+   GmfBoundaryVertices, \
+   GmfReferences, \
+   GmfLines, \
+   GmfSurfaces, \
+   GmfPlanes, \
+   GmfFileType, \
+  /*end BCM*/
 };
 
 
