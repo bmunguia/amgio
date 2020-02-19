@@ -24,6 +24,9 @@ def main():
                       help="write output to OUTFILE", metavar="OUTFILE")
     (options, args)=parser.parse_args()
 
+    if options.solfilename == None:
+        options.solfilename = ""
+
     gmf_to_su2(options.meshfilename,
     	       options.solfilename,
     	       options.outfilename)
