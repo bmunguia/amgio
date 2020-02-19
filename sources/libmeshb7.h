@@ -244,20 +244,20 @@ enum GmfKwdCod
    GmfPyramidReferenceElement,       
    GmfPrismReferenceElement,         
    GmfHexahedronReferenceElement,    
-   GmfLastKeyword
 
    /* BCM */
-   GmfVirtualEdges, \
-   GmfFaceEdges, \
-   GmfFaceP2Edges, \
-   GmfVolumeEdges, \
-   GmfBoundaryVertices, \
-   GmfReferences, \
-   GmfLines, \
-   GmfSurfaces, \
-   GmfPlanes, \
-   GmfFileType, \
-  /*end BCM*/
+   GmfVirtualEdges,
+   GmfFaceEdges,
+   GmfFaceP2Edges,
+   GmfVolumeEdges,
+   GmfBoundaryVertices,
+   GmfReferences,
+   GmfLines,
+   GmfSurfaces,
+   GmfPlanes,
+   GmfFileType,
+   /*end BCM*/
+   GmfLastKeyword
 };
 
 
