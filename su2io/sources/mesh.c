@@ -427,6 +427,19 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
 	return Msh;
 }
 
+void CopyBoundaryMarkers (Mesh *Msh, Mesh *BndMsh)
+{
+  int iMark;
+  if (Msh->NbrMarkers == BndMsh->NbrMarkers) {
+    for (iMark = 0; iMark < BndMsh->NbrMarkers; iMark++) {
+      strcpy(Msh->Markers[iMark], BndMsh->Markers[iMark]);
+    }
+  }
+  else {
+    printf("  ## ERROR CopyBoundaryMarkers : Different number of markers in Mesh and BoundMesh.\n");
+  }
+}
+
 
 void switchHexIdx(int *idx, int *swi)
 {

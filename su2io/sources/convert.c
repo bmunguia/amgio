@@ -78,6 +78,93 @@ int ConvertGMFtoSU2Sol (Options *mshopt)
 	return 1;
 }
 
+int ConvertGMFtoSU2Sol (Options *mshopt, char* BndMshNam)
+{
+	Mesh *BndMsh = NULL, *Msh = NULL;
+	char OutSol[1024];
+
+	FILE *FilHdl=NULL;
+	char *tok=NULL, *lin=NULL;
+
+	int skip=0, SolSiz=0;
+	size_t  len = 0;
+
+	BndMsh = SetupMeshAndSolution (BndMshNam, "");
+	Msh    = SetupMeshAndSolution (mshopt->InpNam, mshopt->SolNam);
+
+	CopyBoundaryMarkers(Msh, BndMsh);
+
+	if ( BndMsh )
+ 		FreeMesh(BndMsh);
+ 	else {
+ 		printf("  ## ERROR : No BndMsh. \n");
+		return 0;
+ 	}
+
+	if ( Msh->FilTyp != FILE_GMF ) {
+		printf("  ## ERROR : Input mesh file must be a .mesh (GMF) (FilTyp=%d)\n", Msh->FilTyp);
+		return 0;
+	}
+
+	//PrintMeshInfo (Msh);
+	
+	//--- Get header information from reference file
+
+	if ( strcmp(mshopt->HeaderNam, "") ) {
+
+		FilHdl = fopen(mshopt->HeaderNam,"r");
+
+		if ( !FilHdl ) {
+			printf("  ## ERROR: ConvertGMFtoSU2Sol: UNABLE TO OPEN %s. \n", mshopt->HeaderNam);
+	    return 0;
+		}
+
+		if ( getline(&lin, &len, FilHdl) != -1 ) {
+			tok = strtok (lin, "	,");
+			skip = 0;
+			SolSiz = 0;
+			while ( tok ) {
+				if ( !strcmp(tok,"\"PointID\"") || !strcmp(tok,"\"x\"") || !strcmp(tok,"\"y\"") || !strcmp(tok,"\"z\"")   ) {
+					tok = strtok (NULL, "	,");
+					skip++;
+					continue;
+				}
+
+				strcpy(Msh->SolTag[SolSiz], tok);
+				StrRemoveChars(Msh->SolTag[SolSiz], '\"');
+				StrRemoveChars(Msh->SolTag[SolSiz], '\n');
+				SolSiz++;
+
+				if ( SolSiz > Msh->SolSiz ) {
+					printf("  ## ERROR: ConvertGMFtoSU2Sol: Provided header size does not match.\n");
+			    return 0;
+				}
+
+				tok = strtok (NULL, "	,");
+			}
+	  }
+
+	}
+
+	if ( mshopt->clean == 1 )
+		RemoveUnconnectedVertices(Msh);
+	
+	if ( mshopt->Dim == 2 )
+		Msh->Dim = 2;
+	
+	WriteSU2Mesh(mshopt->OutNam, Msh);
+	
+	if ( Msh->Sol ) {
+		sprintf(OutSol, "%s.csv", mshopt->OutNam);
+		WriteSU2Solution (OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
+	}
+
+	if ( Msh )
+ 		FreeMesh(Msh);
+
+	return 1;
+}
+
 
 
 int ConvertSU2SolToGMF (Options *mshopt)
