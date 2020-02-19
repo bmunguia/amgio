@@ -18,7 +18,7 @@ def main():
     parser = OptionParser()
     parser.add_option("-m", "--mesh", dest="meshfilename",
                       help="read mesh from MESHFILE", metavar="MESHFILE")
-    parser.add_option("-s", "--sol", dest="solfilename", default="\0",
+    parser.add_option("-s", "--sol", dest="solfilename", default=None,
                       help="read sol from SOLFILE", metavar="SOLFILE")
     parser.add_option("-o", "--out", dest="outfilename", default="out",
                       help="write output to OUTFILE", metavar="OUTFILE")
