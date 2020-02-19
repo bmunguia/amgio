@@ -10,7 +10,7 @@
 #define max(a,b) (a>=b?a:b)
 #define min(a,b) (a<=b?a:b)
 
-#include "libmeshb8.h"
+#include "libmeshb7.h"
 #include "mesh.h"
 #include "option.h"
 
