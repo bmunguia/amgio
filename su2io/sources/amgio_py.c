@@ -60,7 +60,7 @@ int py_ConvertInriaWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, 
 		return 0;
 	}
 	
-	return ConvertGMFtoSU2Sol (mshopt, BndMshNam);
+	return ConvertGMFWithBoundtoSU2Sol (mshopt, BndMshNam);
 	
 	
 	return 1;

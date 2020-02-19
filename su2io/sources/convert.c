@@ -78,7 +78,7 @@ int ConvertGMFtoSU2Sol (Options *mshopt)
 	return 1;
 }
 
-int ConvertGMFtoSU2Sol (Options *mshopt, char* BndMshNam)
+int ConvertGMFWithBoundtoSU2Sol (Options *mshopt, char* BndMshNam)
 {
 	Mesh *BndMsh = NULL, *Msh = NULL;
 	char OutSol[1024];
