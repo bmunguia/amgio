@@ -13,14 +13,14 @@ def setup_amgio(argv=[]):
     os.chdir(file_dir);
     setup(ext_modules=[ \
           Extension("_amgio",
-          sources=[ "./su2io/amgio_py.c", \
-     				"./su2io/mesh.c", \
-     				"./su2io/GMFio.c", \
-     				"./su2io/SU2io.c", \
-     				"./su2io/option.c", \
-     				"./sources/libmesh7.c", \
-                    "./su2io/amgio_py.i", \
-     				"./su2io/convert.c"],
+          sources=[ "./sources/libmesh7.c", \
+                    "./su2io/sources/amgio_py.c", \
+     				"./su2io/sources/mesh.c", \
+     				"./su2io/sources/GMFio.c", \
+     				"./su2io/sources/SU2io.c", \
+     				"./su2io/sources/option.c", \
+                    "./su2io/sources/amgio_py.i", \
+     				"./su2io/sources/convert.c"],
            extra_compile_args=["-std=c99","-Wno-unused-variable","-Wno-unused-result"]), 
            ]);
     
