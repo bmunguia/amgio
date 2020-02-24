@@ -435,104 +435,35 @@ void CopyBoundaryMarkers (Mesh *Msh, Mesh *BndMsh)
   }
 }
 
-
-void switchHexIdx(int *idx, int *swi)
+void switchTriIdx(int *idx, int *swi)
 {
-  int im;
-  im = imin(8,idx);  
-    
-  switch( im ) { 
+  if ( idx[1] < idx[0] ) { 
+    if ( idx[2] < idx[1] ) {  
+      swi[0] = idx[2];
+      swi[1] = idx[0];
+      swi[2] = idx[1];
+    }   
+    else { 
+      swi[0] = idx[1];
+      swi[1] = idx[2];
+      swi[2] = idx[0];
+    }   
+  }
   
-  case 0:
-    swi[0] = idx[0];
-    swi[1] = idx[1];
-    swi[2] = idx[2];
-    swi[3] = idx[3];
-    swi[4] = idx[4];
-    swi[5] = idx[5];
-    swi[6] = idx[6];
-    swi[7] = idx[7];
-    break;
-    
-  case 1:
-    swi[0] = idx[1];
-    swi[1] = idx[2];
-    swi[2] = idx[3];
-    swi[3] = idx[0];
-    swi[4] = idx[5];
-    swi[5] = idx[6];
-    swi[6] = idx[7];
-    swi[7] = idx[4];
-    break;
-  
-  case 2:
-    swi[0] = idx[2];
-    swi[1] = idx[3];
-    swi[2] = idx[0];
-    swi[3] = idx[1];
-    swi[4] = idx[6];
-    swi[5] = idx[7];
-    swi[6] = idx[4];
-    swi[7] = idx[5];
-    break;
-  
-  case 3:
-    swi[0] = idx[3];
-    swi[1] = idx[0];
-    swi[2] = idx[1];
-    swi[3] = idx[2];
-    swi[4] = idx[7];
-    swi[5] = idx[4];
-    swi[6] = idx[5];
-    swi[7] = idx[6];
-    break; 
-    
-  case 4:
-    swi[0] = idx[4];
-    swi[1] = idx[7];
-    swi[2] = idx[6];
-    swi[3] = idx[5];
-    swi[4] = idx[0];
-    swi[5] = idx[3];
-    swi[6] = idx[2];
-    swi[7] = idx[1];
-    break; 
-    
-  case 5:
-    swi[0] = idx[5];
-    swi[1] = idx[4];
-    swi[2] = idx[7];
-    swi[3] = idx[6];
-    swi[4] = idx[1];
-    swi[5] = idx[0];
-    swi[6] = idx[3];
-    swi[7] = idx[2];
-    break;      
-   
-  case 6:
-    swi[0] = idx[6];
-    swi[1] = idx[5];
-    swi[2] = idx[4];
-    swi[3] = idx[7];
-    swi[4] = idx[2];
-    swi[5] = idx[1];
-    swi[6] = idx[0];
-    swi[7] = idx[3];
-    break;
-    
-  case 7:
-    swi[0] = idx[7];
-    swi[1] = idx[6];
-    swi[2] = idx[5];
-    swi[3] = idx[4];
-    swi[4] = idx[3];
-    swi[5] = idx[2];
-    swi[6] = idx[1];
-    swi[7] = idx[0];
-    break;         
-  }   
-}
+  else {
+    if ( idx[2] < idx[0] ) {  
+        swi[0] = idx[2];
+        swi[1] = idx[0];
+        swi[2] = idx[1];
+    }
+    else {  
+      swi[0] = idx[0];
+      swi[1] = idx[1];
+      swi[2] = idx[2];
+    }
+  }
 
+}
 
 void switchQuaIdx(int *idx, int *swi)
 {
@@ -672,43 +603,224 @@ void switchTetIdx(int *idx, int *swi)
     }   
     
   }
-
-  //printf(" in  : %d %d %d %d \n",idx[0],idx[1],idx[2],idx[3]);
-  //printf(" out : %d %d %d %d \n",swi[0],swi[1],swi[2],swi[3]);
   
 }
 
-
-void switchTriIdx(int *idx, int *swi)
+void switchHexIdx(int *idx, int *swi)
 {
-  if ( idx[1] < idx[0] ) { 
-    if ( idx[2] < idx[1] ) {  
-      swi[0] = idx[2];
-      swi[1] = idx[0];
-      swi[2] = idx[1];
-    }   
-    else { 
-      swi[0] = idx[1];
-      swi[1] = idx[2];
-      swi[2] = idx[0];
-    }   
-  }
+  int im;
+  im = imin(8,idx);  
+    
+  switch( im ) { 
   
-  else {
-    if ( idx[2] < idx[0] ) {  
-        swi[0] = idx[2];
-        swi[1] = idx[0];
-        swi[2] = idx[1];
-    }
-    else {  
-      swi[0] = idx[0];
-      swi[1] = idx[1];
-      swi[2] = idx[2];
-    }
-  }
-
+  case 0:
+    swi[0] = idx[0];
+    swi[1] = idx[1];
+    swi[2] = idx[2];
+    swi[3] = idx[3];
+    swi[4] = idx[4];
+    swi[5] = idx[5];
+    swi[6] = idx[6];
+    swi[7] = idx[7];
+    break;
+    
+  case 1:
+    swi[0] = idx[1];
+    swi[1] = idx[2];
+    swi[2] = idx[3];
+    swi[3] = idx[0];
+    swi[4] = idx[5];
+    swi[5] = idx[6];
+    swi[6] = idx[7];
+    swi[7] = idx[4];
+    break;
+  
+  case 2:
+    swi[0] = idx[2];
+    swi[1] = idx[3];
+    swi[2] = idx[0];
+    swi[3] = idx[1];
+    swi[4] = idx[6];
+    swi[5] = idx[7];
+    swi[6] = idx[4];
+    swi[7] = idx[5];
+    break;
+  
+  case 3:
+    swi[0] = idx[3];
+    swi[1] = idx[0];
+    swi[2] = idx[1];
+    swi[3] = idx[2];
+    swi[4] = idx[7];
+    swi[5] = idx[4];
+    swi[6] = idx[5];
+    swi[7] = idx[6];
+    break; 
+    
+  case 4:
+    swi[0] = idx[4];
+    swi[1] = idx[7];
+    swi[2] = idx[6];
+    swi[3] = idx[5];
+    swi[4] = idx[0];
+    swi[5] = idx[3];
+    swi[6] = idx[2];
+    swi[7] = idx[1];
+    break; 
+    
+  case 5:
+    swi[0] = idx[5];
+    swi[1] = idx[4];
+    swi[2] = idx[7];
+    swi[3] = idx[6];
+    swi[4] = idx[1];
+    swi[5] = idx[0];
+    swi[6] = idx[3];
+    swi[7] = idx[2];
+    break;      
+   
+  case 6:
+    swi[0] = idx[6];
+    swi[1] = idx[5];
+    swi[2] = idx[4];
+    swi[3] = idx[7];
+    swi[4] = idx[2];
+    swi[5] = idx[1];
+    swi[6] = idx[0];
+    swi[7] = idx[3];
+    break;
+    
+  case 7:
+    swi[0] = idx[7];
+    swi[1] = idx[6];
+    swi[2] = idx[5];
+    swi[3] = idx[4];
+    swi[4] = idx[3];
+    swi[5] = idx[2];
+    swi[6] = idx[1];
+    swi[7] = idx[0];
+    break;         
+  }   
 }
 
+void switchPriIdx(int *idx, int *swi)
+{
+  int im;
+  im = imin(6,idx);  
+    
+  switch( im ) { 
+  
+  case 0:
+    swi[0] = idx[0];
+    swi[1] = idx[1];
+    swi[2] = idx[2];
+    swi[3] = idx[3];
+    swi[4] = idx[4];
+    swi[5] = idx[5];
+    break;
+    
+  case 1:
+    swi[0] = idx[1];
+    swi[1] = idx[2];
+    swi[2] = idx[0];
+    swi[3] = idx[4];
+    swi[4] = idx[5];
+    swi[5] = idx[3];
+    break;
+
+  case 2:
+    swi[0] = idx[2];
+    swi[1] = idx[0];
+    swi[2] = idx[1];
+    swi[3] = idx[5];
+    swi[4] = idx[3];
+    swi[5] = idx[4];
+    break;
+
+  case 3:
+    swi[0] = idx[3];
+    swi[1] = idx[4];
+    swi[2] = idx[5];
+    swi[3] = idx[0];
+    swi[4] = idx[1];
+    swi[5] = idx[2];
+    break;
+
+  case 4:
+    swi[0] = idx[4];
+    swi[1] = idx[5];
+    swi[2] = idx[3];
+    swi[3] = idx[1];
+    swi[4] = idx[2];
+    swi[5] = idx[0];
+    break;
+
+  case 5:
+    swi[0] = idx[5];
+    swi[1] = idx[3];
+    swi[2] = idx[4];
+    swi[3] = idx[2];
+    swi[4] = idx[0];
+    swi[5] = idx[1];
+    break;
+  }   
+}
+
+void switchPyrIdx(int *idx, int *swi)
+{
+  int im;
+  im = imin(5,idx);  
+    
+  switch( im ) { 
+  
+  case 0:
+    swi[0] = idx[0];
+    swi[1] = idx[1];
+    swi[2] = idx[2];
+    swi[3] = idx[3];
+    swi[4] = idx[4];
+    break;
+    
+  case 1:
+    swi[0] = idx[1];
+    swi[1] = idx[2];
+    swi[2] = idx[3];
+    swi[3] = idx[0];
+    swi[4] = idx[4];
+    break;
+  
+  case 2:
+    swi[0] = idx[2];
+    swi[1] = idx[3];
+    swi[2] = idx[0];
+    swi[3] = idx[1];
+    swi[4] = idx[4];
+    break;
+  
+  case 3:
+    swi[0] = idx[3];
+    swi[1] = idx[0];
+    swi[2] = idx[1];
+    swi[3] = idx[2];
+    swi[4] = idx[4];
+    break; 
+    
+  case 4:
+    int i;
+    int im = 0;
+    for(i=1; i<4; i++) {
+      if ( idx[i] < idx[im] ) {
+        im = i;
+      }
+    }
+    swi[0] = idx[im];
+    swi[1] = idx[(im+1)%4];
+    swi[2] = idx[(im+1)%4];
+    swi[3] = idx[(im+1)%4];
+    swi[4] = idx[4];
+    break;     
+  }   
+}
 
 int GetInputFileType (char *FilNam) 
 {
