@@ -711,57 +711,117 @@ void switchPriIdx(int *idx, int *swi)
   switch( im ) { 
   
   case 0:
-    swi[0] = idx[0];
-    swi[1] = idx[1];
-    swi[2] = idx[2];
-    swi[3] = idx[3];
-    swi[4] = idx[4];
-    swi[5] = idx[5];
+    if(idx[1] < idx[2]){
+      swi[0] = idx[0];
+      swi[1] = idx[1];
+      swi[2] = idx[2];
+      swi[3] = idx[3];
+      swi[4] = idx[4];
+      swi[5] = idx[5];
+    }
+    else{
+      swi[0] = idx[0];
+      swi[1] = idx[2];
+      swi[2] = idx[1];
+      swi[3] = idx[3];
+      swi[4] = idx[5];
+      swi[5] = idx[4];
+    }
     break;
     
   case 1:
-    swi[0] = idx[1];
-    swi[1] = idx[2];
-    swi[2] = idx[0];
-    swi[3] = idx[4];
-    swi[4] = idx[5];
-    swi[5] = idx[3];
+    if(idx[2] < idx[0]){
+      swi[0] = idx[1];
+      swi[1] = idx[2];
+      swi[2] = idx[0];
+      swi[3] = idx[4];
+      swi[4] = idx[5];
+      swi[5] = idx[3];
+    }
+    else{
+      swi[0] = idx[1];
+      swi[1] = idx[0];
+      swi[2] = idx[2];
+      swi[3] = idx[4];
+      swi[4] = idx[3];
+      swi[5] = idx[5];
+    }
     break;
 
   case 2:
-    swi[0] = idx[2];
-    swi[1] = idx[0];
-    swi[2] = idx[1];
-    swi[3] = idx[5];
-    swi[4] = idx[3];
-    swi[5] = idx[4];
+    if(idx[0] < idx[1]){
+      swi[0] = idx[2];
+      swi[1] = idx[0];
+      swi[2] = idx[1];
+      swi[3] = idx[5];
+      swi[4] = idx[3];
+      swi[5] = idx[4];
+    }
+    else{
+      swi[0] = idx[2];
+      swi[1] = idx[1];
+      swi[2] = idx[0];
+      swi[3] = idx[5];
+      swi[4] = idx[4];
+      swi[5] = idx[3];
+    }
     break;
 
   case 3:
-    swi[0] = idx[3];
-    swi[1] = idx[4];
-    swi[2] = idx[5];
-    swi[3] = idx[0];
-    swi[4] = idx[1];
-    swi[5] = idx[2];
+    if(idx[4] < idx[5]){
+      swi[0] = idx[3];
+      swi[1] = idx[4];
+      swi[2] = idx[5];
+      swi[3] = idx[0];
+      swi[4] = idx[1];
+      swi[5] = idx[2];
+    }
+    else{
+      swi[0] = idx[3];
+      swi[1] = idx[5];
+      swi[2] = idx[4];
+      swi[3] = idx[0];
+      swi[4] = idx[2];
+      swi[5] = idx[1];
+    }
     break;
 
   case 4:
-    swi[0] = idx[4];
-    swi[1] = idx[5];
-    swi[2] = idx[3];
-    swi[3] = idx[1];
-    swi[4] = idx[2];
-    swi[5] = idx[0];
+    if(idx[5] < idx[3]){
+      swi[0] = idx[4];
+      swi[1] = idx[5];
+      swi[2] = idx[3];
+      swi[3] = idx[1];
+      swi[4] = idx[2];
+      swi[5] = idx[0];
+    }
+    else{
+      swi[0] = idx[4];
+      swi[1] = idx[3];
+      swi[2] = idx[4];
+      swi[3] = idx[1];
+      swi[4] = idx[0];
+      swi[5] = idx[2];
+    }
     break;
 
   case 5:
-    swi[0] = idx[5];
-    swi[1] = idx[3];
-    swi[2] = idx[4];
-    swi[3] = idx[2];
-    swi[4] = idx[0];
-    swi[5] = idx[1];
+    if(idx[3] < idx[4]){
+      swi[0] = idx[5];
+      swi[1] = idx[3];
+      swi[2] = idx[4];
+      swi[3] = idx[2];
+      swi[4] = idx[0];
+      swi[5] = idx[1];
+    }
+    else{
+      swi[0] = idx[5];
+      swi[1] = idx[4];
+      swi[2] = idx[3];
+      swi[3] = idx[2];
+      swi[4] = idx[1];
+      swi[5] = idx[0];
+    }
     break;
   }   
 }
