@@ -768,7 +768,7 @@ void switchPriIdx(int *idx, int *swi)
 
 void switchPyrIdx(int *idx, int *swi)
 {
-  int im;
+  int i, im;
   im = imin(5,idx);  
     
   switch( im ) { 
@@ -806,8 +806,7 @@ void switchPyrIdx(int *idx, int *swi)
     break; 
     
   case 4:
-    int i;
-    int im = 0;
+    im = 0;
     for(i=1; i<4; i++) {
       if ( idx[i] < idx[im] ) {
         im = i;
