@@ -134,9 +134,9 @@ int AddSU2MeshSize(char *FilNam, int *SizMsh)
   SizMsh[GmfQuadrilaterals] = NbrRec;
   SizMsh[GmfPyramids]       = NbrPyr;
   SizMsh[GmfHexahedra]      = NbrHex;
-	SizMsh[GmfTrianglesP2]    = NbrP2Tri;
-	SizMsh[GmfFileType]       = FILE_SU2;
-	SizMsh[GmfEdgesP2]        = NbrP2Lin;
+  SizMsh[GmfTrianglesP2]    = NbrP2Tri;
+  SizMsh[GmfFileType]       = FILE_SU2;
+  SizMsh[GmfEdgesP2]        = NbrP2Lin;
 	
 	if ( FilHdl )
   	fclose(FilHdl);
@@ -279,8 +279,9 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         fscanf(FilHdl, "%d", &buf);
         swi[s] = buf+1;
       }
+
+      fscanf(FilHdl, "%d", &buf);
 			
-      idx++;
       Msh->NbrTet++;
 			
       if ( Msh->NbrTet > Msh->MaxNbrTet ) {
@@ -296,7 +297,9 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         fscanf(FilHdl, "%d", &buf);
         swi[s] = buf+1;
       }
-      fscanf(FilHdl, "%d", &idx);
+
+      fscanf(FilHdl, "%d", &buf);
+
       Msh->NbrHex++;
 			
       if ( Msh->NbrHex > Msh->MaxNbrHex ) {
@@ -311,9 +314,11 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
       for (s=0; s<5; s++) {
         fscanf(FilHdl, "%d", &buf);
         swi[s] = buf+1;
-		// is[s]  = buf+1;
+		is[s]  = buf+1;
       }
-      fscanf(FilHdl, "%d", &idx);
+
+      fscanf(FilHdl, "%d", &buf);
+
       Msh->NbrPyr++;
     
       if ( Msh->NbrPyr > Msh->MaxNbrPyr ) {
@@ -321,7 +326,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         return 0;
       }
     
-      switchPyrIdx(swi,is);
+      // switchPyrIdx(swi,is);
       AddPyramid(Msh,Msh->NbrPyr,is,ref);
     }
     else if ( typ == SU2_RECTANGLE ) {
@@ -329,6 +334,8 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         fscanf(FilHdl, "%d", &buf);
         swi[s] = buf+1;
       }
+
+      fscanf(FilHdl, "%d", &buf);
 			
       Msh->NbrQua++;
     
@@ -344,9 +351,11 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
       for (s=0; s<6; s++) {
         fscanf(FilHdl, "%d", &buf);
         swi[s] = buf+1;
-        // is[s]  = buf+1;
+        is[s]  = buf+1;
       }
-      fscanf(FilHdl, "%d", &idx);
+
+      fscanf(FilHdl, "%d", &buf);
+
       Msh->NbrPri++;
     
       if ( Msh->NbrPri > Msh->MaxNbrPri ) {
@@ -354,7 +363,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         return 0;
       }
     
-      switchPriIdx(swi,is);
+      // switchPriIdx(swi,is);
       AddPrism(Msh,Msh->NbrPri,is,ref);
     }
     else {
