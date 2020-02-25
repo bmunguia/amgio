@@ -798,7 +798,7 @@ void switchPriIdx(int *idx, int *swi)
     else{
       swi[0] = idx[4];
       swi[1] = idx[3];
-      swi[2] = idx[4];
+      swi[2] = idx[5];
       swi[3] = idx[1];
       swi[4] = idx[0];
       swi[5] = idx[2];

@@ -314,7 +314,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
       for (s=0; s<5; s++) {
         fscanf(FilHdl, "%d", &buf);
         swi[s] = buf+1;
-		is[s]  = buf+1;
+		// is[s]  = buf+1;
       }
 
       fscanf(FilHdl, "%d", &buf);
@@ -326,7 +326,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         return 0;
       }
     
-      // switchPyrIdx(swi,is);
+      switchPyrIdx(swi,is);
       AddPyramid(Msh,Msh->NbrPyr,is,ref);
     }
     else if ( typ == SU2_RECTANGLE ) {
@@ -351,7 +351,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
       for (s=0; s<6; s++) {
         fscanf(FilHdl, "%d", &buf);
         swi[s] = buf+1;
-        is[s]  = buf+1;
+        // is[s]  = buf+1;
       }
 
       fscanf(FilHdl, "%d", &buf);
@@ -363,7 +363,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         return 0;
       }
     
-      // switchPriIdx(swi,is);
+      switchPriIdx(swi,is);
       AddPrism(Msh,Msh->NbrPri,is,ref);
     }
     else {
