@@ -256,6 +256,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
       for (s=0; s<3; s++) {
         fscanf(FilHdl, "%d", &buf);
         swi[s] = buf+1;
+        is[s]  = buf+1;
         if ( swi[s] > Msh->NbrVer ) {
           printf("  ## ERROR LoadSU2Elements: vertex out of bound (vid=%d)\n", swi[s]);
           return 0;
@@ -271,68 +272,14 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         return 0;
       }
 			
-      switchTriIdx(swi,is);
+      // switchTriIdx(swi,is);
       AddTriangle(Msh,Msh->NbrTri,is,ref);
-    }
-    else if ( typ == SU2_TETRAHEDRAL ) {
-      for (s=0; s<4; s++) {
-        fscanf(FilHdl, "%d", &buf);
-        swi[s] = buf+1;
-      }
-
-      fscanf(FilHdl, "%d", &buf);
-			
-      Msh->NbrTet++;
-			
-      if ( Msh->NbrTet > Msh->MaxNbrTet ) {
-        printf("  ## ERROR LoadSU2Elements: tetra out of bound (tid=%d)\n", Msh->NbrTet);
-        return 0;
-      }
-			
-      switchTetIdx(swi,is);
-      AddTetrahedron(Msh,Msh->NbrTet,is,ref);
-    }
-    else if ( typ == SU2_HEXAHEDRAL ) {
-      for (s=0; s<8; s++) {
-        fscanf(FilHdl, "%d", &buf);
-        swi[s] = buf+1;
-      }
-
-      fscanf(FilHdl, "%d", &buf);
-
-      Msh->NbrHex++;
-			
-      if ( Msh->NbrHex > Msh->MaxNbrHex ) {
-        printf("  ## ERROR LoadSU2Elements: hexahedron out of bound (hid=%d)\n", Msh->NbrHex);
-        return 0;
-      }
-			
-      switchHexIdx(swi,is);
-      AddHexahedron(Msh,Msh->NbrHex,is,ref);
-    }
-    else if ( typ == SU2_PYRAMID ) {
-      for (s=0; s<5; s++) {
-        fscanf(FilHdl, "%d", &buf);
-        swi[s] = buf+1;
-		// is[s]  = buf+1;
-      }
-
-      fscanf(FilHdl, "%d", &buf);
-
-      Msh->NbrPyr++;
-    
-      if ( Msh->NbrPyr > Msh->MaxNbrPyr ) {
-        printf("  ## ERROR LoadSU2Elements: pyramid out of bound (id=%d)\n", Msh->NbrPyr);
-        return 0;
-      }
-    
-      switchPyrIdx(swi,is);
-      AddPyramid(Msh,Msh->NbrPyr,is,ref);
     }
     else if ( typ == SU2_RECTANGLE ) {
       for (s=0; s<4; s++) {
         fscanf(FilHdl, "%d", &buf);
         swi[s] = buf+1;
+        is[s]  = buf+1;
       }
 
       fscanf(FilHdl, "%d", &buf);
@@ -344,14 +291,52 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         return 0;
       }
     
-      switchQuaIdx(swi,is);
+      // switchQuaIdx(swi,is);
       AddQuadrilateral(Msh,Msh->NbrQua,is,ref);
+    }
+    else if ( typ == SU2_TETRAHEDRAL ) {
+      for (s=0; s<4; s++) {
+        fscanf(FilHdl, "%d", &buf);
+        swi[s] = buf+1;
+        is[s]  = buf+1;
+      }
+
+      fscanf(FilHdl, "%d", &buf);
+			
+      Msh->NbrTet++;
+			
+      if ( Msh->NbrTet > Msh->MaxNbrTet ) {
+        printf("  ## ERROR LoadSU2Elements: tetra out of bound (tid=%d)\n", Msh->NbrTet);
+        return 0;
+      }
+			
+      // switchTetIdx(swi,is);
+      AddTetrahedron(Msh,Msh->NbrTet,is,ref);
+    }
+    else if ( typ == SU2_HEXAHEDRAL ) {
+      for (s=0; s<8; s++) {
+        fscanf(FilHdl, "%d", &buf);
+        swi[s] = buf+1;
+        is[s]  = buf+1;
+      }
+
+      fscanf(FilHdl, "%d", &buf);
+
+      Msh->NbrHex++;
+			
+      if ( Msh->NbrHex > Msh->MaxNbrHex ) {
+        printf("  ## ERROR LoadSU2Elements: hexahedron out of bound (hid=%d)\n", Msh->NbrHex);
+        return 0;
+      }
+			
+      // switchHexIdx(swi,is);
+      AddHexahedron(Msh,Msh->NbrHex,is,ref);
     }
     else if ( typ == SU2_WEDGE ) {		
       for (s=0; s<6; s++) {
         fscanf(FilHdl, "%d", &buf);
         swi[s] = buf+1;
-        // is[s]  = buf+1;
+        is[s]  = buf+1;
       }
 
       fscanf(FilHdl, "%d", &buf);
@@ -363,8 +348,27 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         return 0;
       }
     
-      switchPriIdx(swi,is);
+      // switchPriIdx(swi,is);
       AddPrism(Msh,Msh->NbrPri,is,ref);
+    }
+    else if ( typ == SU2_PYRAMID ) {
+      for (s=0; s<5; s++) {
+        fscanf(FilHdl, "%d", &buf);
+        swi[s] = buf+1;
+		is[s]  = buf+1;
+      }
+
+      fscanf(FilHdl, "%d", &buf);
+
+      Msh->NbrPyr++;
+    
+      if ( Msh->NbrPyr > Msh->MaxNbrPyr ) {
+        printf("  ## ERROR LoadSU2Elements: pyramid out of bound (id=%d)\n", Msh->NbrPyr);
+        return 0;
+      }
+    
+      // switchPyrIdx(swi,is);
+      AddPyramid(Msh,Msh->NbrPyr,is,ref);
     }
     else {
       printf("  ## ERROR : Unknown element type %d\n", typ);
