@@ -165,6 +165,79 @@ int ConvertGMFWithBoundtoSU2Sol (Options *mshopt, char* BndMshNam)
 	return 1;
 }
 
+int ConvertGMFSoltoMet (Options *mshopt)
+{
+	Mesh *Msh = NULL;
+	char OutMet[1024];
+
+	FILE *FilHdl=NULL;
+	char *tok=NULL, *lin=NULL;
+
+	int skip=0, SolSiz=0;
+	size_t  len = 0;
+
+	Msh = SetupMeshAndSolution (mshopt->InpNam, mshopt->SolNam);
+
+	if ( Msh->FilTyp != FILE_GMF ) {
+		printf("  ## ERROR : Input mesh file must be a .mesh (GMF) (FilTyp=%d)\n", Msh->FilTyp);
+		return 0;
+	}
+
+	//PrintMeshInfo (Msh);
+	
+	//--- Get header information from reference file
+
+	if ( strcmp(mshopt->HeaderNam, "") ) {
+
+		FilHdl = fopen(mshopt->HeaderNam,"r");
+
+		if ( !FilHdl ) {
+			printf("  ## ERROR: ConvertGMFtoSU2Sol: UNABLE TO OPEN %s. \n", mshopt->HeaderNam);
+	    return 0;
+		}
+
+		if ( getline(&lin, &len, FilHdl) != -1 ) {
+			tok = strtok (lin, "	,");
+			skip = 0;
+			SolSiz = 0;
+			while ( tok ) {
+				if ( !strcmp(tok,"\"PointID\"") || !strcmp(tok,"\"x\"") || !strcmp(tok,"\"y\"") || !strcmp(tok,"\"z\"")   ) {
+					tok = strtok (NULL, "	,");
+					skip++;
+					continue;
+				}
+
+				strcpy(Msh->SolTag[SolSiz], tok);
+				StrRemoveChars(Msh->SolTag[SolSiz], '\"');
+				StrRemoveChars(Msh->SolTag[SolSiz], '\n');
+				SolSiz++;
+
+				if ( SolSiz > Msh->SolSiz ) {
+					printf("  ## ERROR: ConvertGMFtoSU2Sol: Provided header size does not match.\n");
+			    return 0;
+				}
+
+				tok = strtok (NULL, "	,");
+			}
+	  }
+
+	}
+
+	if ( mshopt->clean == 1 )
+		RemoveUnconnectedVertices(Msh);
+	
+	if ( mshopt->Dim == 2 )
+		Msh->Dim = 2;
+	
+	sprintf(OutMet, "%s.solb", mshopt->OutNam);
+	WriteGMFMetric(OutMet, Msh, 1);
+
+	if ( Msh )
+ 		FreeMesh(Msh);
+
+	return 1;
+}
+
 
 
 int ConvertSU2SolToGMF (Options *mshopt)

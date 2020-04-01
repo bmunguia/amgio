@@ -571,6 +571,49 @@ int WriteGMFSolutionItf(char *SolNam, Mesh *Msh)
 	return WriteGMFSolution(SolNam, Sol, SolSiz, NbrVer, Dim, NbrFld, FldTab);
 }
 
+int WriteGMFMetric(char *MetNam, Mesh *Msh, int OptBin)
+{
+	double *Sol       = Msh->Sol;
+	int     SolSiz    = Msh->SolSiz;
+	int     NbrVer    = Msh->NbrVer;
+	int     Dim       = Msh->Dim; 
+	int     NbrFld    = 1; 
+	int     FldTab[1] = {GmfSymMat}; 
+    int     OutMet, iVer;
+	double   *dbl=NULL;
+	
+	if ( !Sol ) {
+		printf("  ## ERROR WriteGMFSolution : Sol not allocated.\n");
+		return 0;	
+	}
+	
+	if ( SolSiz < 1 ) {
+		printf("  ## ERROR WriteGMFSolution : SolSiz < 1.\n");
+		return 0;
+	}
+	
+	//--- Open solution file
+	if ( !(OutMet = GmfOpenMesh(MetNam, GmfWrite, GmfDouble, Dim)) ) {
+    fprintf(stderr,"  ## ERROR: Cannot open solution file %s ! \n",MetNam);
+    exit(1);
+  }
+  //printf("  %%%% %s OPENED (WRITE)\n",SolNam);
+
+  GmfSetKwd(OutMet, GmfSolAtVertices, NbrVer, 1, FldTab);
+	
+  for (iVer=1; iVer<=NbrVer; ++iVer) {
+		dbl = &Sol[iVer*SolSiz+(SolSiz-(3*(Dim-1)+1))];
+    GmfSetLin(OutMet, GmfSolAtVertices, dbl);
+  }
+		
+	if ( !GmfCloseMesh(OutMet) ) {
+	  printf("  ## ERROR: Cannot close solution file %s ! \n",MetNam);
+		return 0;
+	}
+	
+	return 1;
+}
+
 int SplitQuads(char *nam, Mesh *Msh)
 {
   int ref = 1;

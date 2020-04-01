@@ -2,6 +2,7 @@
 int py_ConvertSU2toInria( char *MshNam, char *SolNam, char *OutNam ) ;
 int py_ConvertInriatoSU2( char *MshNam, char *SolNam, char *OutNam ) ;
 int py_ConvertInriaWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam ) ;
+int py_ConvertInriaSoltoMet( char *MshNam, char *SolNam, char *OutNam ) ;
 int py_SplitSolution(char *SolNam, int dim, char *prefix, char *adap_sensor);
 
 //void py_ReadMesh (char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyTri, PyObject *pyTet, PyObject *pyEdg, PyObject *pySol, PyObject *pySolHeader, PyObject *pyMarkers);
