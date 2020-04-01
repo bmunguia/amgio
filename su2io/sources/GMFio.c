@@ -599,10 +599,11 @@ int WriteGMFMetric(char *MetNam, Mesh *Msh, int OptBin)
   }
   //printf("  %%%% %s OPENED (WRITE)\n",SolNam);
 
-  GmfSetKwd(OutMet, GmfSolAtVertices, NbrVer, 1, FldTab);
+  GmfSetKwd(OutMet, GmfSolAtVertices, NbrVer, NbrFld, FldTab);
 	
   for (iVer=1; iVer<=NbrVer; ++iVer) {
-		dbl = &Sol[iVer*SolSiz+(SolSiz-(3*(Dim-1)+1))];
+
+		dbl = &Sol[iVer*SolSiz+(SolSiz-(3*(Dim-1)))];
     GmfSetLin(OutMet, GmfSolAtVertices, dbl);
   }
 		
