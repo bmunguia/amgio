@@ -15,8 +15,11 @@ def setup_amgio(argv=[]):
     #--- Python 2.7
     if sys.version_info[0] < 3:
       setup(name="_amgio",
-            version = '1.0.0',
-            description = 'This is an extension to convert SU2 meshes and solutions to GMF.',
+            version= "1.0.0",
+            description="This is an extension to convert SU2 meshes and solutions to GMF.",
+            author="Brian C. Munguía",
+            author_email="bmunguia@stanford.edu",
+            url="https://github.com/bmunguia/AMGIO",
             ext_modules=[ Extension( "_amgio", \
             sources=[ "./sources/Python2.7/amgio_py.c", \
                       "./sources/Python2.7/mesh.c", \
@@ -34,8 +37,11 @@ def setup_amgio(argv=[]):
     #--- Python 3.7
     elif sys.version_info >= (3, 7):
       setup(name="_amgio",
-            version = '1.0.0',
-            description = 'This is an extension to convert SU2 meshes and solutions to GMF.',
+            version= "1.0.0",
+            description="This is an extension to convert SU2 meshes and solutions to GMF.",
+            author="Brian C. Munguía",
+            author_email="bmunguia@stanford.edu",
+            url="https://github.com/bmunguia/AMGIO",
             ext_modules=[ Extension( "_amgio", \
             sources=[ "./sources/Python3.7/amgio_py.c", \
                       "./sources/Python3.7/mesh.c", \
