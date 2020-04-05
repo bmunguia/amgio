@@ -11,7 +11,7 @@ def setup_amgio(argv=[]):
     file_dir    = os.path.dirname(os.path.abspath(__file__));
     
     os.chdir(file_dir);
-    
+
     #--- Python 2.7
     if sys.version_info[0] < 3:
       setup(name="_amgio",
@@ -30,7 +30,7 @@ def setup_amgio(argv=[]):
           ],);
 
     #--- Python 3.7
-    else if sys.version_info>= (3, 7):
+    elif sys.version_info >= (3, 7):
       setup(name="_amgio",
             ext_modules=[ Extension( "_amgio", \
             sources=[ "./sources/Python3.7/amgio_py.c", \
