@@ -1,29 +1,51 @@
 import sys,os
 from distutils.core import setup, Extension
+from distutils import sysconfig
 
 
 def setup_amgio(argv=[]):
     
     sav_argv = sys.argv;    
-    sys.argv = ['', 'build_ext', '--inplace'];
     
     working_dir = os.getcwd();
     file_dir    = os.path.dirname(os.path.abspath(__file__));
     
     os.chdir(file_dir);
-    setup(ext_modules=[ \
-          Extension("_amgio",
-          sources=[ "../legacy_sources/v6/libmesh6.c", \
-                    "./sources/amgio_py.c", \
-     				"./sources/mesh.c", \
-     				"./sources/GMFio.c", \
-     				"./sources/SU2io.c", \
-     				"./sources/option.c", \
-                    "./sources/amgio_py.i", \
-     				"./sources/convert.c"],
-           extra_compile_args=["-std=c99","-Wno-unused-variable","-Wno-unused-result"]), 
-           ]);
     
+    #--- Python 2.7
+    if sys.version_info[0] < 3:
+      setup(name="_amgio",
+            ext_modules=[ Extension( "_amgio", \
+            sources=[ "./sources/Python2.7/amgio_py.c", \
+                      "./sources/Python2.7/mesh.c", \
+                      "./sources/Python2.7/GMFio.c", \
+                      "./sources/Python2.7/SU2io.c", \
+                      "./sources/Python2.7/option.c", \
+                      "./sources/Python2.7/libmesh6.c", \
+                      "./sources/Python2.7/amgio_py.i", \
+                      "./sources/Python2.7/convert.c"],
+            extra_compile_args=["-std=c99",
+                                "-Wno-unused-variable",
+                                "-Wno-unused-result"]),
+          ],);
+
+    #--- Python 3.7
+    else if sys.version_info>= (3, 7):
+      setup(name="_amgio",
+            ext_modules=[ Extension( "_amgio", \
+            sources=[ "./sources/Python3.7/amgio_py.c", \
+                      "./sources/Python3.7/mesh.c", \
+                      "./sources/Python3.7/GMFio.c", \
+                      "./sources/Python3.7/SU2io.c", \
+                      "./sources/Python3.7/option.c", \
+                      "./sources/Python3.7/libmesh6.c", \
+                      "./sources/Python3.7/amgio_py.i", \
+                      "./sources/Python3.7/convert.c"],
+            extra_compile_args=["-std=c99",
+                                "-Wno-unused-variable",
+                                "-Wno-unused-result"]),
+          ],);
+
     os.chdir(working_dir);
     sys.argv = sav_argv;
 

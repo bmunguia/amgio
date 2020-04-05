@@ -537,9 +537,9 @@ PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pySol, PyObject *py
 	
 	if ( PyList_Check(pyMarkers) )
   {
-		for (i=0; i<NbrMarkers; i++){
+		for (i=1; i<NbrMarkers; i++){
 			PyObject *oo = PyList_GetItem(pyMarkers,i);
-			strcpy(Msh->Markers[i], (char*) PyString_AS_STRING(oo));	
+			strcpy(Msh->Markers[i-1], (char*) PyString_AS_STRING(oo));	
 		}
 		Msh->NbrMarkers = NbrMarkers;
 	}
@@ -904,9 +904,9 @@ PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pyMarkers, int Dim)
 	
 	if ( PyList_Check(pyMarkers) )
   {
-		for (i=0; i<NbrMarkers; i++){
+		for (i=1; i<NbrMarkers; i++){
 			PyObject *oo = PyList_GetItem(pyMarkers,i);
-			strcpy(Msh->Markers[i], (char*) PyString_AS_STRING(oo));	
+			strcpy(Msh->Markers[i-1], (char*) PyString_AS_STRING(oo));	
 		}
 		Msh->NbrMarkers = NbrMarkers;
 	}

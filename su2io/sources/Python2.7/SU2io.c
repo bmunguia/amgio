@@ -615,12 +615,6 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
     return 0; 
   }
 	
-  //sprintf(BasNam,"%s", FilNam);
-  //ptr = strstr(BasNam,".su2");	
-  //if ( ptr != NULL )
-  //  BasNam[ptr-BasNam]='\0';
-	//sprintf(SolNam, "%s.dat", BasNam);
-	
 	FilHdl = fopen(SolNam,"r");
 	
 	if ( !FilHdl ) {
@@ -905,7 +899,7 @@ void WriteSU2Mesh(char *nam, Mesh *Msh)
     start = 0;
     for (iTag=0; iTag<NbrTag; iTag++) {
       //fprintf(OutFil, "MARKER_TAG= %d\n", BdrTag[start][0]);
-			fprintf(OutFil, "MARKER_TAG= %s\n", Msh->Markers[iTag+1]);
+			fprintf(OutFil, "MARKER_TAG= %s\n", Msh->Markers[iTag]);
       
       cpt=1;
       for (i=start+1; i<NbrBdr; i++) {
