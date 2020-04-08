@@ -91,7 +91,8 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
     GmfGetLin(InpMsh, GmfTriangles, &bufInt[0], &bufInt[1], &bufInt[2], &ref);
     Msh->NbrTri++;
     // switchTriIdx(bufInt,is);
-    AddTriangle(Msh,Msh->NbrTri,is,ref);
+    // AddTriangle(Msh,Msh->NbrTri,is,ref);
+    AddTriangle(Msh,Msh->NbrTri,bufInt,ref);
   }
   
   //--- Read Quads
@@ -101,7 +102,8 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
     GmfGetLin(InpMsh, GmfQuadrilaterals, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3], &ref);
     Msh->NbrQua++;
     // switchQuaIdx(bufInt,is);
-    AddQuadrilateral(Msh,Msh->NbrQua,is,ref);
+    // AddQuadrilateral(Msh,Msh->NbrQua,is,ref);
+    AddQuadrilateral(Msh,Msh->NbrQua,bufInt,ref);
   }
   
   //--- Read boundary edges
