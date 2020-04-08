@@ -5,7 +5,7 @@
     /* the resulting C file should be built as a python extension */
     #define SWIG_FILE_WITH_INIT
     /*  Includes the header in the wrapper code */
-	#include "amgio_py.h" 
+    #include "amgio_py.h" 
 %}
 
 /*  Parse the header file to generate wrappers */

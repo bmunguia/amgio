@@ -1,5 +1,6 @@
 /*
 Victorien Menier Feb 2016
+Brian Munguía Apr 2020
 */
 
 typedef double double2[2];
@@ -39,52 +40,52 @@ typedef int    int9[9];
 
 typedef struct S_Mesh
 {
-  int	NbrVer;   	/* number of vertices  			  */
-  int	NbrCor;   	/* number of corners 			  */
-  int	NbrTri;   	/* number of triangles 			  */
-  int	NbrEfr;     /* number of boundary edges   */
-	int	NbrTet;     
-	int	NbrQua;
-	int NbrHex;
-	int NbrPri;
-	int NbrPyr;
-	
-	int	MaxNbrVer;   	/* number of vertices  			  */
-	int	MaxNbrCor;   	/* number of corners 			  */
-  int	MaxNbrTri;   	/* number of triangles 			  */
-  int	MaxNbrEfr;     /* number of boundary edges   */
-	int	MaxNbrTet;
-	int	MaxNbrQua;
-	int MaxNbrHex;
-	int MaxNbrPri;
-	int MaxNbrPyr;
-	
+  int NbrVer;     /* number of vertices       */
+  int NbrCor;     /* number of corners        */
+  int NbrTri;     /* number of triangles      */
+  int NbrEfr;     /* number of boundary edges */
+  int NbrTet;     
+  int NbrQua;
+  int NbrHex;
+  int NbrPri;
+  int NbrPyr;
+  
+  int MaxNbrVer;     /* number of vertices       */
+  int MaxNbrCor;     /* number of corners        */
+  int MaxNbrTri;     /* number of triangles      */
+  int MaxNbrEfr;     /* number of boundary edges */
+  int MaxNbrTet;
+  int MaxNbrQua;
+  int MaxNbrHex;
+  int MaxNbrPri;
+  int MaxNbrPyr;
+  
   double3    *Ver;
-  int        *Cor;	    
-  int4       *Tri;	    
+  int        *Cor;      
+  int4       *Tri;      
   int3       *Efr;   
-	int5       *Tet;
-	int9       *Hex;
-	int7       *Pri;
-	int5       *Qua;	
-	int6       *Pyr;
-	
-	int         NbrMarkers;
-	char       	Markers[10000][1024];
-	
-	int         SolSiz;   /* Solution size */
-	double     *Sol;
-	int         NbrFld;   /* Number of solution fields */
-  int        *FldTab;   /* Type of each field (scalar, vector, etc.) as defined by libmesh6*/
-	char        SolTag[100][256];
-	
-	int Dim;
-	
-	char    MshNam[1024];
-	char    SolNam[1024];
-	
-	int FilTyp;
-	  
+  int5       *Tet;
+  int9       *Hex;
+  int7       *Pri;
+  int5       *Qua;  
+  int6       *Pyr;
+  
+  int         NbrMarkers;
+  char        Markers[10000][1024];
+  
+  int     SolSiz;   /* Solution size */
+  double *Sol;
+  int     NbrFld;   /* Number of solution fields */
+  int    *FldTab;   /* Type of each field (scalar, vector, etc.) as defined by libmesh6*/
+  char    SolTag[100][256];
+  
+  int Dim;
+  
+  char MshNam[1024];
+  char SolNam[1024];
+  
+  int FilTyp;
+    
 } Mesh;
 
 
