@@ -154,16 +154,12 @@ Mesh* AllocMesh (int * SizMsh)
   Msh->Hex = NULL;
   Msh->Pri = NULL;
   Msh->Pyr = NULL;
-  
-  Msh->FldTab = NULL;
 
-  for (int i = 0; i < 100; i++) {
-    strcpy(SolTag[i],"\0");
-  }
-  
-  Msh->FilTyp = -1;
-  
+  Msh->SolSiz = 0;
   Msh->Sol = NULL;
+  
+  Msh->NbrFld = 0;
+  Msh->FldTab = NULL;
   
   Msh->NbrMarkers = 0;
   
@@ -202,8 +198,8 @@ Mesh* AllocMesh (int * SizMsh)
   if ( Msh->MaxNbrPyr > 0 ) {
     Msh->Pyr = (int6*)malloc(sizeof(int6)*(Msh->MaxNbrPyr+1));
   }
-  
-  
+
+  Msh->FilTyp = -1;
   
   return Msh;    
 }
