@@ -2669,7 +2669,7 @@ static swig_module_info swig_module = {swig_types, 1, 0, 0, 0, 0};
     /* the resulting C file should be built as a python extension */
     #define SWIG_FILE_WITH_INIT
     /*  Includes the header in the wrapper code */
-	#include "amgio_py.h" 
+    #include "amgio_py.h" 
 
 
 SWIGINTERN swig_type_info*
@@ -3049,6 +3049,111 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_py_ConvertInriaWithBoundtoSU2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  int res4 ;
+  char *buf4 = 0 ;
+  int alloc4 = 0 ;
+  PyObject *swig_obj[4] ;
+  int result;
+  
+  if (!SWIG_Python_UnpackTuple(args, "py_ConvertInriaWithBoundtoSU2", 4, 4, swig_obj)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(swig_obj[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "py_ConvertInriaWithBoundtoSU2" "', argument " "1"" of type '" "char *""'");
+  }
+  arg1 = (char *)(buf1);
+  res2 = SWIG_AsCharPtrAndSize(swig_obj[1], &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "py_ConvertInriaWithBoundtoSU2" "', argument " "2"" of type '" "char *""'");
+  }
+  arg2 = (char *)(buf2);
+  res3 = SWIG_AsCharPtrAndSize(swig_obj[2], &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "py_ConvertInriaWithBoundtoSU2" "', argument " "3"" of type '" "char *""'");
+  }
+  arg3 = (char *)(buf3);
+  res4 = SWIG_AsCharPtrAndSize(swig_obj[3], &buf4, NULL, &alloc4);
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "py_ConvertInriaWithBoundtoSU2" "', argument " "4"" of type '" "char *""'");
+  }
+  arg4 = (char *)(buf4);
+  result = (int)py_ConvertInriaWithBoundtoSU2(arg1,arg2,arg3,arg4);
+  resultobj = SWIG_From_int((int)(result));
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
+  if (alloc4 == SWIG_NEWOBJ) free((char*)buf4);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
+  if (alloc4 == SWIG_NEWOBJ) free((char*)buf4);
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_py_ConvertInriaSoltoMet(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  PyObject *swig_obj[3] ;
+  int result;
+  
+  if (!SWIG_Python_UnpackTuple(args, "py_ConvertInriaSoltoMet", 3, 3, swig_obj)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(swig_obj[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "py_ConvertInriaSoltoMet" "', argument " "1"" of type '" "char *""'");
+  }
+  arg1 = (char *)(buf1);
+  res2 = SWIG_AsCharPtrAndSize(swig_obj[1], &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "py_ConvertInriaSoltoMet" "', argument " "2"" of type '" "char *""'");
+  }
+  arg2 = (char *)(buf2);
+  res3 = SWIG_AsCharPtrAndSize(swig_obj[2], &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "py_ConvertInriaSoltoMet" "', argument " "3"" of type '" "char *""'");
+  }
+  arg3 = (char *)(buf3);
+  result = (int)py_ConvertInriaSoltoMet(arg1,arg2,arg3);
+  resultobj = SWIG_From_int((int)(result));
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+  if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_py_SplitSolution(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   char *arg1 = (char *) 0 ;
@@ -3374,8 +3479,11 @@ fail:
 
 static PyMethodDef SwigMethods[] = {
 	 { "SWIG_PyInstanceMethod_New", SWIG_PyInstanceMethod_New, METH_O, NULL},
+	 { "SWIG_PyStaticMethod_New", SWIG_PyStaticMethod_New, METH_O, NULL},
 	 { "py_ConvertSU2toInria", _wrap_py_ConvertSU2toInria, METH_VARARGS, NULL},
 	 { "py_ConvertInriatoSU2", _wrap_py_ConvertInriatoSU2, METH_VARARGS, NULL},
+	 { "py_ConvertInriaWithBoundtoSU2", _wrap_py_ConvertInriaWithBoundtoSU2, METH_VARARGS, NULL},
+	 { "py_ConvertInriaSoltoMet", _wrap_py_ConvertInriaSoltoMet, METH_VARARGS, NULL},
 	 { "py_SplitSolution", _wrap_py_SplitSolution, METH_VARARGS, NULL},
 	 { "py_ReadMeshAndSol", _wrap_py_ReadMeshAndSol, METH_VARARGS, NULL},
 	 { "py_ReadMesh", _wrap_py_ReadMesh, METH_VARARGS, NULL},
@@ -3386,6 +3494,18 @@ static PyMethodDef SwigMethods[] = {
 };
 
 static PyMethodDef SwigMethods_proxydocs[] = {
+	 { "SWIG_PyInstanceMethod_New", SWIG_PyInstanceMethod_New, METH_O, NULL},
+	 { "SWIG_PyStaticMethod_New", SWIG_PyStaticMethod_New, METH_O, NULL},
+	 { "py_ConvertSU2toInria", _wrap_py_ConvertSU2toInria, METH_VARARGS, NULL},
+	 { "py_ConvertInriatoSU2", _wrap_py_ConvertInriatoSU2, METH_VARARGS, NULL},
+	 { "py_ConvertInriaWithBoundtoSU2", _wrap_py_ConvertInriaWithBoundtoSU2, METH_VARARGS, NULL},
+	 { "py_ConvertInriaSoltoMet", _wrap_py_ConvertInriaSoltoMet, METH_VARARGS, NULL},
+	 { "py_SplitSolution", _wrap_py_SplitSolution, METH_VARARGS, NULL},
+	 { "py_ReadMeshAndSol", _wrap_py_ReadMeshAndSol, METH_VARARGS, NULL},
+	 { "py_ReadMesh", _wrap_py_ReadMesh, METH_VARARGS, NULL},
+	 { "py_WriteMeshAndSol", _wrap_py_WriteMeshAndSol, METH_VARARGS, NULL},
+	 { "py_WriteMesh", _wrap_py_WriteMesh, METH_VARARGS, NULL},
+	 { "py_WriteSolution", _wrap_py_WriteSolution, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 

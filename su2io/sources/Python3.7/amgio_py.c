@@ -43,6 +43,48 @@ int py_ConvertInriatoSU2( char *MshNam, char *SolNam, char *OutNam )
   return 1;
 }
 
+int py_ConvertInriaWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam ) 
+{
+  
+  Options *mshopt = AllocOptions();
+  
+  strcpy(mshopt->OutNam,OutNam);
+  strcpy(mshopt->InpNam,MshNam);
+  strcpy(mshopt->SolNam,SolNam);
+  
+  mshopt->clean = 0; // remove unconnected vertices
+  
+  if ( !CheckOptions(mshopt) ) {
+    return 0;
+  }
+  
+  return ConvertGMFWithBoundtoSU2Sol (mshopt, BndMshNam);
+  
+  
+  return 1;
+}
+
+int py_ConvertInriaSoltoMet( char *MshNam, char *SolNam, char *OutNam ) 
+{
+  
+  Options *mshopt = AllocOptions();
+  
+  strcpy(mshopt->InpNam,MshNam);
+  strcpy(mshopt->OutNam,OutNam);
+  strcpy(mshopt->SolNam,SolNam);
+  
+  mshopt->clean = 0; // remove unconnected vertices
+  
+  if ( !CheckOptions(mshopt) ) {
+    return 0;
+  }
+  
+  return ConvertGMFSoltoMet (mshopt);
+  
+  
+  return 1;
+}
+
 int py_SplitSolution(char *SolNam, int dim, char *prefix, char *adap_sensor)
 {
   
@@ -970,7 +1012,7 @@ void py_WriteSolution(char *SolNam, PyObject *pyVer, PyObject *pySol, PyObject *
   }  
 
   if ( FldTab )
-  	free(FldTab);
+    free(FldTab);
   
   if ( Sol )
     free(Sol);

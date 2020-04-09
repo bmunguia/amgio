@@ -19,6 +19,9 @@ try:
 except ImportError:
     import __builtin__
 
+_swig_new_instance_method = _amgio.SWIG_PyInstanceMethod_New
+_swig_new_static_method = _amgio.SWIG_PyStaticMethod_New
+
 def _swig_repr(self):
     try:
         strthis = "proxy of " + self.this.__repr__()
@@ -61,29 +64,15 @@ class _SwigNonDynamicMeta(type):
     __setattr__ = _swig_setattr_nondynamic_class_variable(type.__setattr__)
 
 
-
-def py_ConvertSU2toInria(MshNam: "char *", SolNam: "char *", OutNam: "char *") -> "int":
-    return _amgio.py_ConvertSU2toInria(MshNam, SolNam, OutNam)
-
-def py_ConvertInriatoSU2(MshNam: "char *", SolNam: "char *", OutNam: "char *") -> "int":
-    return _amgio.py_ConvertInriatoSU2(MshNam, SolNam, OutNam)
-
-def py_SplitSolution(SolNam: "char *", dim: "int", prefix: "char *", adap_sensor: "char *") -> "int":
-    return _amgio.py_SplitSolution(SolNam, dim, prefix, adap_sensor)
-
-def py_ReadMeshAndSol(MshNam: "char *", SolNam: "char *", pyVer: "PyObject *", pyCor: "PyObject *", pyTri: "PyObject *", pyTet: "PyObject *", pyEdg: "PyObject *", pyHex: "PyObject *", pyQua: "PyObject *", pyPyr: "PyObject *", pyPri: "PyObject *", pySol: "PyObject *", pySolHeader: "PyObject *", pyMarkers: "PyObject *") -> "void":
-    return _amgio.py_ReadMeshAndSol(MshNam, SolNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pySol, pySolHeader, pyMarkers)
-
-def py_ReadMesh(MshNam: "char *", pyVer: "PyObject *", pyCor: "PyObject *", pyTri: "PyObject *", pyTet: "PyObject *", pyEdg: "PyObject *", pyHex: "PyObject *", pyQua: "PyObject *", pyPyr: "PyObject *", pyPri: "PyObject *", pyMarkers: "PyObject *") -> "void":
-    return _amgio.py_ReadMesh(MshNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pyMarkers)
-
-def py_WriteMeshAndSol(MshNam: "char *", SolNam: "char *", pyVer: "PyObject *", pyCor: "PyObject *", pyTri: "PyObject *", pyTet: "PyObject *", pyEdg: "PyObject *", pyHex: "PyObject *", pyQua: "PyObject *", pyPyr: "PyObject *", pyPri: "PyObject *", pySol: "PyObject *", pySolHeader: "PyObject *", pyMarkers: "PyObject *", Dim: "int") -> "void":
-    return _amgio.py_WriteMeshAndSol(MshNam, SolNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pySol, pySolHeader, pyMarkers, Dim)
-
-def py_WriteMesh(MshNam: "char *", pyVer: "PyObject *", pyCor: "PyObject *", pyTri: "PyObject *", pyTet: "PyObject *", pyEdg: "PyObject *", pyHex: "PyObject *", pyQua: "PyObject *", pyPyr: "PyObject *", pyPri: "PyObject *", pyMarkers: "PyObject *", Dim: "int") -> "void":
-    return _amgio.py_WriteMesh(MshNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pyMarkers, Dim)
-
-def py_WriteSolution(SolNam: "char *", pyVer: "PyObject *", pySol: "PyObject *", pySolHeader: "PyObject *", NbrVer: "int", Dim: "int") -> "void":
-    return _amgio.py_WriteSolution(SolNam, pyVer, pySol, pySolHeader, NbrVer, Dim)
+py_ConvertSU2toInria = _amgio.py_ConvertSU2toInria
+py_ConvertInriatoSU2 = _amgio.py_ConvertInriatoSU2
+py_ConvertInriaWithBoundtoSU2 = _amgio.py_ConvertInriaWithBoundtoSU2
+py_ConvertInriaSoltoMet = _amgio.py_ConvertInriaSoltoMet
+py_SplitSolution = _amgio.py_SplitSolution
+py_ReadMeshAndSol = _amgio.py_ReadMeshAndSol
+py_ReadMesh = _amgio.py_ReadMesh
+py_WriteMeshAndSol = _amgio.py_WriteMeshAndSol
+py_WriteMesh = _amgio.py_WriteMesh
+py_WriteSolution = _amgio.py_WriteSolution
 
 
