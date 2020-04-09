@@ -156,6 +156,10 @@ Mesh* AllocMesh (int * SizMsh)
   Msh->Pyr = NULL;
   
   Msh->FldTab = NULL;
+
+  for (int i = 0; i < 100; i++) {
+    strcpy(SolTag[i],"\0");
+  }
   
   Msh->FilTyp = -1;
   

@@ -968,6 +968,9 @@ void py_WriteSolution(char *SolNam, PyObject *pyVer, PyObject *pySol, PyObject *
     }
     
   }  
+
+  if ( FldTab )
+  	free(FldTab);
   
   if ( Sol )
     free(Sol);

@@ -955,9 +955,6 @@ int WriteSU2Solution (char *SolNam, int Dim, int NbrVer, double3 *Ver,  double *
   int       i, s, d;
   int       iVer,idxVer;
   
-  int2 *BdrTag=NULL;
-  int NbrBdr, NbrTag, start, iTag, cpt;
-  
   FILE *OutFil=NULL; 
   OutFil = fopen(SolNam, "wb");
   
