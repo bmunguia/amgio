@@ -166,7 +166,7 @@ Mesh* AllocMesh (int * SizMsh)
   
   Msh->NbrMarkers = 0;
   for (int i = 0; i < 10000; i++) {
-    strcpy(Msh->NbrMarkers[i],"\0");
+    strcpy(Msh->Markers[i],"\0");
   }
   
   if ( Msh->MaxNbrVer > 0 ) {
