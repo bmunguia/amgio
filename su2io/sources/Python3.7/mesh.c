@@ -157,11 +157,17 @@ Mesh* AllocMesh (int * SizMsh)
 
   Msh->SolSiz = 0;
   Msh->Sol = NULL;
+  for (int i = 0; i < 100; i++) {
+    strcpy(Msh->SolTag[i],"\0");
+  }
   
   Msh->NbrFld = 0;
   Msh->FldTab = NULL;
   
   Msh->NbrMarkers = 0;
+  for (int i = 0; i < 10000; i++) {
+    strcpy(Msh->NbrMarkers[i],"\0");
+  }
   
   if ( Msh->MaxNbrVer > 0 ) {
     Msh->Ver = (double3*)malloc(sizeof(double3)*(Msh->MaxNbrVer+1));
