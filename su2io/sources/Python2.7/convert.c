@@ -182,8 +182,6 @@ int ConvertGMFSoltoMet (Options *mshopt)
 		printf("  ## ERROR : Input mesh file must be a .mesh (GMF) (FilTyp=%d)\n", Msh->FilTyp);
 		return 0;
 	}
-
-	//PrintMeshInfo (Msh);
 	
 	//--- Get header information from reference file
 
