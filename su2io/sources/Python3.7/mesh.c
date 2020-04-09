@@ -417,6 +417,14 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
   return Msh;
 }
 
+void CopyBoundaryMarkers (Mesh *Msh, Mesh *BndMsh)
+{
+  int iMark;
+  for (iMark = 1; iMark <= BndMsh->NbrMarkers; iMark++) {
+    strcpy(Msh->Markers[iMark], BndMsh->Markers[iMark]);
+  }
+}
+
 void switchHexIdx(int *idx, int *swi)
 {
   int im;
