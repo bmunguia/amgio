@@ -272,7 +272,7 @@ void py_ReadSol(char *SolNam, PyObject *pySol, PyObject *pySolHeader, int NbrVer
 
   int i, iVer;
 
-  for (i=0; i<=Msh->SolSiz; i++){
+  for (i=0; i<=Sol->SolSiz; i++){
     PyList_Append(pySolHeader, PyUnicode_FromString(Sol->SolTag[i]));
   }
 
