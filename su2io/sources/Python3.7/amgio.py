@@ -71,8 +71,9 @@ py_ConvertInriaSoltoMet = _amgio.py_ConvertInriaSoltoMet
 py_SplitSolution = _amgio.py_SplitSolution
 py_ReadMeshAndSol = _amgio.py_ReadMeshAndSol
 py_ReadMesh = _amgio.py_ReadMesh
+py_ReadSol = _amgio.py_ReadSol
 py_WriteMeshAndSol = _amgio.py_WriteMeshAndSol
 py_WriteMesh = _amgio.py_WriteMesh
-py_WriteSolution = _amgio.py_WriteSolution
+py_WriteSol = _amgio.py_WriteSol
 
 

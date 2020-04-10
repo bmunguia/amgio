@@ -3312,6 +3312,52 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_py_ReadSol(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *arg1 = (char *) 0 ;
+  PyObject *arg2 = (PyObject *) 0 ;
+  PyObject *arg3 = (PyObject *) 0 ;
+  PyObject *arg4 = (PyObject *) 0 ;
+  int arg5 ;
+  int arg6 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int val5 ;
+  int ecode5 = 0 ;
+  int val6 ;
+  int ecode6 = 0 ;
+  PyObject *swig_obj[6] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "py_ReadSol", 6, 6, swig_obj)) SWIG_fail;
+  res1 = SWIG_AsCharPtrAndSize(swig_obj[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "py_ReadSol" "', argument " "1"" of type '" "char *""'");
+  }
+  arg1 = (char *)(buf1);
+  arg2 = swig_obj[1];
+  arg3 = swig_obj[2];
+  arg4 = swig_obj[3];
+  ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "py_ReadSol" "', argument " "5"" of type '" "int""'");
+  } 
+  arg5 = (int)(val5);
+  ecode6 = SWIG_AsVal_int(swig_obj[5], &val6);
+  if (!SWIG_IsOK(ecode6)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "py_ReadSol" "', argument " "6"" of type '" "int""'");
+  } 
+  arg6 = (int)(val6);
+  py_ReadSol(arg1,arg2,arg3,arg4,arg5,arg6);
+  resultobj = SWIG_Py_Void();
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return resultobj;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_py_WriteMeshAndSol(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   char *arg1 = (char *) 0 ;
@@ -3431,7 +3477,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_py_WriteSolution(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_py_WriteSol(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   char *arg1 = (char *) 0 ;
   PyObject *arg2 = (PyObject *) 0 ;
@@ -3448,10 +3494,10 @@ SWIGINTERN PyObject *_wrap_py_WriteSolution(PyObject *SWIGUNUSEDPARM(self), PyOb
   int ecode6 = 0 ;
   PyObject *swig_obj[6] ;
   
-  if (!SWIG_Python_UnpackTuple(args, "py_WriteSolution", 6, 6, swig_obj)) SWIG_fail;
+  if (!SWIG_Python_UnpackTuple(args, "py_WriteSol", 6, 6, swig_obj)) SWIG_fail;
   res1 = SWIG_AsCharPtrAndSize(swig_obj[0], &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "py_WriteSolution" "', argument " "1"" of type '" "char *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "py_WriteSol" "', argument " "1"" of type '" "char *""'");
   }
   arg1 = (char *)(buf1);
   arg2 = swig_obj[1];
@@ -3459,15 +3505,15 @@ SWIGINTERN PyObject *_wrap_py_WriteSolution(PyObject *SWIGUNUSEDPARM(self), PyOb
   arg4 = swig_obj[3];
   ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "py_WriteSolution" "', argument " "5"" of type '" "int""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "py_WriteSol" "', argument " "5"" of type '" "int""'");
   } 
   arg5 = (int)(val5);
   ecode6 = SWIG_AsVal_int(swig_obj[5], &val6);
   if (!SWIG_IsOK(ecode6)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "py_WriteSolution" "', argument " "6"" of type '" "int""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "py_WriteSol" "', argument " "6"" of type '" "int""'");
   } 
   arg6 = (int)(val6);
-  py_WriteSolution(arg1,arg2,arg3,arg4,arg5,arg6);
+  py_WriteSol(arg1,arg2,arg3,arg4,arg5,arg6);
   resultobj = SWIG_Py_Void();
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   return resultobj;
@@ -3487,9 +3533,10 @@ static PyMethodDef SwigMethods[] = {
 	 { "py_SplitSolution", _wrap_py_SplitSolution, METH_VARARGS, NULL},
 	 { "py_ReadMeshAndSol", _wrap_py_ReadMeshAndSol, METH_VARARGS, NULL},
 	 { "py_ReadMesh", _wrap_py_ReadMesh, METH_VARARGS, NULL},
+	 { "py_ReadSol", _wrap_py_ReadSol, METH_VARARGS, NULL},
 	 { "py_WriteMeshAndSol", _wrap_py_WriteMeshAndSol, METH_VARARGS, NULL},
 	 { "py_WriteMesh", _wrap_py_WriteMesh, METH_VARARGS, NULL},
-	 { "py_WriteSolution", _wrap_py_WriteSolution, METH_VARARGS, NULL},
+	 { "py_WriteSol", _wrap_py_WriteSol, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
@@ -3503,9 +3550,10 @@ static PyMethodDef SwigMethods_proxydocs[] = {
 	 { "py_SplitSolution", _wrap_py_SplitSolution, METH_VARARGS, NULL},
 	 { "py_ReadMeshAndSol", _wrap_py_ReadMeshAndSol, METH_VARARGS, NULL},
 	 { "py_ReadMesh", _wrap_py_ReadMesh, METH_VARARGS, NULL},
+	 { "py_ReadSol", _wrap_py_ReadSol, METH_VARARGS, NULL},
 	 { "py_WriteMeshAndSol", _wrap_py_WriteMeshAndSol, METH_VARARGS, NULL},
 	 { "py_WriteMesh", _wrap_py_WriteMesh, METH_VARARGS, NULL},
-	 { "py_WriteSolution", _wrap_py_WriteSolution, METH_VARARGS, NULL},
+	 { "py_WriteSol", _wrap_py_WriteSol, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 

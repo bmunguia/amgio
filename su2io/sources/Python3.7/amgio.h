@@ -52,6 +52,7 @@ int   cmp_int2(const void *a, const void *b);
 int   FreeMesh (Mesh *Msh);
 int   GetMeshSize (char *MshNam, int *SizMsh);
 Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam);
+Mesh *SetupSolution (char *SolNam, int NbrVer);
 void  CopyBoundaryMarkers (Mesh *Msh, Mesh *BndMsh);
 int   RemoveUnconnectedVertices (Mesh *Msh);
 void  AddEdge(Mesh *Msh, int idx, int *is, int ref);

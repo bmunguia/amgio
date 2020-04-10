@@ -417,6 +417,35 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
   return Msh;
 }
 
+Mesh *SetupSolution (char *SolNam, int NbrVer)
+{
+  Mesh *Sol = NULL;
+  int SizSol[GmfMaxSizMsh+1];
+  int FilTyp = GetInputFileType(SolNam);
+  int val;
+  
+  if ( !FilTyp ) {
+    printf("  ## ERROR SetupMeshAndSolution : Unknown mesh format.\n");
+    return NULL;
+  }
+  
+  for (int i = 0; i < GmfMaxSizMsh+1; i++) SizSol[i] = 0;
+  SizSol[GmfVertices] = NbrVer;
+  
+  Sol = AllocMesh(SizSol);
+  
+  if ( FilTyp == FILE_CSV ) {   
+    val = LoadSU2Solution(SolNam, Sol);  
+    if ( val != 1 ) {
+      Sol->Sol = NULL;
+    }
+  }  
+  else if ( FilTyp == FILE_GMFSOL ){
+    LoadGMFSolution(SolNam, Sol);
+  }
+  return Sol;
+}
+
 void CopyBoundaryMarkers (Mesh *Msh, Mesh *BndMsh)
 {
   int iMark;
@@ -712,7 +741,7 @@ int GetInputFileType (char *FilNam)
         return FILE_SU2;
       }
       else if ( strcmp(ext,"csv") == 0  ) {
-        return FILE_DAT;
+        return FILE_CSV;
       }
       else if ( strcmp(ext,"mesh") == 0 || strcmp(ext,"meshb") == 0 ) {
         return FILE_GMF;

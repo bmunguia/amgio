@@ -102,8 +102,9 @@ int py_SplitSolution(char *SolNam, int dim, char *prefix, char *adap_sensor)
   
 }
 
-void py_ReadMeshAndSol (char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, PyObject *pyEdg, PyObject *pyHex, 
-                        PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pySol, PyObject *pySolHeader,  PyObject *pyMarkers)
+void py_ReadMeshAndSol (char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, 
+                        PyObject *pyEdg, PyObject *pyHex, PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pySol, 
+                        PyObject *pySolHeader,  PyObject *pyMarkers)
 {
   int i, j, d;
   
@@ -188,8 +189,8 @@ void py_ReadMeshAndSol (char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
   
 }
 
-void py_ReadMesh (char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, PyObject *pyEdg, PyObject *pyHex, 
-                  PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pyMarkers)
+void py_ReadMesh (char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, PyObject *pyEdg, 
+                  PyObject *pyHex, PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pyMarkers)
 {
   int i, j, d;
   
@@ -258,8 +259,36 @@ void py_ReadMesh (char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTr
   
 }
 
-void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, PyObject *pyEdg,  PyObject *pyHex, 
-                        PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pySol, PyObject *pySolHeader, PyObject *pyMarkers, int Dim)
+void py_ReadSol(char *SolNam, PyObject *pySol, PyObject *pySolHeader, int NbrVer, int Dim)
+{
+  Options *mshopt = AllocOptions();
+  
+  strcpy(mshopt->InpNam,SolNam);
+
+  //--- Open solution file
+  
+  Mesh *Sol = NULL;
+  Sol = SetupSolution (mshopt->InpNam, NbrVer);
+
+  int i, iVer;
+
+  for (i=0; i<=Msh->SolSiz; i++){
+    PyList_Append(pySolHeader, PyUnicode_FromString(Sol->SolTag[i]));
+  }
+
+  for (iVer=1; iVer<=Msh->NbrVer; iVer++) {
+    for (i=0; i<Msh->SolSiz; i++) {
+      PyList_Append(pySol, PyFloat_FromDouble(Sol->Sol[iVer*Msh->SolSiz+i]));
+    }
+  }
+
+  if ( Sol )
+     FreeMesh(Sol);
+}
+
+void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, 
+                        PyObject *pyEdg, PyObject *pyHex, PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pySol, 
+                        PyObject *pySolHeader, PyObject *pyMarkers, int Dim)
 {
   int i, j, NbrTag = 0;
   Mesh *Msh= NULL;
@@ -619,8 +648,8 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
   }    
 }
 
-void py_WriteMesh(char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, PyObject *pyEdg,  PyObject *pyHex, 
-                  PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pyMarkers, int Dim)
+void py_WriteMesh(char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, PyObject *pyEdg,
+                  PyObject *pyHex, PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pyMarkers, int Dim)
 {
   int i, j, NbrTag = 0;
   Mesh *Msh= NULL;
