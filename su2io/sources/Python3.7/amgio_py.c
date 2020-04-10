@@ -276,9 +276,9 @@ void py_ReadSol(char *SolNam, PyObject *pySol, PyObject *pySolHeader, int NbrVer
     PyList_Append(pySolHeader, PyUnicode_FromString(Sol->SolTag[i]));
   }
 
-  for (iVer=1; iVer<=Msh->NbrVer; iVer++) {
-    for (i=0; i<Msh->SolSiz; i++) {
-      PyList_Append(pySol, PyFloat_FromDouble(Sol->Sol[iVer*Msh->SolSiz+i]));
+  for (iVer=1; iVer<=Sol->NbrVer; iVer++) {
+    for (i=0; i<Sol->SolSiz; i++) {
+      PyList_Append(pySol, PyFloat_FromDouble(Sol->Sol[iVer*Sol->SolSiz+i]));
     }
   }
 
