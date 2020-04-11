@@ -16,7 +16,7 @@ void py_ReadMeshAndSol (char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
 void py_ReadMesh (char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, PyObject *pyEdg, 
      PyObject *pyHex, PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pyMarkers);
 
-void py_ReadSol (char *SolNam, PyObject *pyVer, PyObject *pySol, PyObject *pySolHeader, int NbrVer, int Dim);
+void py_ReadSol (char *SolNam, PyObject *pySol, PyObject *pySolHeader, int NbrVer);
 
 void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, 
      PyObject *pyEdg,  PyObject *pyHex, PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pySol, 

@@ -259,7 +259,7 @@ void py_ReadMesh (char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTr
   
 }
 
-void py_ReadSol(char *SolNam, PyObject *pySol, PyObject *pySolHeader, int NbrVer, int Dim)
+void py_ReadSol(char *SolNam, PyObject *pySol, PyObject *pySolHeader, int NbrVer)
 {
   Options *mshopt = AllocOptions();
   
