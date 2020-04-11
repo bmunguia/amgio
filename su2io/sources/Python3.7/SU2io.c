@@ -595,14 +595,14 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
   }
   
   if ( (Msh == NULL) || (SolNam == NULL) ) {
-    printf("  ## ERROR: LoadSU2Solution : MESH/FILE NAME NOT ALLOCATED \n");
+    printf("  ## ERROR: LoadSU2Solution : mesh/solution file not allocated.\n");
     return 0; 
   }
   
   FilHdl = fopen(SolNam,"r");
   
   if ( !FilHdl ) {
-    fprintf(stderr,"  ## ERROR: LOADSU2SOL: UNABLE TO OPEN %s. \n", SolNam);
+    fprintf(stderr,"  ## ERROR: LoadSU2Solution: Unable to open %s.\n", SolNam);
     return 0;
   }
     
@@ -657,7 +657,7 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
         iVer = atoi(tok)+1;
         idxVer = iVer*SolSiz;
         if ( iVer > Msh->NbrVer ) {
-          fprintf(stderr,"  ## ERROR: LOADSU2SOL: VERTEX OUT OF BOUND. \n");
+          fprintf(stderr,"  ## ERROR: LoadSU2Solution: Vertex out of bound (vid=%d).\n", iVer);
           return 0;
         }
       }

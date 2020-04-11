@@ -433,6 +433,7 @@ Mesh *SetupSolution (char *SolNam, int NbrVer)
   SizSol[GmfVertices] = NbrVer;
   
   Sol = AllocMesh(SizSol);
+  Sol->NbrVer = NbrVer;
   
   if ( FilTyp == FILE_SU2CSV ) {   
     val = LoadSU2Solution(SolNam, Sol);  
