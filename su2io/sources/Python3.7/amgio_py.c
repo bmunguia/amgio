@@ -575,6 +575,7 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
       Msh->NbrFld = Msh->SolSiz;
       Msh->FldTab = (int*) malloc(sizeof(int)*Msh->SolSiz);
       for (j=0; j<Msh->NbrFld; j++){
+        Msh->FldTab[j] = GmfSca;
 
         if ( NbrTag == Msh->NbrFld  ) {
           PyObject *oo = PyList_GetItem(pySolHeader,j);
@@ -583,7 +584,6 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
           }
         }
         else {
-          Msh->FldTab[j] = GmfSca;
           sprintf(Msh->SolTag[j], "scalar_%d", j);
         }
       }
