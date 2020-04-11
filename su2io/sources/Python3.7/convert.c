@@ -263,7 +263,7 @@ int ConvertSU2SolToGMF (Options *mshopt)
   return 1;
 }
 
-int SplitSolution (Mesh *Msh, char *prefix, char *adap_sensor)
+int SplitSol (Mesh *Msh, char *prefix, char *adap_sensor)
 {
   int NbrFld = 1, i, iVer, idx;
   int FldTab[10]; 
