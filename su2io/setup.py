@@ -15,7 +15,7 @@ def setup_amgio(argv=[]):
     #--- Python 2.7
     if sys.version_info[0] < 3:
       setup(name="_amgio",
-            version= "1.3.1",
+            version= "1.3.2",
             description="This is an extension to convert SU2 meshes and solutions to GMF.",
             author="Victorien Menier, Brian C. Munguía",
             author_email="bmunguia@stanford.edu",
@@ -37,7 +37,7 @@ def setup_amgio(argv=[]):
     #--- Python 3.7
     elif sys.version_info >= (3, 7):
       setup(name="_amgio",
-            version= "1.3.1",
+            version= "1.3.2",
             description="This is an extension to convert SU2 meshes and solutions to GMF.",
             author="Victorien Menier, Brian C. Munguía",
             author_email="bmunguia@stanford.edu",

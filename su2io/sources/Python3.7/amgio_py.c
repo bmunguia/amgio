@@ -578,7 +578,7 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
 
         if ( NbrTag == Msh->NbrFld  ) {
           PyObject *oo = PyList_GetItem(pySolHeader,j);
-               if ( PyFloat_Check(oo) ) {
+               if ( PyUnicode_Check(oo) ) {
                   sprintf(Msh->SolTag[j], "%s", (char*) PyUnicode_AsUTF8(oo));
           }
         }
@@ -976,7 +976,7 @@ void py_WriteSol(char *SolNam, PyObject *pyVer, PyObject *pySol, PyObject *pySol
         
         if ( NbrTag == NbrFld ) {
            PyObject *oo = PyList_GetItem(pySolHeader,j);
-           if ( PyFloat_Check(oo) )
+           if ( PyUnicode_Check(oo) )
            {
                   sprintf(SolTag[j], "%s", (char*) PyUnicode_AsUTF8(oo));
            }
