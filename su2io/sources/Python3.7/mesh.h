@@ -14,12 +14,12 @@ typedef int    int7[7];
 typedef int    int8[8];
 typedef int    int9[9];
 
-#define FILE_SU2    1
+#define FILE_SU2MSH 1
 #define FILE_GMF    2
-#define FILE_DAT    3
-#define FILE_GMFSOL 4
-#define FILE_GEO    5
-#define FILE_MSH    6
+#define FILE_SU2DAT 3
+#define FILE_SU2CSV 4
+#define FILE_GMFSOL 5
+#define FILE_GEO    6
 
 #define SU2_CORNER       1
 #define SU2_LINE         3

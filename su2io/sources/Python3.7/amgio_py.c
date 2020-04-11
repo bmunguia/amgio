@@ -630,7 +630,7 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
     if ( ptr != NULL )
       BasNamSol[ptr-BasNamSol]='\0';
   
-  if ( FilTyp != FILE_SU2 ) {
+  if ( FilTyp != FILE_SU2MSH ) {
     WriteGMFMesh(BasNam, Msh, 1);
     if ( Msh->Sol ) {
       sprintf(OutSol, "%s.solb", BasNamSol);
@@ -936,7 +936,7 @@ void py_WriteMesh(char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTr
     if ( ptr != NULL )
       BasNam[ptr-BasNam]='\0';
   
-  if ( FilTyp != FILE_SU2 ) {
+  if ( FilTyp != FILE_SU2MSH ) {
     WriteGMFMesh(BasNam, Msh, 1);
   }
   else {

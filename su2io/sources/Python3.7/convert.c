@@ -238,7 +238,7 @@ int ConvertSU2SolToGMF (Options *mshopt)
 
   Msh = SetupMeshAndSolution (mshopt->InpNam, mshopt->SolNam);
 
-  if ( Msh->FilTyp != FILE_SU2 ) {
+  if ( Msh->FilTyp != FILE_SU2MSH ) {
     printf("  ## ERROR : Input mesh file must be a .su2.\n");
     return 0;
   }

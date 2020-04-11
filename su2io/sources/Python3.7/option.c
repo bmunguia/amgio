@@ -20,7 +20,7 @@ Options* AllocOptions()
   strcpy(mshopt->OutNam, "");
   strcpy(mshopt->BasNam, "");
   strcpy(mshopt->SolNam, "");
-  
+
   strcpy(mshopt->HeaderNam, "");
   
   return mshopt;
@@ -53,7 +53,7 @@ int CheckOptions (Options *mshopt)
   if ( strcmp(mshopt->SolNam, "") ) {
     SolTyp = GetInputFileType(mshopt->SolNam);
     
-    if ( mshopt->InpFilTyp == FILE_SU2 && SolTyp != FILE_DAT ) {
+    if ( mshopt->InpFilTyp == FILE_SU2MSH && SolTyp != FILE_SU2CSV ) {
       printf("  ## ERROR : Wrong format for solution file (.csv expected)\n");
       return 0;
     }

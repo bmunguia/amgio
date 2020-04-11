@@ -18,7 +18,7 @@ int AddSU2MeshSize(char *FilNam, int *SizMsh)
     SizMsh[i] = 0;
   
   
-  if (  GetInputFileType (FilNam) != FILE_SU2 ) {
+  if (  GetInputFileType (FilNam) != FILE_SU2MSH ) {
     printf("NOT SU2, return\n");
     return 0;
   }
@@ -136,7 +136,7 @@ int AddSU2MeshSize(char *FilNam, int *SizMsh)
   SizMsh[GmfPyramids]       = NbrPyr;
   SizMsh[GmfHexahedra]      = NbrHex;
   SizMsh[GmfTrianglesP2]    = NbrP2Tri;
-  SizMsh[GmfFileType]       = FILE_SU2;
+  SizMsh[GmfFileType]       = FILE_SU2MSH;
   SizMsh[GmfEdgesP2]        = NbrP2Lin;
   
   if ( FilHdl )
@@ -509,7 +509,7 @@ int LoadSU2Mesh(char *FilNam, Mesh *Msh)
     return 0; 
   }
   
-  if (  GetInputFileType (FilNam) != FILE_SU2 )
+  if (  GetInputFileType (FilNam) != FILE_SU2MSH )
     return 0;
   
   FilHdl = fopen (FilNam, "r");
@@ -520,7 +520,7 @@ int LoadSU2Mesh(char *FilNam, Mesh *Msh)
   }
   
   strcpy(Msh->MshNam, FilNam);
-  Msh->FilTyp = FILE_SU2;
+  Msh->FilTyp = FILE_SU2MSH;
   
   rewind(FilHdl);
   Msh->Dim = GetSU2KeywordValue (FilHdl, "NDIME=");
