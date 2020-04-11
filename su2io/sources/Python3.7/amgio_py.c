@@ -168,7 +168,7 @@ void py_ReadMeshAndSol (char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
     PyList_Append(pyMarkers, PyUnicode_FromString(Msh->Markers[i]));
   }
   
-  for (i=0; i<=Msh->SolSiz; i++){
+  for (i=0; i<Msh->SolSiz; i++){
     PyList_Append(pySolHeader, PyUnicode_FromString(Msh->SolTag[i]));
   }
   
@@ -272,7 +272,7 @@ void py_ReadSol(char *SolNam, PyObject *pySol, PyObject *pySolHeader, int NbrVer
 
   int i, iVer;
 
-  for (i=0; i<=Sol->SolSiz; i++){
+  for (i=0; i<Sol->SolSiz; i++){
     PyList_Append(pySolHeader, PyUnicode_FromString(Sol->SolTag[i]));
   }
 
