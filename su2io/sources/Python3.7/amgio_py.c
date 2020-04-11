@@ -85,7 +85,7 @@ int py_ConvertInriaSoltoMet( char *MshNam, char *SolNam, char *OutNam )
   return 1;
 }
 
-int py_SplitSolution(char *SolNam, int dim, char *prefix, char *adap_sensor)
+int py_SplitSol(char *SolNam, int dim, char *prefix, char *adap_sensor)
 {
   
   int SizMsh[GmfMaxSizMsh+1];

@@ -3154,7 +3154,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_py_SplitSolution(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_py_SplitSol(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   char *arg1 = (char *) 0 ;
   int arg2 ;
@@ -3174,28 +3174,28 @@ SWIGINTERN PyObject *_wrap_py_SplitSolution(PyObject *SWIGUNUSEDPARM(self), PyOb
   PyObject *swig_obj[4] ;
   int result;
   
-  if (!SWIG_Python_UnpackTuple(args, "py_SplitSolution", 4, 4, swig_obj)) SWIG_fail;
+  if (!SWIG_Python_UnpackTuple(args, "py_SplitSol", 4, 4, swig_obj)) SWIG_fail;
   res1 = SWIG_AsCharPtrAndSize(swig_obj[0], &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "py_SplitSolution" "', argument " "1"" of type '" "char *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "py_SplitSol" "', argument " "1"" of type '" "char *""'");
   }
   arg1 = (char *)(buf1);
   ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "py_SplitSolution" "', argument " "2"" of type '" "int""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "py_SplitSol" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = (int)(val2);
   res3 = SWIG_AsCharPtrAndSize(swig_obj[2], &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "py_SplitSolution" "', argument " "3"" of type '" "char *""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "py_SplitSol" "', argument " "3"" of type '" "char *""'");
   }
   arg3 = (char *)(buf3);
   res4 = SWIG_AsCharPtrAndSize(swig_obj[3], &buf4, NULL, &alloc4);
   if (!SWIG_IsOK(res4)) {
-    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "py_SplitSolution" "', argument " "4"" of type '" "char *""'");
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "py_SplitSol" "', argument " "4"" of type '" "char *""'");
   }
   arg4 = (char *)(buf4);
-  result = (int)py_SplitSolution(arg1,arg2,arg3,arg4);
+  result = (int)py_SplitSol(arg1,arg2,arg3,arg4);
   resultobj = SWIG_From_int((int)(result));
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
@@ -3317,19 +3317,15 @@ SWIGINTERN PyObject *_wrap_py_ReadSol(PyObject *SWIGUNUSEDPARM(self), PyObject *
   char *arg1 = (char *) 0 ;
   PyObject *arg2 = (PyObject *) 0 ;
   PyObject *arg3 = (PyObject *) 0 ;
-  PyObject *arg4 = (PyObject *) 0 ;
-  int arg5 ;
-  int arg6 ;
+  int arg4 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
-  int val5 ;
-  int ecode5 = 0 ;
-  int val6 ;
-  int ecode6 = 0 ;
-  PyObject *swig_obj[6] ;
+  int val4 ;
+  int ecode4 = 0 ;
+  PyObject *swig_obj[4] ;
   
-  if (!SWIG_Python_UnpackTuple(args, "py_ReadSol", 6, 6, swig_obj)) SWIG_fail;
+  if (!SWIG_Python_UnpackTuple(args, "py_ReadSol", 4, 4, swig_obj)) SWIG_fail;
   res1 = SWIG_AsCharPtrAndSize(swig_obj[0], &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "py_ReadSol" "', argument " "1"" of type '" "char *""'");
@@ -3337,18 +3333,12 @@ SWIGINTERN PyObject *_wrap_py_ReadSol(PyObject *SWIGUNUSEDPARM(self), PyObject *
   arg1 = (char *)(buf1);
   arg2 = swig_obj[1];
   arg3 = swig_obj[2];
-  arg4 = swig_obj[3];
-  ecode5 = SWIG_AsVal_int(swig_obj[4], &val5);
-  if (!SWIG_IsOK(ecode5)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "py_ReadSol" "', argument " "5"" of type '" "int""'");
+  ecode4 = SWIG_AsVal_int(swig_obj[3], &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "py_ReadSol" "', argument " "4"" of type '" "int""'");
   } 
-  arg5 = (int)(val5);
-  ecode6 = SWIG_AsVal_int(swig_obj[5], &val6);
-  if (!SWIG_IsOK(ecode6)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "py_ReadSol" "', argument " "6"" of type '" "int""'");
-  } 
-  arg6 = (int)(val6);
-  py_ReadSol(arg1,arg2,arg3,arg4,arg5,arg6);
+  arg4 = (int)(val4);
+  py_ReadSol(arg1,arg2,arg3,arg4);
   resultobj = SWIG_Py_Void();
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   return resultobj;
@@ -3530,7 +3520,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "py_ConvertInriatoSU2", _wrap_py_ConvertInriatoSU2, METH_VARARGS, NULL},
 	 { "py_ConvertInriaWithBoundtoSU2", _wrap_py_ConvertInriaWithBoundtoSU2, METH_VARARGS, NULL},
 	 { "py_ConvertInriaSoltoMet", _wrap_py_ConvertInriaSoltoMet, METH_VARARGS, NULL},
-	 { "py_SplitSolution", _wrap_py_SplitSolution, METH_VARARGS, NULL},
+	 { "py_SplitSol", _wrap_py_SplitSol, METH_VARARGS, NULL},
 	 { "py_ReadMeshAndSol", _wrap_py_ReadMeshAndSol, METH_VARARGS, NULL},
 	 { "py_ReadMesh", _wrap_py_ReadMesh, METH_VARARGS, NULL},
 	 { "py_ReadSol", _wrap_py_ReadSol, METH_VARARGS, NULL},
@@ -3547,7 +3537,7 @@ static PyMethodDef SwigMethods_proxydocs[] = {
 	 { "py_ConvertInriatoSU2", _wrap_py_ConvertInriatoSU2, METH_VARARGS, NULL},
 	 { "py_ConvertInriaWithBoundtoSU2", _wrap_py_ConvertInriaWithBoundtoSU2, METH_VARARGS, NULL},
 	 { "py_ConvertInriaSoltoMet", _wrap_py_ConvertInriaSoltoMet, METH_VARARGS, NULL},
-	 { "py_SplitSolution", _wrap_py_SplitSolution, METH_VARARGS, NULL},
+	 { "py_SplitSol", _wrap_py_SplitSol, METH_VARARGS, NULL},
 	 { "py_ReadMeshAndSol", _wrap_py_ReadMeshAndSol, METH_VARARGS, NULL},
 	 { "py_ReadMesh", _wrap_py_ReadMesh, METH_VARARGS, NULL},
 	 { "py_ReadSol", _wrap_py_ReadSol, METH_VARARGS, NULL},
