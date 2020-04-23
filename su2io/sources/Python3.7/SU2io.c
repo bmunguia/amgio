@@ -748,7 +748,7 @@ int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
 
   for (i = 0; i < SolSiz; i++) {
     ret = fread(str_buf, sizeof(char), CGNS_STRING_SIZE, FilHdl);
-    strcpy(msh->SolTag[i], str_buf);
+    strcpy(Msh->SolTag[i], str_buf);
   }
   
   //--- Allocate Msh->Sol
