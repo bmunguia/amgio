@@ -259,7 +259,7 @@ void py_ReadMesh (char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTr
   
 }
 
-void py_ReadSol(char *SolNam, PyObject *pySol, PyObject *pySolHeader, int NbrVer)
+void py_ReadSol(char *SolNam, PyObject *pySol, PyObject *pySolHeader, int NbrVer, int Dim)
 {
   Options *mshopt = AllocOptions();
   
@@ -268,7 +268,7 @@ void py_ReadSol(char *SolNam, PyObject *pySol, PyObject *pySolHeader, int NbrVer
   //--- Open solution file
   
   Mesh *Sol = NULL;
-  Sol = SetupSolution (mshopt->InpNam, NbrVer);
+  Sol = SetupSolution (mshopt->InpNam, NbrVerm, Dim);
 
   int i, iVer;
 

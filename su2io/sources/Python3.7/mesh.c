@@ -422,7 +422,7 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
   return Msh;
 }
 
-Mesh *SetupSolution (char *SolNam, int NbrVer)
+Mesh *SetupSolution (char *SolNam, int NbrVer, int Dim)
 {
   Mesh *Sol = NULL;
   int SizSol[GmfMaxSizMsh+1];
@@ -439,6 +439,7 @@ Mesh *SetupSolution (char *SolNam, int NbrVer)
   
   Sol = AllocMesh(SizSol);
   Sol->NbrVer = NbrVer;
+  Sol->Dim    = Dim;
   
   if ( FilTyp == FILE_SU2BIN ) {
     val = LoadSU2SolutionBin(SolNam, Sol);  

@@ -1085,7 +1085,7 @@ int WriteSU2SolutionBin (char *SolNam, int Dim, int NbrVer, double3 *Ver,  doubl
 {
   int i;
   int var_buf_size = 5;
-  int var_buf[5] = {535532, SolSiz, NbrVer, 0, 0};
+  int var_buf[5] = {535532, SolSiz+Dim, NbrVer, 0, 0};
   char str_buf[CGNS_STRING_SIZE];
   size_t ret;
   
