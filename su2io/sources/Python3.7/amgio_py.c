@@ -627,6 +627,9 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
     ptr = strstr(BasNamSol,".csv");  
     if ( ptr != NULL )
       BasNamSol[ptr-BasNamSol]='\0';
+    ptr = strstr(BasNamSol,".dat");  
+    if ( ptr != NULL )
+      BasNamSol[ptr-BasNamSol]='\0';
     ptr = strstr(BasNamSol,".solb");  
     if ( ptr != NULL )
       BasNamSol[ptr-BasNamSol]='\0';
