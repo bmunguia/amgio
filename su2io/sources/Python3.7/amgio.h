@@ -15,20 +15,23 @@
 #include "option.h"
 
 #define PI_NUMBER 3.14159265359
+#define CGNS_STRING_SIZE 33
 
 // Prototypes
 
 //--- SU2io.c
-int  AddSU2MeshSize (char *FilNam, int *SizMsh) ;
-int  GetSU2KeywordValue (FILE *FilHdl, char *Kwd);
-int  GetSU2KeywordValueStr (FILE *FilHdl, char *Kwd, char *StrVal);
+int  AddSU2MeshSize(char *FilNam, int *SizMsh) ;
+int  GetSU2KeywordValue(FILE *FilHdl, char *Kwd);
+int  GetSU2KeywordValueStr(FILE *FilHdl, char *Kwd, char *StrVal);
 int  LoadSU2Elements(FILE *FilHdl, Mesh *Msh);
-int  LoadSU2Mesh (char *FilNam, Mesh *Msh);
+int  LoadSU2Mesh(char *FilNam, Mesh *Msh);
 int  LoadSU2Solution(char *SolNam, Mesh *Msh);
-int  LoadSU2Vertices (FILE *FilHdl, Mesh *Msh);
+int  LoadSU2SolutionBin(char *SolNam, Mesh *Msh);
+int  LoadSU2Vertices(FILE *FilHdl, Mesh *Msh);
 void WriteSU2Mesh(char *nam, Mesh *Msh);
 int  GetSU2SolSize(char *SolNam);
-int  WriteSU2Solution (char *SolNam, int Dim, int NbrVer, double3 *Ver,  double *Sol, int SolSiz, char SolTag[100][256]);
+int  WriteSU2Solution(char *SolNam, int Dim, int NbrVer, double3 *Ver,  double *Sol, int SolSiz, char SolTag[100][256]);
+int  WriteSU2SolutionBin(char *SolNam, int Dim, int NbrVer, double3 *Ver,  double *Sol, int SolSiz, char SolTag[100][256]);
 
 //--- GMFio.c
 int AddGMFMeshSize (char *MshNam, int *SizMsh);

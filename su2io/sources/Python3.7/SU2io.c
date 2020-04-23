@@ -692,6 +692,92 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
   return 1;
 }
 
+int LoadSU2SolutioBin(char *SolNam, Mesh *Msh)
+{
+  int NbrLin=0;
+  char *tok=NULL, *lin=NULL;
+  char str_buf[CGNS_STRING_SIZE], str[1024];
+  
+  int i, iVer, skip=0, SolSiz=0, idx, idxVer;
+  size_t  len = 0;
+  size_t ret;
+  int nRestart_Vars = 5, Restart_Vars[5];
+  FILE *FilHdl=NULL;
+  
+  double *Sol = NULL;
+  
+  if ( Msh->Sol )
+  {
+    printf("  ## ERROR LoadSU2SolutionBin : Msh->Sol already allocated.\n");
+    return 0;
+  }
+  
+  if ( (Msh == NULL) || (SolNam == NULL) ) {
+    printf("  ## ERROR: LoadSU2SolutionBin : mesh/solution file not allocated.\n");
+    return 0; 
+  }
+  
+  FilHdl = fopen(SolNam,"rb");
+  
+  if ( !FilHdl ) {
+    fprintf(stderr,"  ## ERROR: LoadSU2SolutionBin : Unable to open %s.\n", SolNam);
+    return 0;
+  }
+    
+  strcpy(Msh->SolNam, SolNam);
+
+  //--- Read the number of variables and points
+  ret = fread(Restart_Vars, sizeof(int), nRestart_Vars, FilHdl);
+  if (ret != (unsigned long)nRestart_Vars) {
+    printf("  ## ERROR: LoadSU2SolutionBin : Incorrect number of restart vars.\n");
+    return 0;
+  }
+  if (Restart_Vars[0] != 535532) {
+    printf("  ## ERROR: LoadSU2SolutionBin : file is not a binary SU2 restart file.\n");
+    printf("SU2 reads/writes binary restart files by default.\n");
+    printf("Note that backward compatibility for ASCII restart files is\n");
+    printf("possible with the WRT_BINARY_RESTART / READ_BINARY_RESTART options.\n");
+    return 0;
+  }
+
+  SolSiz = Restart_Vars[1];
+
+  //--- Store SolTags
+
+  for (i = 0; i < SolSiz; i++) {
+    ret = fread(str_buf, sizeof(char), CGNS_STRING_SIZE, FilHdl);
+    strcpy(msh->SolTag[i], str_buf);
+  }
+  
+  //--- Allocate Msh->Sol
+  
+  Msh->Sol = (double*) malloc(sizeof(double)*(Msh->NbrVer+1)*SolSiz);
+  memset(Msh->Sol, 0, sizeof(double)*(Msh->NbrVer+1)*SolSiz);
+  
+  Sol = Msh->Sol;
+  Msh->SolSiz = SolSiz;
+  
+  //--- Set Msh->FldTab
+  // Note: Set all fields as scalars (later: vectors for velocity)
+  Msh->FldTab = (int*) malloc(sizeof(int)*SolSiz);
+  Msh->NbrFld = SolSiz;
+  for (i=0; i<SolSiz; i++)
+    Msh->FldTab[i] = GmfSca;
+  
+  //--- Load vertex solution
+  ret = fread(&Sol[SolSiz], sizeof(double), SolSiz*Msh->NbrVer, FilHdl);
+  
+  if ( FilHdl )
+    fclose(FilHdl);
+    
+  if ( NbrLin != Msh->NbrVer ) {
+    fprintf(stderr,"  ## ERROR: LoadSU2SolutionBin (%s): INCONSISTENT NUMBER OF VERTICES. \n", SolNam);
+    return 0;
+  }
+
+  return 1;
+}
+
 int LoadSU2Vertices(FILE *FilHdl, Mesh *Msh)
 {
   int iVer, d, ref;
@@ -986,6 +1072,41 @@ int WriteSU2Solution (char *SolNam, int Dim, int NbrVer, double3 *Ver,  double *
   }
   
   //--- close mesh file
+  if ( OutFil )
+    fclose(OutFil);
+  
+  
+  return 1;
+}
+
+int WriteSU2SolutionBin (char *SolNam, int Dim, int NbrVer, double3 *Ver,  double *Sol, int SolSiz, char SolTag[100][256])
+{
+  int i;
+  int var_buf_size = 5;
+  int var_buf[5] = {535532, SolSiz, NbrVer, 0, 0};
+  char str_buf[CGNS_STRING_SIZE];
+  size_t ret;
+  
+  FILE *OutFil=NULL; 
+  OutFil = fopen(SolNam, "wb");
+  
+  if ( !OutFil ) {
+    printf("  ## ERROR WriteSU2Solution: Can't open %s\n", OutFil);
+  }
+
+  //--- Write restart vars.
+  ret = fwrite(var_buf, sizeof(char), var_buf_size*sizeof(int), OutFil);
+
+  //--- Write SolTags.
+  for (i = 0; i < SolSiz; i++) {
+    strncpy(str_buf, SolTag[i], CGNS_STRING_SIZE);
+    ret = fwrite(str_buf, sizeof(char), CGNS_STRING_SIZE*sizeof(char), OutFil);
+  }
+
+  //--- Write the actual solution.
+  ret = fwrite(&Sol[SolSiz], sizeof(char), NbrVer*SolSiz*sizeof(double), OutFil);
+  
+  //--- Close mesh file
   if ( OutFil )
     fclose(OutFil);
   
