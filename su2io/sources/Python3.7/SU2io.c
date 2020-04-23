@@ -745,8 +745,9 @@ int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
 
   SolSiz = Restart_Vars[1]-Msh->Dim;
 
-  //--- Store SolTags
+  //--- Store SolTags except coordinates
 
+  for (i = 0; i < Msh->Dim; i++) ret = fread(str_buf, sizeof(char), CGNS_STRING_SIZE, FilHdl);
   for (i = 0; i < SolSiz; i++) {
     ret = fread(str_buf, sizeof(char), CGNS_STRING_SIZE, FilHdl);
     strcpy(Msh->SolTag[i], str_buf);
