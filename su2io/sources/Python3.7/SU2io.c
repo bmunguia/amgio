@@ -607,6 +607,7 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
   }
     
   strcpy(Msh->SolNam, SolNam);
+  Msh->SolTyp = FILE_SU2CSV;
   
   if ( getline(&lin, &len, FilHdl) != -1 ) {
     tok = strtok (lin, "  ,");
@@ -692,7 +693,7 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
   return 1;
 }
 
-int LoadSU2SolutioBin(char *SolNam, Mesh *Msh)
+int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
 {
   int NbrLin=0;
   char *tok=NULL, *lin=NULL;
@@ -725,6 +726,7 @@ int LoadSU2SolutioBin(char *SolNam, Mesh *Msh)
   }
     
   strcpy(Msh->SolNam, SolNam);
+  Msh->SolTyp = FILE_SU2BIN;
 
   //--- Read the number of variables and points
   ret = fread(Restart_Vars, sizeof(int), nRestart_Vars, FilHdl);

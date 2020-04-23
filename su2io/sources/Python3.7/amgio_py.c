@@ -607,7 +607,8 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
   //--- Write Mesh
   
   int FilTyp = GetInputFileType(MshNam);
-    char *ptr = NULL;
+  int SolTyp = GetInputFileType(SolNam);
+  char *ptr = NULL;
   char BasNam[1024], BasNamSol[1024], OutSol[1024];
   
   // --- Get BasNam
@@ -641,9 +642,15 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
   }
   else {
     WriteSU2Mesh(BasNam, Msh);
-    if ( Msh->Sol ) {    
-      sprintf(OutSol, "%s.csv", BasNamSol);
-      WriteSU2Solution (OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
+    if ( Msh->Sol ) {
+      if ( SolTyp == FILE_SU2BIN ) {
+        sprintf(OutSol, "%s.dat", BasNamSol);
+        WriteSU2SolutionBin (OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
+      }
+      else {
+        sprintf(OutSol, "%s.csv", BasNamSol);
+        WriteSU2Solution (OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
+      }
     }
   }    
 }

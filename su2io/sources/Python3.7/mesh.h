@@ -16,7 +16,7 @@ typedef int    int9[9];
 
 #define FILE_SU2MSH 1
 #define FILE_GMF    2
-#define FILE_SU2DAT 3
+#define FILE_SU2BIN 3
 #define FILE_SU2CSV 4
 #define FILE_GMFSOL 5
 #define FILE_GEO    6
@@ -85,6 +85,7 @@ typedef struct S_Mesh
   char SolNam[1024];
   
   int FilTyp;
+  int SolTyp;
     
 } Mesh;
 

@@ -65,8 +65,14 @@ int ConvertGMFtoSU2Sol (Options *mshopt)
   WriteSU2Mesh(mshopt->OutNam, Msh);
   
   if ( Msh->Sol ) {
-    sprintf(OutSol, "%s.csv", mshopt->OutNam);
-    WriteSU2Solution (OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
+    if ( Msh->SolTyp == FILE_SU2BIN ) {
+      sprintf(OutSol, "%s.dat", mshopt->OutNam);
+      WriteSU2SolutionBin (OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
+    }
+    else {
+      sprintf(OutSol, "%s.csv", mshopt->OutNam);
+      WriteSU2Solution (OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
+    }
   }
 
   if ( Msh )

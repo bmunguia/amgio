@@ -401,8 +401,13 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
   
   if ( FilTyp == FILE_SU2MSH ) {
     LoadSU2Mesh(MshNam, Msh);
-    if ( strcmp(SolNam,"") )
-      val = LoadSU2Solution(SolNam, Msh);
+    if ( strcmp(SolNam,"") ) {
+      FilTyp = GetInputFileType(SolNam);
+      if (FilTyp == FIL_SU2BIN)
+        val = LoadSU2SolutionBin(SolNam, Msh);
+      else
+        val = LoadSU2Solution(SolNam, Msh);
+    }
     
     if ( val != 1 ) {
       Msh->Sol = NULL;
@@ -435,12 +440,18 @@ Mesh *SetupSolution (char *SolNam, int NbrVer)
   Sol = AllocMesh(SizSol);
   Sol->NbrVer = NbrVer;
   
-  if ( FilTyp == FILE_SU2CSV ) {   
+  if ( FilTyp == FILE_SU2BIN ) {
+    val = LoadSU2SolutionBin(SolNam, Sol);  
+    if ( val != 1 ) {
+      Sol->Sol = NULL;
+    }
+  }
+  else if ( FilTyp == FILE_SU2CSV ) {   
     val = LoadSU2Solution(SolNam, Sol);  
     if ( val != 1 ) {
       Sol->Sol = NULL;
     }
-  }  
+  }
   else if ( FilTyp == FILE_GMFSOL ){
     LoadGMFSolution(SolNam, Sol);
   }
@@ -743,6 +754,9 @@ int GetInputFileType (char *FilNam)
       }
       else if ( strcmp(ext,"csv") == 0  ) {
         return FILE_SU2CSV;
+      }
+      else if ( strcmp(ext,"dat") == 0  ) {
+        return FILE_SU2BIN;
       }
       else if ( strcmp(ext,"mesh") == 0 || strcmp(ext,"meshb") == 0 ) {
         return FILE_GMF;
