@@ -706,6 +706,7 @@ int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
   FILE *FilHdl=NULL;
   
   double *Sol = NULL;
+  double *Coord = NULL;
   
   if ( Msh->Sol )
   {
@@ -742,7 +743,7 @@ int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
     return 0;
   }
 
-  SolSiz = Restart_Vars[1];
+  SolSiz = Restart_Vars[1]-Msh->Dim;
 
   //--- Store SolTags
 
@@ -766,8 +767,11 @@ int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
   for (i=0; i<SolSiz; i++)
     Msh->FldTab[i] = GmfSca;
   
-  //--- Load vertex solution
-  ret = fread(&Sol[SolSiz], sizeof(double), SolSiz*Msh->NbrVer, FilHdl);
+  //--- Load vertex solution except coordinates
+  for (i = 1; i <= Msh->NbrVer; i++){
+    ret = fread(Coord, sizeof(double), Msh->Dim, FilHdl);
+    ret = fread(&Sol[i*SolSiz], sizeof(double), SolSiz, FilHdl);
+  }
   
   if ( FilHdl )
     fclose(FilHdl);
@@ -1094,14 +1098,26 @@ int WriteSU2SolutionBin (char *SolNam, int Dim, int NbrVer, double3 *Ver,  doubl
   //--- Write restart vars.
   ret = fwrite(var_buf, sizeof(char), var_buf_size*sizeof(int), OutFil);
 
-  //--- Write SolTags.
+  //--- Write SolTags, including coordinates.
+  strncpy(str_buf, "x", CGNS_STRING_SIZE);
+  ret = fwrite(str_buf, sizeof(char), CGNS_STRING_SIZE*sizeof(char), OutFil);
+  strncpy(str_buf, "y", CGNS_STRING_SIZE);
+  ret = fwrite(str_buf, sizeof(char), CGNS_STRING_SIZE*sizeof(char), OutFil);
+  if (Dim == 3) {
+    strncpy(str_buf, "z", CGNS_STRING_SIZE);
+    ret = fwrite(str_buf, sizeof(char), CGNS_STRING_SIZE*sizeof(char), OutFil);
+  }
   for (i = 0; i < SolSiz; i++) {
     strncpy(str_buf, SolTag[i], CGNS_STRING_SIZE);
     ret = fwrite(str_buf, sizeof(char), CGNS_STRING_SIZE*sizeof(char), OutFil);
   }
 
   //--- Write the actual solution.
-  ret = fwrite(&Sol[SolSiz], sizeof(char), NbrVer*SolSiz*sizeof(double), OutFil);
+  for (i = 1; i <= NbrVer; i++) {
+    ret = fwrite(&Ver[i], sizeof(char), 2*sizeof(double), OutFil);
+    if (Dim ==3) ret = fwrite(Ver[i][2], sizeof(char), sizeof(double), OutFil);
+    ret = fwrite(&Sol[i*SolSiz], sizeof(char), SolSiz*sizeof(double), OutFil);
+  }
   
   //--- Close mesh file
   if ( OutFil )
