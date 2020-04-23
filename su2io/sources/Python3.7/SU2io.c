@@ -771,11 +771,6 @@ int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
   
   if ( FilHdl )
     fclose(FilHdl);
-    
-  if ( NbrLin != Msh->NbrVer ) {
-    fprintf(stderr,"  ## ERROR: LoadSU2SolutionBin (%s): INCONSISTENT NUMBER OF VERTICES. \n", SolNam);
-    return 0;
-  }
 
   return 1;
 }
