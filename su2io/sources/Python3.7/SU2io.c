@@ -1115,7 +1115,7 @@ int WriteSU2SolutionBin (char *SolNam, int Dim, int NbrVer, double3 *Ver,  doubl
   //--- Write the actual solution.
   for (i = 1; i <= NbrVer; i++) {
     ret = fwrite(&Ver[i], sizeof(char), 2*sizeof(double), OutFil);
-    if (Dim ==3) ret = fwrite(Ver[i][2], sizeof(char), sizeof(double), OutFil);
+    if (Dim ==3) ret = fwrite(&Ver[i][2], sizeof(char), sizeof(double), OutFil);
     ret = fwrite(&Sol[i*SolSiz], sizeof(char), SolSiz*sizeof(double), OutFil);
   }
   
