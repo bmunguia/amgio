@@ -403,7 +403,7 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
     LoadSU2Mesh(MshNam, Msh);
     if ( strcmp(SolNam,"") ) {
       FilTyp = GetInputFileType(SolNam);
-      if (FilTyp == FIL_SU2BIN)
+      if (FilTyp == FILE_SU2BIN)
         val = LoadSU2SolutionBin(SolNam, Msh);
       else
         val = LoadSU2Solution(SolNam, Msh);
