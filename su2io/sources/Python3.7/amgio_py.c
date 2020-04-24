@@ -1044,6 +1044,9 @@ void py_WriteSol(char *SolNam, PyObject *pyVer, PyObject *pySol, PyObject *pySol
     if ( FilTyp == FILE_GMFSOL ) {
       WriteGMFSolution(SolNam, Sol, SolSiz, NbrVer, Dim, NbrFld, FldTab);
     }
+    else if ( FilTyp == FILE_SU2BIN ) {
+      WriteSU2SolutionBin (SolNam, Dim, NbrVer, Ver, Sol, SolSiz, SolTag);
+    }
     else {
       WriteSU2Solution (SolNam, Dim, NbrVer, Ver, Sol, SolSiz, SolTag);
     }
