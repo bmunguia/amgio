@@ -268,7 +268,7 @@ void py_ReadSol(char *SolNam, PyObject *pySol, PyObject *pySolHeader, int NbrVer
   //--- Open solution file
   
   Mesh *Sol = NULL;
-  Sol = SetupSolution (mshopt->InpNam, NbrVerm, Dim);
+  Sol = SetupSolution (mshopt->InpNam, NbrVer, Dim);
 
   int i, iVer;
 
