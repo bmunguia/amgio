@@ -706,7 +706,7 @@ int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
   FILE *FilHdl=NULL;
   
   double *Sol = NULL;
-  double *Coord = NULL;
+  double Coord[3];
   
   if ( Msh->Sol )
   {
