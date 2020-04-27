@@ -344,7 +344,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
       for (s=0; s<5; s++) {
         fscanf(FilHdl, "%d", &buf);
         swi[s] = buf+1;
-    is[s]  = buf+1;
+        is[s]  = buf+1;
       }
 
       fscanf(FilHdl, "%d", &buf);
@@ -405,7 +405,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         }
 
         // switchTriIdx(swi,is);
-        AddTriangle(Msh,Msh->NbrTri,is,iMark);
+        AddTriangle(Msh,Msh->NbrTri,swi,iMark);
       }
       else if ( typ == SU2_RECTANGLE ) {          
         for (s=0; s<4; s++) {
@@ -421,7 +421,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         }
 
         // switchQuaIdx(swi,is);
-        AddQuadrilateral(Msh,Msh->NbrQua,is,iMark);
+        AddQuadrilateral(Msh,Msh->NbrQua,swi,iMark);
       }
       else if ( typ == SU2_LINE ) {
         for (s=0; s<2; s++) {
@@ -473,16 +473,16 @@ int LoadSU2Corners(FILE *FilHdl, Mesh *Msh)
       fscanf(FilHdl, "%d", &buf);
       swi[0] = buf+1;
       if ( swi[0] > Msh->NbrVer ) {
-      printf("  ## ERROR Corners: vertex out of bound (vid=%d)\n", swi[0]);
-      return 0;
-    }
+        printf("  ## ERROR Corners: vertex out of bound (vid=%d)\n", swi[0]);
+        return 0;
+      }
 
-        Msh->NbrCor++;
+      Msh->NbrCor++;
 
-        if ( Msh->NbrCor > Msh->MaxNbrCor ) {
-      printf("  ## ERROR LoadSU2Corners: corner (id=%d, max=%d)\n", Msh->NbrCor, Msh->MaxNbrCor);
-      return 0;
-    }
+      if ( Msh->NbrCor > Msh->MaxNbrCor ) {
+        printf("  ## ERROR LoadSU2Corners: corner (id=%d, max=%d)\n", Msh->NbrCor, Msh->MaxNbrCor);
+        return 0;
+      }
       
       AddCorner(Msh,Msh->NbrCor,swi);
 

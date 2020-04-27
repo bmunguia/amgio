@@ -276,12 +276,19 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
   int NbrEfr  = Msh->NbrEfr;
   int NbrCor  = Msh->NbrCor;
   int NbrQua  = Msh->NbrQua;
+  int NbrTet  = Msh->NbrTet;
+  int NbrHex  = Msh->NbrHex;
+  int NbrPri  = Msh->NbrPri;
+  int NbrPyr  = Msh->NbrPyr;
   double3*Ver = Msh->Ver;
   int4*Tri    = Msh->Tri;
   int3*Efr    = Msh->Efr;
   int*Cor     = Msh->Cor;
   int5*Tet    = Msh->Tet;
   int5*Qua    = Msh->Qua;
+  int9*Hex    = Msh->Hex;
+  int7*Pri    = Msh->Pri;
+  int6*Pyr    = Msh->Pyr;
   
   
   //--- Define file name extension 
@@ -340,7 +347,7 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
   }
 
 
-  if ( Msh->NbrTet > 0 ) {
+  if ( Msh->Tet > 0 ) {
     //--- Write tetrahedra
     GmfSetKwd(OutMsh, GmfTetrahedra, Msh->NbrTet);
     for (iTet=1; iTet<=Msh->NbrTet; ++iTet) {
@@ -351,8 +358,19 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
     }
   }
 
+  if ( Msh->Hex > 0 ) {
+    //--- Write hexahedra
+    GmfSetKwd(OutMsh, GmfHexahedra, NbrHex);
+    for (i=1; i<=NbrHex; ++i) {
+      for (j=0; j<8; ++j) {
+        idx[j] = (long long)(Hex[i][j]);
+      }
+            
+      GmfSetLin(OutMsh, GmfHexahedra,idx[0],idx[1],idx[2],idx[3],idx[4],idx[5],idx[6],idx[7],Hex[i][8]);  
+    }
+  }
 
-  if ( Msh->NbrPri > 0  ) {
+  if ( Msh->Pri > 0  ) {
     //--- Write prisms
     GmfSetKwd(OutMsh, GmfPrisms, Msh->NbrPri);
     for (i=1; i<=Msh->NbrPri; ++i) {
@@ -364,7 +382,7 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
     }
   }
 
-  if ( Msh->NbrPyr > 0 ) {
+  if ( Msh->Pyr > 0 ) {
     //--- Write pyr
     GmfSetKwd(OutMsh, GmfPyramids, Msh->NbrPyr);
     for (i=1; i<=Msh->NbrPyr; ++i) {
