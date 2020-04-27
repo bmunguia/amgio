@@ -35,7 +35,7 @@ def main():
     else:
         options.solfilename = str(options.solfilename)
     if options.boundmeshfilename == None:
-        raise RuntimeError , 'No .su2 file provided with MARKER_TAG information. Run with -h for full list of options.\n'
+        raise Exception('No .su2 file provided with MARKER_TAG information. Run with -h for full list of options.\n')
     else:
         options.boundmeshfilename = str(options.boundmeshfilename)
     options.outfilename = str(options.outfilename)
