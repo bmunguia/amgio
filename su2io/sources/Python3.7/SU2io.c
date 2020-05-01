@@ -224,7 +224,7 @@ int GetSU2KeywordValueStr (FILE *FilHdl, char *Kwd, char *StrVal)
 
 int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
 {
-  int  ref=0;
+  int  ref=1;
   char str[1024];
 
   int iMark, NbrMark=0, CptElt;
@@ -405,7 +405,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         }
 
         // switchTriIdx(swi,is);
-        AddTriangle(Msh,Msh->NbrTri,swi,iMark);
+        AddTriangle(Msh,Msh->NbrTri,swi,iMark+1);
       }
       else if ( typ == SU2_RECTANGLE ) {          
         for (s=0; s<4; s++) {
@@ -421,7 +421,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
         }
 
         // switchQuaIdx(swi,is);
-        AddQuadrilateral(Msh,Msh->NbrQua,swi,iMark);
+        AddQuadrilateral(Msh,Msh->NbrQua,swi,iMark+1);
       }
       else if ( typ == SU2_LINE ) {
         for (s=0; s<2; s++) {
@@ -436,7 +436,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
           return 0;
         }
         
-        AddEdge(Msh,Msh->NbrEfr,swi,iMark);
+        AddEdge(Msh,Msh->NbrEfr,swi,iMark+1);
       }
       else {
         printf("  ## ERROR : Unknown element type %d\n", typ);
