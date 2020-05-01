@@ -56,7 +56,7 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
   Msh->FilTyp = FILE_GMF;
     
   Msh->NbrVer = Msh->NbrTri = Msh->NbrEfr = 0;
-  Msh->NbrTet = Msh->NbrHex = Msh->NbrQua = 0;
+  Msh->NbrTet = Msh->NbrHex = Msh->NbrQua = Msh->NbrPri = Msh->NbrPyr = 0;
   Msh->NbrCor = 0;
   
   NbrVer = NbrTri = NbrEfr = 0;
