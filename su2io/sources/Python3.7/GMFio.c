@@ -519,7 +519,7 @@ int WriteGMFMetric(char *MetNam, Mesh *Msh, int OptBin)
 
 int SplitQuads(char *nam, Mesh *Msh)
 {
-  int ref = 1;
+  int ref = 0;
   int iQua, is[3];
   int NbrQua = Msh->NbrQua;
 

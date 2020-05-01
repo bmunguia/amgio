@@ -224,7 +224,7 @@ int GetSU2KeywordValueStr (FILE *FilHdl, char *Kwd, char *StrVal)
 
 int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
 {
-  int  ref=1;
+  int  ref=0;
   char str[1024];
 
   int iMark, NbrMark=0, CptElt;
