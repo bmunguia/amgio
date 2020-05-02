@@ -269,7 +269,7 @@ void CheckPrism(int7* Pri, double3* Ver, int iPri) {
   n[2] = a[0]*b[1]-b[0]*a[1];
   const double test2 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
 
-  if ((tst1 < 0.0) || (test2 < 0.0)) {
+  if ((test1 < 0.0) || (test2 < 0.0)) {
     Pri[iPri][0] = Point1;
     Pri[iPri][1] = Point0;
     Pri[iPri][3] = Point4;
@@ -337,14 +337,14 @@ void CheckHexahedron(int9* Hex, double3* Ver, int iHex) {
   const double test4 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
 
   if ((test1 < 0.0) || (test2 < 0.0) || (test3 < 0.0) || (test4 < 0.0)) {
-    Point1 = Hex[iHex][1];
-    Point2 = Hex[iHex][3];
-    Point3 = Hex[iHex][5];
-    Point4 = Hex[iHex][7];
-    Hex[iHex][1] = Point1;
-    Hex[iHex][3] = Point2;
-    Hex[iHex][5] = Point3;
-    Hex[iHex][7] = Point4;
+    Point0 = Hex[iHex][1];
+    Point1 = Hex[iHex][3];
+    Point2 = Hex[iHex][5];
+    Point3 = Hex[iHex][7];
+    Hex[iHex][1] = Point0;
+    Hex[iHex][3] = Point1;
+    Hex[iHex][5] = Point2;
+    Hex[iHex][7] = Point3;
   }
 }
 

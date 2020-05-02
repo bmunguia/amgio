@@ -294,7 +294,7 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
   Mesh *Msh= NULL;
   int SizMsh[GmfMaxKwd+1];
   
-  int is[5], siz, ref, idx;
+  int is[5], ref, idx, siz=0;
   double crd[3];
   
   int NbrMarkers = 0;
@@ -957,7 +957,7 @@ void py_WriteMesh(char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTr
 void py_WriteSol(char *SolNam, PyObject *pyVer, PyObject *pySol, PyObject *pySolHeader, int NbrVer, int Dim)
 {
   
-  int siz, i, j, idx;
+  int i, j, idx, siz=0;
   int SolSiz=0, NbrFld=0, NbrTag=0;
   int *FldTab = NULL;
   
