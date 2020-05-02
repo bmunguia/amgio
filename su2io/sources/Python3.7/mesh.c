@@ -125,7 +125,7 @@ void CheckTriangle(int4* Tri, double3* Ver, int iTri) {
       Point2 = Tri[iTri][2];
 
   double2 a, b;
-  for (int iDim = 0; iDim < 2; Dim++) {
+  for (int iDim = 0; iDim < 2; iDim++) {
     a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
     b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
   }
@@ -144,25 +144,25 @@ void CheckQuadrilateral(int5* Qua, double3* Ver, int iQua) {
       Point3 = Qua[iQua][3];
 
   double2 a, b;
-  for (int iDim = 0; iDim < 2; Dim++) {
+  for (int iDim = 0; iDim < 2; iDim++) {
     a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
     b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
   }
   const double test1 = a[0]*b[1]-b[0]*a[1];
 
-  for (int iDim = 0; iDim < 2; Dim++) {
+  for (int iDim = 0; iDim < 2; iDim++) {
     a[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point1][iDim]);
     b[iDim] = 0.5*(Ver[Point3][iDim]-Ver[Point1][iDim]);
   }
   const double test2 = a[0]*b[1]-b[0]*a[1];
 
-  for (int iDim = 0; iDim < 2; Dim++) {
+  for (int iDim = 0; iDim < 2; iDim++) {
     a[iDim] = 0.5*(Ver[Point3][iDim]-Ver[Point2][iDim]);
     b[iDim] = 0.5*(Ver[Point0][iDim]-Ver[Point2][iDim]);
   }
   const double test3 = a[0]*b[1]-b[0]*a[1];
 
-  for (int iDim = 0; iDim < 2; Dim++) {
+  for (int iDim = 0; iDim < 2; iDim++) {
     a[iDim] = 0.5*(Ver[Point0][iDim]-Ver[Point3][iDim]);
     b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point3][iDim]);
   }
@@ -181,7 +181,7 @@ void CheckTetrahedron(int5* Tet, double3* Ver, int iTet) {
       Point3 = Tet[iTet][3];
 
   double3 a, b, c, n;
-  for (int iDim = 0; iDim < 3; Dim++) {
+  for (int iDim = 0; iDim < 3; iDim++) {
     a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
     b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
     c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
@@ -204,7 +204,7 @@ void CheckPyramid(int6* Pyr, double3* Ver, int iPyr) {
       Point3 = Pyr[iPyr][4];
 
   double3 a, b, c, n;
-  for (int iDim = 0; iDim < 3; Dim++) {
+  for (int iDim = 0; iDim < 3; iDim++) {
     a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
     b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
     c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
@@ -218,7 +218,7 @@ void CheckPyramid(int6* Pyr, double3* Ver, int iPyr) {
   Point1 = Pyr[iPyr][3];
   Point2 = Pyr[iPyr][0];
   Point3 = Pyr[iPyr][4];
-  for (int iDim = 0; iDim < 3; Dim++) {
+  for (int iDim = 0; iDim < 3; iDim++) {
     a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
     b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
     c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
@@ -245,7 +245,7 @@ void CheckPrism(int7* Pri, double3* Ver, int iPri) {
       Point5 = Pri[iPri][5];
 
   double3 a, b, c, n;
-  for (int iDim = 0; iDim < 3; Dim++) {
+  for (int iDim = 0; iDim < 3; iDim++) {
     a[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
     b[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
     c[iDim] = (Ver[Point3][iDim]-Ver[Point0][iDim])+
@@ -257,7 +257,7 @@ void CheckPrism(int7* Pri, double3* Ver, int iPri) {
   n[2] = a[0]*b[1]-b[0]*a[1];
   const double test1 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
 
-  for (int iDim = 0; iDim < 3; Dim++) {
+  for (int iDim = 0; iDim < 3; iDim++) {
     a[iDim] = 0.5*(Ver[Point4][iDim]-Ver[Point3][iDim]);
     b[iDim] = 0.5*(Ver[Point5][iDim]-Ver[Point3][iDim]);
     c[iDim] = (Ver[Point0][iDim]-Ver[Point3][iDim])+
@@ -284,7 +284,7 @@ void CheckHexahedron(int9* Hex, double3* Ver, int iHex) {
       Point3 = Hex[iHex][5];
 
   double3 a, b, c, n;
-  for (int iDim = 0; iDim < 3; Dim++) {
+  for (int iDim = 0; iDim < 3; iDim++) {
     a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
     b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
     c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
@@ -298,7 +298,7 @@ void CheckHexahedron(int9* Hex, double3* Ver, int iHex) {
   Point1 = Hex[iHex][3];
   Point2 = Hex[iHex][0];
   Point3 = Hex[iHex][7];
-  for (int iDim = 0; iDim < 3; Dim++) {
+  for (int iDim = 0; iDim < 3; iDim++) {
     a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
     b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
     c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
@@ -312,7 +312,7 @@ void CheckHexahedron(int9* Hex, double3* Ver, int iHex) {
   Point1 = Hex[iHex][2];
   Point2 = Hex[iHex][3];
   Point3 = Hex[iHex][6];
-  for (int iDim = 0; iDim < 3; Dim++) {
+  for (int iDim = 0; iDim < 3; iDim++) {
     a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
     b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
     c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
@@ -326,7 +326,7 @@ void CheckHexahedron(int9* Hex, double3* Ver, int iHex) {
   Point1 = Hex[iHex][0];
   Point2 = Hex[iHex][1];
   Point3 = Hex[iHex][4];
-  for (int iDim = 0; iDim < 3; Dim++) {
+  for (int iDim = 0; iDim < 3; iDim++) {
     a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
     b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
     c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
@@ -335,7 +335,8 @@ void CheckHexahedron(int9* Hex, double3* Ver, int iHex) {
   n[1] = b[0]*a[2]-a[0]*b[2];
   n[2] = a[0]*b[1]-b[0]*a[1];
   const double test4 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
-  if ((test_1 < 0.0) || (test_2 < 0.0) || (test_3 < 0.0) || (test_4 < 0.0)) {
+
+  if ((test1 < 0.0) || (test2 < 0.0) || (test3 < 0.0) || (test4 < 0.0)) {
     Point1 = Hex[iHex][1];
     Point2 = Hex[iHex][3];
     Point3 = Hex[iHex][5];
