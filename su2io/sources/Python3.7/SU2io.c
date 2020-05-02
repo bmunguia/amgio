@@ -378,7 +378,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
     
     GetSU2KeywordValueStr (FilHdl, "MARKER_TAG=", str);
     
-    if ( iMark < 10000-1 ) strcpy(Msh->Markers[iMark], str);
+    if ( iMark < 10000-1 ) strcpy(Msh->Markers[iMark-1], str);
     
     if ( !strcmp(str,"SEND_RECEIVE") ) {
       printf("      Tag %s was ignored.\n", str);
