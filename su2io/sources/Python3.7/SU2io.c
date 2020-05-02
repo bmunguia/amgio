@@ -378,7 +378,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh)
     
     GetSU2KeywordValueStr (FilHdl, "MARKER_TAG=", str);
     
-    if ( iMark < 10000-1 ) strcpy(Msh->Markers[iMark-1], str);
+    if ( iMark < 10000-1 ) strcpy(Msh->Markers[iMark], str);
     
     if ( !strcmp(str,"SEND_RECEIVE") ) {
       printf("      Tag %s was ignored.\n", str);
@@ -960,7 +960,7 @@ void WriteSU2Mesh(char *nam, Mesh *Msh)
     fprintf(OutFil, "NMARK= %d\n", NbrTag);
 
     start = 0;
-    for (iTag=0; iTag<NbrTag; iTag++) {
+    for (iTag=1; iTag<=NbrTag; iTag++) {
       fprintf(OutFil, "MARKER_TAG= %s\n", Msh->Markers[iTag]);
       
       cpt=1;
