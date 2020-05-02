@@ -5,6 +5,24 @@ Victorien Menier Feb 2016
 Brian Munguía Apr 2016
 */
 
+void AddCorner(Mesh *Msh, int idxCor, int *is)
+{
+  if ( idxCor > Msh->MaxNbrCor ) {
+    printf("  ## ERROR : Max number of corners reached (%d, max %d).\n", idxCor, Msh->MaxNbrCor);
+    exit(1);
+  }
+  Msh->Cor[idxCor] = is[0];
+}
+
+void AddVertex(Mesh *Msh, int idxVer, double *Crd)
+{  
+  Msh->Ver[idxVer][0] = Crd[0];
+  Msh->Ver[idxVer][1] = Crd[1];
+    
+  if ( Msh->Dim == 3 )
+    Msh->Ver[idxVer][2] = Crd[2];
+}
+
 void AddEdge(Mesh *Msh, int idx, int *is, int ref)
 {
   if ( idx > Msh->MaxNbrEfr ) {
@@ -17,21 +35,16 @@ void AddEdge(Mesh *Msh, int idx, int *is, int ref)
   Msh->Efr[idx][2] = ref;
 }
 
-void AddHexahedron(Mesh *Msh, int idx, int *is, int ref)
+void AddTriangle(Mesh *Msh, int idxTri, int *is, int ref)
 {
-  if ( idx > Msh->MaxNbrHex ) {
-    printf("  ## ERROR : Max number of hexas reached.\n");
+  if ( idxTri > Msh->MaxNbrTri ) {
+    printf("  ## ERROR : Max number of triangles reached (%d, max %d).\n", idxTri, Msh->MaxNbrTri);
     exit(1);
   }
-  Msh->Hex[idx][0] = is[0];
-  Msh->Hex[idx][1] = is[1];
-  Msh->Hex[idx][2] = is[2];
-  Msh->Hex[idx][3] = is[3];
-  Msh->Hex[idx][4] = is[4];
-  Msh->Hex[idx][5] = is[5];
-  Msh->Hex[idx][6] = is[6];
-  Msh->Hex[idx][7] = is[7];
-  Msh->Hex[idx][8] = ref;
+  Msh->Tri[idxTri][0] = is[0];
+  Msh->Tri[idxTri][1] = is[1];
+  Msh->Tri[idxTri][2] = is[2];
+  Msh->Tri[idxTri][3] = ref;
 }
 
 void AddQuadrilateral(Mesh *Msh, int idx, int *is, int ref)
@@ -89,34 +102,249 @@ void AddPrism(Mesh *Msh, int idx, int *is, int ref)
   Msh->Pri[idx][6] = ref;
 }
 
-void AddTriangle(Mesh *Msh, int idxTri, int *is, int ref)
+void AddHexahedron(Mesh *Msh, int idx, int *is, int ref)
 {
-  if ( idxTri > Msh->MaxNbrTri ) {
-    printf("  ## ERROR : Max number of triangles reached (%d, max %d).\n", idxTri, Msh->MaxNbrTri);
+  if ( idx > Msh->MaxNbrHex ) {
+    printf("  ## ERROR : Max number of hexas reached.\n");
     exit(1);
   }
-  Msh->Tri[idxTri][0] = is[0];
-  Msh->Tri[idxTri][1] = is[1];
-  Msh->Tri[idxTri][2] = is[2];
-  Msh->Tri[idxTri][3] = ref;
+  Msh->Hex[idx][0] = is[0];
+  Msh->Hex[idx][1] = is[1];
+  Msh->Hex[idx][2] = is[2];
+  Msh->Hex[idx][3] = is[3];
+  Msh->Hex[idx][4] = is[4];
+  Msh->Hex[idx][5] = is[5];
+  Msh->Hex[idx][6] = is[6];
+  Msh->Hex[idx][7] = is[7];
+  Msh->Hex[idx][8] = ref;
 }
 
-void AddCorner(Mesh *Msh, int idxCor, int *is)
-{
-  if ( idxCor > Msh->MaxNbrCor ) {
-    printf("  ## ERROR : Max number of corners reached (%d, max %d).\n", idxCor, Msh->MaxNbrCor);
-    exit(1);
+void CheckTriangle(int4* Tri, double3* Ver, int iTri) {
+  int Point0 = Tri[iTri][0],
+      Point1 = Tri[iTri][1],
+      Point2 = Tri[iTri][2];
+
+  double2 a, b;
+  for (int iDim = 0; iDim < 2; Dim++) {
+    a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
+    b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
   }
-  Msh->Cor[idxCor] = is[0];
+  const double test = a[0]*b[1]-b[0]*a[1];
+
+  if (test < 0.0) {
+    Tri[iTri][0] = Point2;
+    Tri[iTri][2] = Point0;
+  }
 }
 
-void AddVertex(Mesh *Msh, int idxVer, double *Crd)
-{  
-  Msh->Ver[idxVer][0] = Crd[0];
-  Msh->Ver[idxVer][1] = Crd[1];
-    
-  if ( Msh->Dim == 3 )
-    Msh->Ver[idxVer][2] = Crd[2];
+void CheckQuadrilateral(int5* Qua, double3* Ver, int iQua) {
+  int Point0 = Qua[iQua][0],
+      Point1 = Qua[iQua][1],
+      Point2 = Qua[iQua][2],
+      Point3 = Qua[iQua][3];
+
+  double2 a, b;
+  for (int iDim = 0; iDim < 2; Dim++) {
+    a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
+    b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
+  }
+  const double test1 = a[0]*b[1]-b[0]*a[1];
+
+  for (int iDim = 0; iDim < 2; Dim++) {
+    a[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point1][iDim]);
+    b[iDim] = 0.5*(Ver[Point3][iDim]-Ver[Point1][iDim]);
+  }
+  const double test2 = a[0]*b[1]-b[0]*a[1];
+
+  for (int iDim = 0; iDim < 2; Dim++) {
+    a[iDim] = 0.5*(Ver[Point3][iDim]-Ver[Point2][iDim]);
+    b[iDim] = 0.5*(Ver[Point0][iDim]-Ver[Point2][iDim]);
+  }
+  const double test3 = a[0]*b[1]-b[0]*a[1];
+
+  for (int iDim = 0; iDim < 2; Dim++) {
+    a[iDim] = 0.5*(Ver[Point0][iDim]-Ver[Point3][iDim]);
+    b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point3][iDim]);
+  }
+  const double test4 = a[0]*b[1]-b[0]*a[1];
+
+  if ((test1 < 0.0) && (test2 < 0.0) && (test3 < 0.0) && (test4 < 0.0)) {
+    Qua[iQua][1] = Point3;
+    Qua[iQua][3] = Point1;
+  }
+}
+
+void CheckTetrahedron(int5* Tet, double3* Ver, int iTet) {
+  int Point0 = Tet[iTet][0],
+      Point1 = Tet[iTet][1],
+      Point2 = Tet[iTet][2],
+      Point3 = Tet[iTet][3];
+
+  double3 a, b, c, n;
+  for (int iDim = 0; iDim < 3; Dim++) {
+    a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
+    b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
+    c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+
+  if (test < 0.0) {
+    Tet[iTet][0] = Point1;
+    Tet[iTet][1] = Point0;
+  }
+}
+
+void CheckPyramid(int6* Pyr, double3* Ver, int iPyr) {
+  int Point0 = Pyr[iPyr][0],
+      Point1 = Pyr[iPyr][1],
+      Point2 = Pyr[iPyr][2],
+      Point3 = Pyr[iPyr][4];
+
+  double3 a, b, c, n;
+  for (int iDim = 0; iDim < 3; Dim++) {
+    a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
+    b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
+    c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test1 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+
+  Point0 = Pyr[iPyr][2];
+  Point1 = Pyr[iPyr][3];
+  Point2 = Pyr[iPyr][0];
+  Point3 = Pyr[iPyr][4];
+  for (int iDim = 0; iDim < 3; Dim++) {
+    a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
+    b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
+    c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test2 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+
+  if ((test1 < 0.0) || (test2 < 0.0)) {
+    Point1 = Pyr[iPyr][1];
+    Point3 = Pyr[iPyr][3];
+    Pyr[iPyr][1] = Point3;
+    Pyr[iPyr][3] = Point1;
+  }
+}
+
+void CheckPrism(int7* Pri, double3* Ver, int iPri) {
+  int Point0 = Pri[iPri][0],
+      Point1 = Pri[iPri][1],
+      Point2 = Pri[iPri][2],
+      Point3 = Pri[iPri][3],
+      Point4 = Pri[iPri][4],
+      Point5 = Pri[iPri][5];
+
+  double3 a, b, c, n;
+  for (int iDim = 0; iDim < 3; Dim++) {
+    a[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
+    b[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
+    c[iDim] = (Ver[Point3][iDim]-Ver[Point0][iDim])+
+              (Ver[Point4][iDim]-Ver[Point1][iDim])+
+              (Ver[Point5][iDim]-Ver[Point2][iDim]);
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test1 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+
+  for (int iDim = 0; iDim < 3; Dim++) {
+    a[iDim] = 0.5*(Ver[Point4][iDim]-Ver[Point3][iDim]);
+    b[iDim] = 0.5*(Ver[Point5][iDim]-Ver[Point3][iDim]);
+    c[iDim] = (Ver[Point0][iDim]-Ver[Point3][iDim])+
+              (Ver[Point1][iDim]-Ver[Point4][iDim])+
+              (Ver[Point2][iDim]-Ver[Point5][iDim]);
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test2 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+
+  if ((tst1 < 0.0) || (test2 < 0.0)) {
+    Pri[iPri][0] = Point1;
+    Pri[iPri][1] = Point0;
+    Pri[iPri][3] = Point4;
+    Pri[iPri][4] = Point3;
+  }
+}
+
+void CheckHexahedron(int9* Hex, double3* Ver, int iHex) {
+  int Point0 = Hex[iHex][0],
+      Point1 = Hex[iHex][1],
+      Point2 = Hex[iHex][2],
+      Point3 = Hex[iHex][5];
+
+  double3 a, b, c, n;
+  for (int iDim = 0; iDim < 3; Dim++) {
+    a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
+    b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
+    c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test1 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+
+  Point0 = Hex[iHex][2];
+  Point1 = Hex[iHex][3];
+  Point2 = Hex[iHex][0];
+  Point3 = Hex[iHex][7];
+  for (int iDim = 0; iDim < 3; Dim++) {
+    a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
+    b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
+    c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test2 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+
+  Point0 = Hex[iHex][1];
+  Point1 = Hex[iHex][2];
+  Point2 = Hex[iHex][3];
+  Point3 = Hex[iHex][6];
+  for (int iDim = 0; iDim < 3; Dim++) {
+    a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
+    b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
+    c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test3 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+
+  Point0 = Hex[iHex][3];
+  Point1 = Hex[iHex][0];
+  Point2 = Hex[iHex][1];
+  Point3 = Hex[iHex][4];
+  for (int iDim = 0; iDim < 3; Dim++) {
+    a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
+    b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
+    c[iDim] = Ver[Point3][iDim]-Ver[Point0][iDim];
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test4 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+  if ((test_1 < 0.0) || (test_2 < 0.0) || (test_3 < 0.0) || (test_4 < 0.0)) {
+    Point1 = Hex[iHex][1];
+    Point2 = Hex[iHex][3];
+    Point3 = Hex[iHex][5];
+    Point4 = Hex[iHex][7];
+    Hex[iHex][1] = Point1;
+    Hex[iHex][3] = Point2;
+    Hex[iHex][5] = Point3;
+    Hex[iHex][7] = Point4;
+  }
 }
 
 Mesh* AllocMesh (int * SizMsh)
@@ -419,6 +647,9 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
     if ( strcmp(SolNam,"") )
       LoadGMFSolution(SolNam, Msh);
   }
+
+  CheckVolumeElementOrientation(Msh);
+
   return Msh;
 }
 
@@ -457,6 +688,38 @@ Mesh *SetupSolution (char *SolNam, int NbrVer, int Dim)
     LoadGMFSolution(SolNam, Sol);
   }
   return Sol;
+}
+
+void CheckVolumeElementOrientation(Mesh *Msh) {
+
+  double3* Ver = Msh->Ver;
+  int i;
+  
+  /*--- Check tri and quad orientation ---*/
+  if (Msh->Dim == 2) {
+    for (i = 1; i <= Msh->NbrTri; i++) {
+      CheckTriangle(Msh->Tri, Msh->Ver, i);
+    }
+    for (i = 1; i <= Msh->NbrQua; i++) {
+      CheckQuadrilateral(Msh->Qua, Msh->Ver, i);
+    }
+  }
+  /*--- Check tet, pyr, pri, and hex orientation ---*/
+  else {
+    for (i = 1; i <= Msh->NbrTet; i++) {
+      CheckTetrahedron(Msh->Tet, Msh->Ver, i);
+    }
+    for (i = 1; i <= Msh->NbrPyr; i++) {
+      CheckPyramid(Msh->Pyr, Msh->Ver, i);
+    }
+    for (i = 1; i <= Msh->NbrPri; i++) {
+      CheckPrism(Msh->Pri, Msh->Ver, i);
+    }
+    for (i = 1; i <= Msh->NbrHex; i++) {
+      CheckHexahedron(Msh->Hex, Msh->Ver, i);
+    }
+  }
+
 }
 
 void CopyBoundaryMarkers (Mesh *Msh, Mesh *BndMsh)

@@ -83,6 +83,23 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
     }  
   }
 
+  //--- Read corners
+  NbrCor = GmfStatKwd(InpMsh, GmfCorners);  
+  GmfGotoKwd(InpMsh, GmfCorners);
+  for (i=1; i<=NbrCor; ++i) {
+    GmfGetLin(InpMsh, GmfCorners, &bufInt[0]);
+    Msh->NbrCor++;
+    AddCorner(Msh,Msh->NbrCor,bufInt);
+  }
+
+  //--- Read boundary edges
+  NbrEfr = GmfStatKwd(InpMsh, GmfEdges);  
+  GmfGotoKwd(InpMsh, GmfEdges);
+  for (i=1; i<=NbrEfr; ++i) {
+    GmfGetLin(InpMsh, GmfEdges, &bufInt[0], &bufInt[1], &ref);
+    Msh->NbrEfr++;
+    AddEdge(Msh,Msh->NbrEfr,bufInt,ref);
+  }
 
   //--- Read Triangles
   NbrTri = GmfStatKwd(InpMsh, GmfTriangles);  
@@ -105,24 +122,6 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
     // AddQuadrilateral(Msh,Msh->NbrQua,is,ref);
     AddQuadrilateral(Msh,Msh->NbrQua,bufInt,ref);
   }
-  
-  //--- Read boundary edges
-  NbrEfr = GmfStatKwd(InpMsh, GmfEdges);  
-  GmfGotoKwd(InpMsh, GmfEdges);
-  for (i=1; i<=NbrEfr; ++i) {
-    GmfGetLin(InpMsh, GmfEdges, &bufInt[0], &bufInt[1], &ref);
-    Msh->NbrEfr++;
-    AddEdge(Msh,Msh->NbrEfr,bufInt,ref);
-  }
-
-  //--- Read corners
-  NbrCor = GmfStatKwd(InpMsh, GmfCorners);  
-  GmfGotoKwd(InpMsh, GmfCorners);
-  for (i=1; i<=NbrCor; ++i) {
-    GmfGetLin(InpMsh, GmfCorners, &bufInt[0]);
-    Msh->NbrCor++;
-    AddCorner(Msh,Msh->NbrCor,bufInt);
-  }
 
   //--- Read tetrahedra
   NbrTet = GmfStatKwd(InpMsh, GmfTetrahedra);  
@@ -132,7 +131,15 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
     Msh->NbrTet++;
     AddTetrahedron(Msh,Msh->NbrTet,bufInt,ref);
   }
-  
+
+  //--- Read Pyramids
+  NbrPyr = GmfStatKwd(InpMsh, GmfPyramids);  
+  GmfGotoKwd(InpMsh, GmfPyramids);
+  for (i=1; i<=NbrPyr; ++i) {
+    GmfGetLin(InpMsh, GmfPyramids, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3],  &bufInt[4], &ref);
+    Msh->NbrPyr++;
+    AddPyramid(Msh,Msh->NbrPyr,bufInt,ref);
+  }
 
   //--- Read Prisms
   NbrPri = GmfStatKwd(InpMsh, GmfPrisms);  
@@ -141,15 +148,6 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
     GmfGetLin(InpMsh, GmfPrisms, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3],  &bufInt[4],  &bufInt[5], &ref);
     Msh->NbrPri++;
     AddPrism(Msh,Msh->NbrPri,bufInt,ref);
-  }
-  
-  //--- Read Pyramids
-  NbrPyr = GmfStatKwd(InpMsh, GmfPyramids);  
-  GmfGotoKwd(InpMsh, GmfPyramids);
-  for (i=1; i<=NbrPyr; ++i) {
-    GmfGetLin(InpMsh, GmfPyramids, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3],  &bufInt[4], &ref);
-    Msh->NbrPyr++;
-    AddPyramid(Msh,Msh->NbrPyr,bufInt,ref);
   }
   
   //--- Read Hexahedra
@@ -322,6 +320,26 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
       GmfSetLin(OutMsh, GmfVertices,Ver[iVer][0],Ver[iVer][1],Ver[iVer][2],0);  
     }
   }
+
+  if ( Msh->NbrCor ) {
+    //--- Write corners
+    GmfSetKwd(OutMsh, GmfCorners, NbrCor);
+    for (iCor=1; iCor<=NbrCor; ++iCor) {
+       idx[0] = (long long)(Cor[iCor]);
+      GmfSetLin(OutMsh, GmfCorners,idx[0]);  
+    }
+  }
+
+  if ( Msh->NbrEfr ) {
+    //--- Write Edges
+    GmfSetKwd(OutMsh, GmfEdges, NbrEfr);
+    for (iEfr=1; iEfr<=NbrEfr; ++iEfr) {
+      for (i=0; i<2; ++i) {
+        idx[i] = (long long)(Efr[iEfr][i]);
+      }
+      GmfSetLin(OutMsh, GmfEdges,idx[0],idx[1],Efr[iEfr][2]);  
+    }
+  }
   
   
   if ( Msh->Tri > 0 ) {
@@ -346,7 +364,6 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
     }
   }
 
-
   if ( Msh->Tet > 0 ) {
     //--- Write tetrahedra
     GmfSetKwd(OutMsh, GmfTetrahedra, Msh->NbrTet);
@@ -355,30 +372,6 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
         idx[i] = (long long)(Tet[iTet][i]);
       }
       GmfSetLin(OutMsh, GmfTetrahedra,idx[0],idx[1],idx[2],idx[3],Tet[iTet][4]);  
-    }
-  }
-
-  if ( Msh->Hex > 0 ) {
-    //--- Write hexahedra
-    GmfSetKwd(OutMsh, GmfHexahedra, NbrHex);
-    for (i=1; i<=NbrHex; ++i) {
-      for (j=0; j<8; ++j) {
-        idx[j] = (long long)(Hex[i][j]);
-      }
-            
-      GmfSetLin(OutMsh, GmfHexahedra,idx[0],idx[1],idx[2],idx[3],idx[4],idx[5],idx[6],idx[7],Hex[i][8]);  
-    }
-  }
-
-  if ( Msh->Pri > 0  ) {
-    //--- Write prisms
-    GmfSetKwd(OutMsh, GmfPrisms, Msh->NbrPri);
-    for (i=1; i<=Msh->NbrPri; ++i) {
-      for (j=0; j<6; ++j) {
-        idx[j] = (long long)(Msh->Pri[i][j]);
-      }
-            
-      GmfSetLin(OutMsh, GmfPrisms,idx[0],idx[1],idx[2],idx[3],idx[4],idx[5],Msh->Pri[i][6]);  
     }
   }
 
@@ -392,24 +385,28 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
       GmfSetLin(OutMsh, GmfPyramids,idx[0],idx[1],idx[2],idx[3],idx[4],Msh->Pyr[i][5]);  
     }
   }  
-  
-  if ( Msh->NbrEfr ) {
-    //--- Write Edges
-    GmfSetKwd(OutMsh, GmfEdges, NbrEfr);
-    for (iEfr=1; iEfr<=NbrEfr; ++iEfr) {
-      for (i=0; i<2; ++i) {
-        idx[i] = (long long)(Efr[iEfr][i]);
+
+  if ( Msh->Pri > 0  ) {
+    //--- Write prisms
+    GmfSetKwd(OutMsh, GmfPrisms, Msh->NbrPri);
+    for (i=1; i<=Msh->NbrPri; ++i) {
+      for (j=0; j<6; ++j) {
+        idx[j] = (long long)(Msh->Pri[i][j]);
       }
-      GmfSetLin(OutMsh, GmfEdges,idx[0],idx[1],Efr[iEfr][2]);  
+            
+      GmfSetLin(OutMsh, GmfPrisms,idx[0],idx[1],idx[2],idx[3],idx[4],idx[5],Msh->Pri[i][6]);  
     }
   }
 
-  if ( Msh->NbrCor ) {
-    //--- Write corners
-    GmfSetKwd(OutMsh, GmfCorners, NbrCor);
-    for (iCor=1; iCor<=NbrCor; ++iCor) {
-       idx[0] = (long long)(Cor[iCor]);
-      GmfSetLin(OutMsh, GmfCorners,idx[0]);  
+  if ( Msh->Hex > 0 ) {
+    //--- Write hexahedra
+    GmfSetKwd(OutMsh, GmfHexahedra, NbrHex);
+    for (i=1; i<=NbrHex; ++i) {
+      for (j=0; j<8; ++j) {
+        idx[j] = (long long)(Hex[i][j]);
+      }
+            
+      GmfSetLin(OutMsh, GmfHexahedra,idx[0],idx[1],idx[2],idx[3],idx[4],idx[5],idx[6],idx[7],Hex[i][8]);  
     }
   }
 
