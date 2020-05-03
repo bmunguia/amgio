@@ -821,26 +821,26 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
   double3* Ver = Msh->Ver;
   int i, j, k, l;
   int nbrcheck;
-  bool check[8];
+  int check[8];
   
   /*--- Check edge orientation ---*/
   if (Msh->Dim == 2) {
     for (i = 1; i <= Msh->NbrEfr; i++) {
       nbrcheck = 0;
-      for (k = 0; k < 4; k++) check[k] = false;
+      for (k = 0; k < 4; k++) check[k] = 0;
 
       /*--- Check if edge is part of quads ---*/
       for (j = 1; j <= Msh->NbrQua; j++) {
         for (k = 0; k < 4; k++) {
           if ((Msh->Qua[j][k] == Msh->Efr[i][0]) ||
               (Msh->Qua[j][k] == Msh->Efr[i][1])) {
-            check[k] = true;
+            check[k] = 1;
             nbrcheck++;
           }
         }
         if (nbrcheck == 2) {
           for (k = 0; k < 4; k++) {
-            if (!check[k]) {
+            if (check[k]==0) {
               CheckBoundEdge(Msh->Efr, Msh->Ver, i, Msh->Qua[j][k]);
               break;
             }
@@ -852,19 +852,19 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
       /*--- Check if edge is part of tris ---*/
       if (nbrcheck < 2) {
         nbrcheck = 0;
-        for (k = 0; k < 3; k++) check[k] = false;
+        for (k = 0; k < 3; k++) check[k] = 0;
 
         for (j = 1; j <= Msh->NbrTri; j++) {
           for (k = 0; k < 3; k++) {
             if ((Msh->Tri[j][k] == Msh->Efr[i][0]) ||
                 (Msh->Tri[j][k] == Msh->Efr[i][1])) {
-              check[k] = true;
+              check[k] = 1;
               nbrcheck++;
             }
           }
           if (nbrcheck == 2) {
             for (k = 0; k < 3; k++) {
-              if (!check[k]) {
+              if (check[k]==0) {
                 CheckBoundEdge(Msh->Efr, Msh->Ver, i, Msh->Tri[j][k]);
                 break;
               }
@@ -880,7 +880,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
   else {
     for (i = 1; i <= Msh->NbrTri; i++) {
       nbrcheck = 0;
-      for (k = 0; k < 4; k++) check[k] = false;
+      for (k = 0; k < 4; k++) check[k] = 0;
 
       /*--- Check if tri is part of tets ---*/
       for (j = 1; j <= Msh->NbrTet; j++) {
@@ -888,13 +888,13 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
           if ((Msh->Tet[j][k] == Msh->Tri[i][0]) ||
               (Msh->Tet[j][k] == Msh->Tri[i][1]) ||
               (Msh->Tet[j][k] == Msh->Tri[i][2])) {
-            check[k] = true;
+            check[k] = 1;
             nbrcheck++;
           }
         }
         if (nbrcheck == 3) {
           for (k = 0; k < 4; k++) {
-            if (!check[k]) {
+            if (check[k]==0) {
               CheckBoundTriangle(Msh->Tri, Msh->Ver, i, Msh->Tet[j][k]);
               break;
             }
@@ -906,20 +906,20 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
       /*--- Check if tri is part of pris ---*/
       if (nbrcheck < 3) {
         nbrcheck = 0;
-        for (k = 0; k < 6; k++) check[k] = false;
+        for (k = 0; k < 6; k++) check[k] = 0;
 
         for (j = 1; j <= Msh->NbrPri; j++) {
           for (k = 0; k < 6; k++) {
             if ((Msh->Pri[j][k] == Msh->Tri[i][0]) ||
                 (Msh->Pri[j][k] == Msh->Tri[i][1]) ||
                 (Msh->Pri[j][k] == Msh->Tri[i][2])) {
-              check[k] = true;
+              check[k] = 1;
               nbrcheck++;
             }
           }
           if (nbrcheck == 3) {
             for (k = 0; k < 6; k++) {
-              if (!check[k]) {
+              if (check[k]==0) {
                 CheckBoundTriangle(Msh->Tri, Msh->Ver, i, Msh->Pri[j][k]);
                 break;
               }
@@ -932,20 +932,20 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
       /*--- Check if tri is part of pyrs ---*/
       if (nbrcheck < 3) {
         nbrcheck = 0;
-        for (k = 0; k < 5; k++) check[k] = false;
+        for (k = 0; k < 5; k++) check[k] = 0;
 
         for (j = 1; j <= Msh->NbrPyr; j++) {
           for (k = 0; k < 5; k++) {
             if ((Msh->Pyr[j][k] == Msh->Tri[i][0]) ||
                 (Msh->Pyr[j][k] == Msh->Tri[i][1]) ||
                 (Msh->Pyr[j][k] == Msh->Tri[i][2])) {
-              check[k] = true;
+              check[k] = 1;
               nbrcheck++;
             }
           }
           if (nbrcheck == 3) {
             for (k = 0; k < 5; k++) {
-              if (!check[k]) {
+              if (check[k]==0) {
                 CheckBoundTriangle(Msh->Tri, Msh->Ver, i, Msh->Pyr[j][k]);
                 break;
               }
@@ -958,7 +958,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
 
     for (i = 1; i <= Msh->NbrQua; i++) {
       nbrcheck = 0;
-      for (k = 0; k < 8; k++) check[k] = false;
+      for (k = 0; k < 8; k++) check[k] = 0;
 
       /*--- Check if qua is part of hexs ---*/
       for (j = 1; j <= Msh->NbrHex; j++) {
@@ -967,13 +967,13 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
               (Msh->Hex[j][k] == Msh->Qua[i][1]) ||
               (Msh->Hex[j][k] == Msh->Qua[i][2]) ||
               (Msh->Hex[j][k] == Msh->Qua[i][3])) {
-            check[k] = true;
+            check[k] = 1;
             nbrcheck++;
           }
         }
         if (nbrcheck == 4) {
           for (k = 0; k < 8; k++) {
-            if (!check[k]) {
+            if (check[k]==0) {
               CheckBoundQuadrilateral(Msh->Qua, Msh->Ver, i, Msh->Hex[j][k]);
               break;
             }
@@ -985,7 +985,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
       /*--- Check if qua is part of pris ---*/
       if (nbrcheck < 4) {
         nbrcheck = 0;
-        for (k = 0; k < 6; k++) check[k] = false;
+        for (k = 0; k < 6; k++) check[k] = 0;
 
         for (j = 1; j <= Msh->NbrPri; j++) {
           for (k = 0; k < 6; k++) {
@@ -993,13 +993,13 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
                 (Msh->Pri[j][k] == Msh->Qua[i][1]) ||
                 (Msh->Pri[j][k] == Msh->Qua[i][2]) ||
                 (Msh->Pri[j][k] == Msh->Qua[i][3])) {
-              check[k] = true;
+              check[k] = 1;
               nbrcheck++;
             }
           }
           if (nbrcheck == 4) {
             for (k = 0; k < 6; k++) {
-              if (!check[k]) {
+              if (check[k]==0) {
                 CheckBoundQuadrilateral(Msh->Qua, Msh->Ver, i, Msh->Pri[j][k]);
                 break;
               }
@@ -1012,7 +1012,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
       /*--- Check if tri is part of pyrs ---*/
       if (nbrcheck < 4) {
         nbrcheck = 0;
-        for (k = 0; k < 5; k++) check[k] = false;
+        for (k = 0; k < 5; k++) check[k] = 0;
 
         for (j = 1; j <= Msh->NbrPyr; j++) {
           for (k = 0; k < 5; k++) {
@@ -1020,13 +1020,13 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
                 (Msh->Pyr[j][k] == Msh->Qua[i][1]) ||
                 (Msh->Pyr[j][k] == Msh->Qua[i][2]) ||
                 (Msh->Pyr[j][k] == Msh->Qua[i][3])) {
-              check[k] = true;
+              check[k] = 1;
               nbrcheck++;
             }
           }
           if (nbrcheck == 4) {
             for (k = 0; k < 5; k++) {
-              if (!check[k]) {
+              if (check[k]==0) {
                 CheckBoundQuadrilateral(Msh->Qua, Msh->Ver, i, Msh->Pyr[j][k]);
                 break;
               }
