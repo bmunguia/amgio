@@ -570,7 +570,7 @@ Conn* AllocConn (int NbrVer)
   Con->NbrPri = (int*)malloc(sizeof(int)*(NbrVer+1));
   Con->NbrPyr = (int*)malloc(sizeof(int)*(NbrVer+1));
 
-  for (int iVer = 0; iVer < NbrVer; iVer++) {
+  for (int iVer = 1; iVer <= NbrVer; iVer++) {
     Con->NbrEfr[iVer] = 0;
     Con->NbrTri[iVer] = 0;
     Con->NbrTet[iVer] = 0;
