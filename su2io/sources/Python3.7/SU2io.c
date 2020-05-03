@@ -506,7 +506,7 @@ int LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con)
       
       for (s=0; s<3; s++) {
         fscanf(FilHdl, "%d", &buf);
-        Con->Tri[Con->NbrTri[buf+1]] = Msh->NbrTri+1;
+        Con->Tri[buf+1][Con->NbrTri[buf+1]] = Msh->NbrTri+1;
         Con->NbrTri[buf+1]++;
       }
 
@@ -524,7 +524,7 @@ int LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con)
     else if ( typ == SU2_RECTANGLE ) {
       for (s=0; s<4; s++) {
         fscanf(FilHdl, "%d", &buf);
-        Con->Qua[Con->NbrQua[buf+1]] = Msh->NbrQua+1;
+        Con->Qua[buf+1][Con->NbrQua[buf+1]] = Msh->NbrQua+1;
         Con->NbrQua[buf+1]++;
       }
 
@@ -542,7 +542,7 @@ int LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con)
     else if ( typ == SU2_TETRAHEDRAL ) {
       for (s=0; s<4; s++) {
         fscanf(FilHdl, "%d", &buf);
-        Con->Tet[Con->NbrTet[buf+1]] = Msh->NbrTet+1;
+        Con->Tet[buf+1][Con->NbrTet[buf+1]] = Msh->NbrTet+1;
         Con->NbrTet[buf+1]++;
       }
 
@@ -560,7 +560,7 @@ int LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con)
     else if ( typ == SU2_PYRAMID ) {
       for (s=0; s<5; s++) {
         fscanf(FilHdl, "%d", &buf);
-        Con->Pyr[Con->NbrPyr[buf+1]] = Msh->NbrPyr+1;
+        Con->Pyr[buf+1][Con->NbrPyr[buf+1]] = Msh->NbrPyr+1;
         Con->NbrPyr[buf+1]++;
       }
 
@@ -578,7 +578,7 @@ int LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con)
     else if ( typ == SU2_WEDGE ) {    
       for (s=0; s<6; s++) {
         fscanf(FilHdl, "%d", &buf);
-        Con->Pri[Con->NbrTri[buf+1]] = Msh->NbrPri+1;
+        Con->Pri[buf+1][Con->NbrTri[buf+1]] = Msh->NbrPri+1;
         Con->NbrPri[buf+1]++;
       }
 
@@ -596,7 +596,7 @@ int LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con)
     else if ( typ == SU2_HEXAHEDRAL ) {
       for (s=0; s<8; s++) {
         fscanf(FilHdl, "%d", &buf);
-        Con->Hex[Con->NbrHex[buf+1]] = Msh->NbrHex+1;
+        Con->Hex[buf+1][Con->NbrHex[buf+1]] = Msh->NbrHex+1;
         Con->NbrHex[buf+1]++;
       }
 
@@ -647,7 +647,7 @@ int LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con)
       if ( typ == SU2_TRIANGLE ) {
         for (s=0; s<3; s++) {
           fscanf(FilHdl, "%d", &buf);
-          Con->Tri[Con->NbrTri[buf+1]] = Msh->NbrTri+1;
+          Con->Tri[buf+1][Con->NbrTri[buf+1]] = Msh->NbrTri+1;
           Con->NbrTri[buf+1]++;
         }
 
@@ -664,7 +664,7 @@ int LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con)
       else if ( typ == SU2_RECTANGLE ) {          
         for (s=0; s<4; s++) {
           fscanf(FilHdl, "%d", &buf);
-          Con->Qua[Con->NbrQua[buf+1]] = Msh->NbrQua+1;
+          Con->Qua[buf+1][Con->NbrQua[buf+1]] = Msh->NbrQua+1;
           Con->NbrQua[buf+1]++;
         }
         
@@ -681,7 +681,7 @@ int LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con)
       else if ( typ == SU2_LINE ) {
         for (s=0; s<2; s++) {
           fscanf(FilHdl, "%d", &buf);
-          Con->Efr[Con->NbrEfr[buf+1]] = Msh->NbrEfr+1;
+          Con->Efr[buf+1][Con->NbrEfr[buf+1]] = Msh->NbrEfr+1;
           Con->NbrEfr[buf+1]++;
         }
 

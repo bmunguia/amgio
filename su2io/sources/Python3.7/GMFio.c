@@ -223,7 +223,7 @@ int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
     GmfGetLin(InpMsh, GmfEdges, &bufInt[0], &bufInt[1], &ref);
     Msh->NbrEfr++;
     for (j = 0; j < 2; j++) {
-      Con->Efr[Con->NbrEfr[bufInt[j]]] = Msh->NbrEfr;
+      Con->Efr[bufInt[j]][Con->NbrEfr[bufInt[j]]] = Msh->NbrEfr;
       Con->NbrEfr[bufInt[j]]++;
     }
   }
@@ -235,7 +235,7 @@ int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
     GmfGetLin(InpMsh, GmfTriangles, &bufInt[0], &bufInt[1], &bufInt[2], &ref);
     Msh->NbrTri++;
     for (j = 0; j < 3; j++) {
-      Con->Tri[Con->NbrEfr[bufInt[j]]] = Msh->NbrTri;
+      Con->Tri[bufInt[j]][Con->NbrEfr[bufInt[j]]] = Msh->NbrTri;
       Con->NbrTri[bufInt[j]]++;
     }
   }
@@ -247,7 +247,7 @@ int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
     GmfGetLin(InpMsh, GmfQuadrilaterals, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3], &ref);
     Msh->NbrQua++;
     for (j = 0; j < 4; j++) {
-      Con->Qua[Con->NbrQua[bufInt[j]]] = Msh->NbrQua;
+      Con->Qua[bufInt[j]][Con->NbrQua[bufInt[j]]] = Msh->NbrQua;
       Con->NbrQua[bufInt[j]]++;
     }
   }
@@ -259,7 +259,7 @@ int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
     GmfGetLin(InpMsh, GmfTetrahedra, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3], &ref);
     Msh->NbrTet++;
     for (j = 0; j < 4; j++) {
-      Con->Tet[Con->NbrTet[bufInt[j]]] = Msh->NbrTet;
+      Con->Tet[bufInt[j]][Con->NbrTet[bufInt[j]]] = Msh->NbrTet;
       Con->NbrTet[bufInt[j]]++;
     }
   }
@@ -271,7 +271,7 @@ int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
     GmfGetLin(InpMsh, GmfPyramids, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3],  &bufInt[4], &ref);
     Msh->NbrPyr++;
     for (j = 0; j < 5; j++) {
-      Con->Pyr[Con->NbrPyr[bufInt[j]]] = Msh->NbrPyr;
+      Con->Pyr[bufInt[j]][Con->NbrPyr[bufInt[j]]] = Msh->NbrPyr;
       Con->NbrPyr[bufInt[j]]++;
     }
   }
@@ -283,7 +283,7 @@ int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
     GmfGetLin(InpMsh, GmfPrisms, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3],  &bufInt[4],  &bufInt[5], &ref);
     Msh->NbrPri++;
     for (j = 0; j < 6; j++) {
-      Con->Pri[Con->NbrPri[bufInt[j]]] = Msh->NbrPri;
+      Con->Pri[bufInt[j]][Con->NbrPri[bufInt[j]]] = Msh->NbrPri;
       Con->NbrPri[bufInt[j]]++;
     }
   }
@@ -295,7 +295,7 @@ int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
     GmfGetLin(InpMsh, GmfHexahedra, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3], &bufInt[4], &bufInt[5], &bufInt[6], &bufInt[7], &ref);
     Msh->NbrHex++;
     for (j = 0; j < 8; j++) {
-      Con->Hex[Con->NbrHex[bufInt[j]]] = Msh->NbrHex;
+      Con->Hex[bufInt[j]][Con->NbrHex[bufInt[j]]] = Msh->NbrHex;
       Con->NbrHex[bufInt[j]]++;
     }
   }
