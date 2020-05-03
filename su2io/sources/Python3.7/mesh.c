@@ -797,7 +797,7 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
   Conn *Con = NULL;
   int SizMsh[GmfMaxSizMsh+1];
   int FilTyp = GetInputFileType(MshNam);
-  int val;
+  int val=0;
   
   if ( !FilTyp ) {
     printf("  ## ERROR SetupMeshAndSolution : Unknown mesh format.\n");
@@ -1478,7 +1478,7 @@ int GetInputFileType (char *FilNam)
 //--- Transforms all letters to lower case
 int Str2Lower(char *buff)
 {
-  int iChr;
+  unsigned int iChr;
   
   for (iChr=0; iChr<strlen(buff); iChr++) 
     buff[iChr] = tolower( buff[iChr] );
