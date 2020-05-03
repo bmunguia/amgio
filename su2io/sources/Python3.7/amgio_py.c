@@ -90,7 +90,7 @@ int py_SplitSol(char *SolNam, int dim, char *prefix, char *adap_sensor)
   LoadSU2Solution(SolNam, Msh);
   
   Msh->Dim = dim;
-  SplitSolution(Msh, prefix, adap_sensor);
+  return SplitSolution(Msh, prefix, adap_sensor);
   
 }
 
