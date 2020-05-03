@@ -591,40 +591,6 @@ Conn* AllocConn (int NbrVer)
   return Con;    
 }
 
-int cmp_int2(const void *a, const void *b)
-{
-  int *ia = (int*) a;
-  int *ib = (int*) b;
-  
-  if ( ia[0] < ib[0] ) {
-    return -1;
-  }
-  else if ( ia[0] > ib[0] ) {
-    return 1;
-  }
-  else {
-    
-    if ( ia[1] < ib[1] ) {
-      return -1;
-    }
-    else if ( ia[1] > ib[1 ] ) {
-      return 1;
-    }
-    else {
-      return 0;
-    }
-  }
-  
-}
-
-double Dist (double *crd0, double *crd1)
-{
-  double len;
-  len = (crd1[0]-crd0[0])*(crd1[0]-crd0[0]) + (crd1[1]-crd0[1])*(crd1[1]-crd0[1]);
-  len = sqrt(len);
-  return len;
-}
-
 int FreeMesh(Mesh *Msh)
 {
   
@@ -705,25 +671,6 @@ int FreeConn(Conn *Con)
   free(Con);
   
   return 1;  
-}
-
-int imin(int n, int *idx)
-{
-  int i;
-  int im   = 0;
-  for(i=1; i<n; i++) {
-    if ( idx[i] < idx[im] ) {
-      im = i;
-    }
-  }
-  return im;  
-}
-
-void outwardNormalCrd(double2 crd0, double2 crd1, double *vno)
-{
-  vno[0]  = crd1[1]-crd0[1];  // define outward normal, how to verify this ? 
-  vno[1]  = crd0[0]-crd1[0];
-  vno[2]  = sqrt(vno[0]*vno[0]+vno[1]*vno[1]);
 }
 
 void PrintMeshInfo (Mesh *Msh)
@@ -1193,274 +1140,6 @@ void CopyBoundaryMarkers (Mesh *Msh, Mesh *BndMsh)
   }
 }
 
-void switchHexIdx(int *idx, int *swi)
-{
-  int im;
-  im = imin(8,idx);  
-    
-  switch( im ) { 
-  
-  case 0:
-    swi[0] = idx[0];
-    swi[1] = idx[1];
-    swi[2] = idx[2];
-    swi[3] = idx[3];
-    swi[4] = idx[4];
-    swi[5] = idx[5];
-    swi[6] = idx[6];
-    swi[7] = idx[7];
-    break;
-    
-  case 1:
-    swi[0] = idx[1];
-    swi[1] = idx[2];
-    swi[2] = idx[3];
-    swi[3] = idx[0];
-    swi[4] = idx[5];
-    swi[5] = idx[6];
-    swi[6] = idx[7];
-    swi[7] = idx[4];
-    break;
-  
-  case 2:
-    swi[0] = idx[2];
-    swi[1] = idx[3];
-    swi[2] = idx[0];
-    swi[3] = idx[1];
-    swi[4] = idx[6];
-    swi[5] = idx[7];
-    swi[6] = idx[4];
-    swi[7] = idx[5];
-    break;
-  
-  case 3:
-    swi[0] = idx[3];
-    swi[1] = idx[0];
-    swi[2] = idx[1];
-    swi[3] = idx[2];
-    swi[4] = idx[7];
-    swi[5] = idx[4];
-    swi[6] = idx[5];
-    swi[7] = idx[6];
-    break; 
-    
-  case 4:
-    swi[0] = idx[4];
-    swi[1] = idx[7];
-    swi[2] = idx[6];
-    swi[3] = idx[5];
-    swi[4] = idx[0];
-    swi[5] = idx[3];
-    swi[6] = idx[2];
-    swi[7] = idx[1];
-    break; 
-    
-  case 5:
-    swi[0] = idx[5];
-    swi[1] = idx[4];
-    swi[2] = idx[7];
-    swi[3] = idx[6];
-    swi[4] = idx[1];
-    swi[5] = idx[0];
-    swi[6] = idx[3];
-    swi[7] = idx[2];
-    break;      
-   
-  case 6:
-    swi[0] = idx[6];
-    swi[1] = idx[5];
-    swi[2] = idx[4];
-    swi[3] = idx[7];
-    swi[4] = idx[2];
-    swi[5] = idx[1];
-    swi[6] = idx[0];
-    swi[7] = idx[3];
-    break;
-    
-  case 7:
-    swi[0] = idx[7];
-    swi[1] = idx[6];
-    swi[2] = idx[5];
-    swi[3] = idx[4];
-    swi[4] = idx[3];
-    swi[5] = idx[2];
-    swi[6] = idx[1];
-    swi[7] = idx[0];
-    break;         
-  }   
-}
-
-void switchQuaIdx(int *idx, int *swi)
-{
-  int im = 0;
-  
-  im = imin(4,idx);  
-  
-  switch( im ) { 
-  
-  case 0:
-    swi[0] = idx[0];
-    swi[1] = idx[1];
-    swi[2] = idx[2];
-    swi[3] = idx[3];
-    break;
-    
-  case 1:
-    swi[0] = idx[1];
-    swi[1] = idx[2];
-    swi[2] = idx[3];
-    swi[3] = idx[0];
-    break;
-  
-  case 2:
-    swi[0] = idx[2];
-    swi[1] = idx[3];
-    swi[2] = idx[0];
-    swi[3] = idx[1];
-    break;
-  
-  case 3:
-    swi[0] = idx[3];
-    swi[1] = idx[0];
-    swi[2] = idx[1];
-    swi[3] = idx[2];
-    break;  
-   
-  }
-  
-}
-
-void switchTetIdx(int *idx, int *swi)
-{
-  
-  if ( idx[1] < idx[0] ) {  
-    
-    if ( idx[2] < idx[1] ) {   
-      if ( idx[3] < idx[2] ) {  
-        swi[0] = idx[3];   swi[1] = idx[2];
-        swi[2] = idx[1];   swi[3] = idx[0];
-      }
-      else if ( idx[0] < idx[3] ){  
-        swi[0] = idx[2];   swi[1] = idx[0];
-        swi[2] = idx[1];   swi[3] = idx[3];
-      }
-      else { 
-        swi[0] = idx[2];   swi[1] = idx[1];
-        swi[2] = idx[3];   swi[3] = idx[0];
-      }
-    }   
-    else if ( idx[0] < idx[2] ) {   
-      if ( idx[3] < idx[1] ) {  
-        swi[0] = idx[3];   swi[1] = idx[1];
-        swi[2] = idx[0];   swi[3] = idx[2];
-      }
-      else if ( idx[2] < idx[3] ){ 
-        swi[0] = idx[1];   swi[1] = idx[2];
-        swi[2] = idx[0];   swi[3] = idx[3];
-      }
-      else {  
-        swi[0] = idx[1];   swi[1] = idx[0];
-        swi[2] = idx[3];   swi[3] = idx[2];
-      }
-    }
-    
-    else { 
-      if ( idx[3] < idx[1] ) {  
-        swi[0] = idx[3];   swi[1] = idx[2];
-        swi[2] = idx[1];   swi[3] = idx[0];
-      }
-      else if ( idx[0] < idx[3] ){  
-        swi[0] = idx[1];   swi[1] = idx[2];
-        swi[2] = idx[0];   swi[3] = idx[3];
-      }
-      else {  
-        swi[0] = idx[1];   swi[1] = idx[3];
-        swi[2] = idx[2];   swi[3] = idx[0];
-      }
-    }   
-
-  }
-  
-  else {   
-    
-    if ( idx[2] < idx[0] ) {  
-      if ( idx[3] < idx[2] ) { 
-        swi[0] = idx[3];   swi[1] = idx[0];
-        swi[2] = idx[2];   swi[3] = idx[1];
-      }
-      else if ( idx[1] < idx[3] ){  
-        swi[0] = idx[2];   swi[1] = idx[0];
-        swi[2] = idx[1];   swi[3] = idx[3];
-      }
-      else { 
-        swi[0] = idx[2];   swi[1] = idx[3];
-        swi[2] = idx[0];   swi[3] = idx[1];
-      }
-    }   
-    else if ( idx[1] < idx[2] ) {   
-      if ( idx[3] < idx[0] ) { 
-        swi[0] = idx[3];   swi[1] = idx[1];
-        swi[2] = idx[0];   swi[3] = idx[2];
-      }
-      else if ( idx[2] < idx[3] ){  
-        swi[0] = idx[0];   swi[1] = idx[1];
-        swi[2] = idx[2];   swi[3] = idx[3];
-      }
-      else {  
-        swi[0] = idx[0];   swi[1] = idx[3];
-        swi[2] = idx[1];   swi[3] = idx[2];
-      }
-    }
-    
-    else {  
-      if ( idx[3] < idx[0] ) { 
-        swi[0] = idx[3];   swi[1] = idx[0];
-        swi[2] = idx[2];   swi[3] = idx[1];
-      }
-      else if ( idx[1] < idx[3] ){ 
-        swi[0] = idx[0];   swi[1] = idx[1];
-        swi[2] = idx[2];   swi[3] = idx[3];
-      }
-      else { 
-        swi[0] = idx[0];   swi[1] = idx[2];
-        swi[2] = idx[3];   swi[3] = idx[1];
-      }
-    }   
-    
-  }
-  
-}
-
-void switchTriIdx(int *idx, int *swi)
-{
-  if ( idx[1] < idx[0] ) { 
-    if ( idx[2] < idx[1] ) {  
-      swi[0] = idx[2];
-      swi[1] = idx[0];
-      swi[2] = idx[1];
-    }   
-    else { 
-      swi[0] = idx[1];
-      swi[1] = idx[2];
-      swi[2] = idx[0];
-    }   
-  }
-  
-  else {
-    if ( idx[2] < idx[0] ) {  
-        swi[0] = idx[2];
-        swi[1] = idx[0];
-        swi[2] = idx[1];
-    }
-    else {  
-      swi[0] = idx[0];
-      swi[1] = idx[1];
-      swi[2] = idx[2];
-    }
-  }
-
-}
-
 int GetInputFileType (char *FilNam) 
 {
   char *ext=NULL;  
@@ -1500,17 +1179,6 @@ int GetInputFileType (char *FilNam)
   }
 }
 
-//--- Transforms all letters to lower case
-int Str2Lower(char *buff)
-{
-  unsigned int iChr;
-  
-  for (iChr=0; iChr<strlen(buff); iChr++) 
-    buff[iChr] = tolower( buff[iChr] );
-
-  return 1;
-}
-
 //--- Removes all occurences of char c from str
 void StrRemoveChars (char* s, char ch) {
   char *p = s;
@@ -1520,4 +1188,30 @@ void StrRemoveChars (char* s, char ch) {
       s++;
   }
   *p = 0;
+}
+
+int cmp_int2(const void *a, const void *b)
+{
+  int *ia = (int*) a;
+  int *ib = (int*) b;
+  
+  if ( ia[0] < ib[0] ) {
+    return -1;
+  }
+  else if ( ia[0] > ib[0] ) {
+    return 1;
+  }
+  else {
+    
+    if ( ia[1] < ib[1] ) {
+      return -1;
+    }
+    else if ( ia[1] > ib[1 ] ) {
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  }
+  
 }
