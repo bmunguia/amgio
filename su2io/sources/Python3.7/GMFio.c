@@ -206,11 +206,9 @@ int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
     
   Msh->NbrTri = Msh->NbrEfr = 0;
   Msh->NbrTet = Msh->NbrHex = Msh->NbrQua = Msh->NbrPri = Msh->NbrPyr = 0;
-  Msh->NbrCor = 0;
   
   NbrTri = NbrEfr = 0;
   NbrTet = NbrHex = NbrQua = NbrPri = NbrPyr = 0;
-  NbrCor = 0;
 
   //--- Read boundary edges
   NbrEfr = GmfStatKwd(InpMsh, GmfEdges);  

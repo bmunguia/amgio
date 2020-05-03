@@ -55,6 +55,7 @@ void     PrintOptions (Options *mshopt);
 Mesh* AllocMesh (int * SizMsh);
 int   cmp_int2(const void *a, const void *b);
 int   FreeMesh (Mesh *Msh);
+int   FreeConn(Conn *Con);
 int   GetMeshSize (char *MshNam, int *SizMsh);
 Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam);
 Mesh *SetupSolution (char *SolNam, int NbrVer, int Dim);
