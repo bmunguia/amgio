@@ -374,7 +374,7 @@ void CheckBoundTriangle(int4* Tri, double3* Ver, int iTri, int iVol) {
   for (int iDim = 0; iDim < 3; iDim++) {
     a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
     b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
-    c[iDim] = Ver[iVol][iDim]-Ver[Point0][iDim;]
+    c[iDim] = Ver[iVol][iDim]-Ver[Point0][iDim];
   }
   n[0] = a[1]*b[2]-b[1]*a[2];
   n[1] = b[0]*a[2]-a[0]*b[2];
