@@ -16,9 +16,8 @@ int py_ConvertSU2toInria( char *MshNam, char *SolNam, char *OutNam )
     return 0;
   }
   
-  int ret = ConvertSU2SolToGMF (mshopt);
+  return ConvertSU2SolToGMF (mshopt);
   
-  return ret;
 }
 
 int py_ConvertInriatoSU2( char *MshNam, char *SolNam, char *OutNam ) 
@@ -36,10 +35,8 @@ int py_ConvertInriatoSU2( char *MshNam, char *SolNam, char *OutNam )
     return 0;
   }
   
-  int ret = ConvertGMFtoSU2Sol (mshopt);
+  return ConvertGMFtoSU2Sol (mshopt);
   
-  
-  return ret;
 }
 
 int py_ConvertInriaWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam ) 
@@ -57,10 +54,8 @@ int py_ConvertInriaWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, 
     return 0;
   }
   
-  int ret = ConvertGMFWithBoundtoSU2Sol (mshopt, BndMshNam);
-  
-  
-  return ret;
+  return ConvertGMFWithBoundtoSU2Sol (mshopt, BndMshNam);
+    
 }
 
 int py_ConvertInriaSoltoMet( char *MshNam, char *SolNam, char *OutNam ) 
@@ -78,10 +73,8 @@ int py_ConvertInriaSoltoMet( char *MshNam, char *SolNam, char *OutNam )
     return 0;
   }
   
-  int ret = ConvertGMFSoltoMet (mshopt);
-  
-  
-  return ret;
+  return ConvertGMFSoltoMet (mshopt);
+    
 }
 
 int py_SplitSol(char *SolNam, int dim, char *prefix, char *adap_sensor)

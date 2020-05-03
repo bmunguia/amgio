@@ -91,4 +91,8 @@ int  Str2Lower(char *buff);
 void StrRemoveChars (char* str, char c);
 
 //--- convert.c
+int  ConvertGMFtoSU2Sol (Options *mshopt);
+int  ConvertGMFWithBoundtoSU2Sol (Options *mshopt, char* BndMshNam);
+int  ConvertGMFSoltoMet (Options *mshopt);
+int  ConvertSU2SolToGMF (Options *mshopt);
 int  SplitSolution (Mesh *Msh, char *prefix, char *adap_sensor);
