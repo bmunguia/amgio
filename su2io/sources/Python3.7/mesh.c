@@ -668,7 +668,7 @@ int FreeConn(Conn *Con)
   
   if ( !Con ) return 0;
 
-  for (int i = 0; i <= Con->NbrVer; i++) {
+  for (int i = 1; i <= Con->NbrVer; i++) {
     if (Con->Efr[i]) free(Con->Efr[i]);
     if (Con->Tri[i]) free(Con->Tri[i]);
     if (Con->Tet[i]) free(Con->Tet[i]);
@@ -926,7 +926,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
       /*--- Check if edge is part of quad ---*/
       for (j = 0; j < 2; j++) {
         for (k = 0; k < Con->NbrQua[Msh->Efr[i][j]]; k++) {
-          idx = Con->Tri[Msh->Efr[i][j]][k];
+          idx = Con->Qua[Msh->Efr[i][j]][k];
           for (l = 0; l < 4; l++) {
             if ((Msh->Qua[idx][l] == Msh->Efr[i][0]) ||
                 (Msh->Qua[idx][l] == Msh->Efr[i][1])) {
@@ -953,7 +953,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
 
         for (j = 0; j < 2; j++) {
           for (k = 0; k < Con->NbrTri[Msh->Efr[i][j]]; k++) {
-            idx = Con->Qua[Msh->Efr[i][j]][k];
+            idx = Con->Tri[Msh->Efr[i][j]][k];
             for (l = 0; l < 3; l++) {
               if ((Msh->Tri[idx][l] == Msh->Efr[i][0]) ||
                   (Msh->Tri[idx][l] == Msh->Efr[i][1])) {
