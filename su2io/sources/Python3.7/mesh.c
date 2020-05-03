@@ -348,6 +348,98 @@ void CheckHexahedron(int9* Hex, double3* Ver, int iHex) {
   }
 }
 
+void CheckBoundEdge(int3* Edg, double3* Ver, int iEdg, int iVol) {
+  int Point0 = Edg[iEdg][0],
+      Point1 = Edg[iEdg][1];
+
+  double2 a, b;
+  for (int iDim = 0; iDim < 2; iDim++) {
+    a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
+    b[iDim] = 0.5*(Ver[iVol][iDim]-Ver[Point0][iDim]);
+  }
+  const double test = a[0]*b[1]-b[0]*a[1];
+
+  if (test < 0.0) {
+    Edg[iEdg][0] = Point1;
+    Edg[iEdg][1] = Point0;
+  }
+}
+
+void CheckBoundTriangle(int4* Tri, double3* Ver, int iTri, int iVol) {
+  int Point0 = Tri[iTri][0],
+      Point1 = Tri[iTri][1],
+      Point2 = Tri[iTri][2];
+
+  double3 a, b, c, n;
+  for (int iDim = 0; iDim < 3; iDim++) {
+    a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
+    b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
+    c[iDim] = Ver[iVol][iDim]-Ver[Point0][iDim;]
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+
+  if (test < 0.0) {
+    Tri[iTri][0] = Point2;
+    Tri[iTri][2] = Point0;
+  }
+}
+
+void CheckBoundQuadrilateral(int5* Qua, double3* Ver, int iQua, int iVol) {
+  int Point0 = Qua[iQua][0],
+      Point1 = Qua[iQua][1],
+      Point2 = Qua[iQua][2],
+      Point3 = Qua[iQua][3];
+
+  double3 a, b, c, n;
+  for (int iDim = 0; iDim < 3; iDim++) {
+    a[iDim] = 0.5*(Ver[Point1][iDim]-Ver[Point0][iDim]);
+    b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point0][iDim]);
+    c[iDim] = Ver[iVol][iDim]-Ver[Point0][iDim];
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test1 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+
+  for (int iDim = 0; iDim < 2; iDim++) {
+    a[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point1][iDim]);
+    b[iDim] = 0.5*(Ver[Point3][iDim]-Ver[Point1][iDim]);
+    c[iDim] = Ver[iVol][iDim]-Ver[Point1][iDim];
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test2 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+
+  for (int iDim = 0; iDim < 2; iDim++) {
+    a[iDim] = 0.5*(Ver[Point3][iDim]-Ver[Point2][iDim]);
+    b[iDim] = 0.5*(Ver[Point0][iDim]-Ver[Point2][iDim]);
+    c[iDim] = Ver[iVol][iDim]-Ver[Point2][iDim];
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test3 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+
+  for (int iDim = 0; iDim < 2; iDim++) {
+    a[iDim] = 0.5*(Ver[Point0][iDim]-Ver[Point3][iDim]);
+    b[iDim] = 0.5*(Ver[Point2][iDim]-Ver[Point3][iDim]);
+    c[iDim] = Ver[iVol][iDim]-Ver[Point3][iDim];
+  }
+  n[0] = a[1]*b[2]-b[1]*a[2];
+  n[1] = b[0]*a[2]-a[0]*b[2];
+  n[2] = a[0]*b[1]-b[0]*a[1];
+  const double test4 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
+
+  if ((test1 < 0.0) && (test2 < 0.0) && (test3 < 0.0) && (test4 < 0.0)) {
+    Qua[iQua][1] = Point3;
+    Qua[iQua][3] = Point1;
+  }
+}
+
 Mesh* AllocMesh (int * SizMsh)
 {
   Mesh *Msh=NULL;
@@ -650,6 +742,7 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
   }
 
   CheckVolumeElementOrientation(Msh);
+  CheckSurfaceElementOrientation(Msh);
 
   return Msh;
 }
@@ -718,6 +811,230 @@ void CheckVolumeElementOrientation(Mesh *Msh) {
     }
     for (i = 1; i <= Msh->NbrHex; i++) {
       CheckHexahedron(Msh->Hex, Msh->Ver, i);
+    }
+  }
+
+}
+
+void CheckSurfaceElementOrientation(Mesh *Msh) {
+
+  double3* Ver = Msh->Ver;
+  int i, j, k, l;
+  int nbrcheck;
+  bool check[8];
+  
+  /*--- Check edge orientation ---*/
+  if (Msh->Dim == 2) {
+    for (i = 1; i <= Msh->NbrEfr; i++) {
+      nbrcheck = 0;
+      for (k = 0; k < 4; k++) check[k] = false;
+
+      /*--- Check if edge is part of quads ---*/
+      for (j = 1; j <= Msh->NbrQua; j++) {
+        for (k = 0; k < 4; k++) {
+          if ((Msh->Qua[j][k] == Msh->Efr[i][0]) ||
+              (Msh->Qua[j][k] == Msh->Efr[i][1])) {
+            check[k] = true;
+            nbrcheck++;
+          }
+        }
+        if (nbrcheck == 2) {
+          for (k = 0; k < 4; k++) {
+            if (!check[k]) {
+              CheckBoundEdge(Msh->Efr, Msh->Ver, i, Msh->Qua[j][k]);
+              break;
+            }
+          }
+          break;
+        }
+      }
+
+      /*--- Check if edge is part of tris ---*/
+      if (nbrcheck < 2) {
+        nbrcheck = 0;
+        for (k = 0; k < 3; k++) check[k] = false;
+
+        for (j = 1; j <= Msh->NbrTri; j++) {
+          for (k = 0; k < 3; k++) {
+            if ((Msh->Tri[j][k] == Msh->Efr[i][0]) ||
+                (Msh->Tri[j][k] == Msh->Efr[i][1])) {
+              check[k] = true;
+              nbrcheck++;
+            }
+          }
+          if (nbrcheck == 2) {
+            for (k = 0; k < 3; k++) {
+              if (!check[k]) {
+                CheckBoundEdge(Msh->Efr, Msh->Ver, i, Msh->Tri[j][k]);
+                break;
+              }
+            }
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  /*--- Check tri and quad orientation ---*/
+  else {
+    for (i = 1; i <= Msh->NbrTri; i++) {
+      nbrcheck = 0;
+      for (k = 0; k < 4; k++) check[k] = false;
+
+      /*--- Check if tri is part of tets ---*/
+      for (j = 1; j <= Msh->NbrTet; j++) {
+        for (k = 0; k < 4; k++) {
+          if ((Msh->Tet[j][k] == Msh->Tri[i][0]) ||
+              (Msh->Tet[j][k] == Msh->Tri[i][1]) ||
+              (Msh->Tet[j][k] == Msh->Tri[i][2])) {
+            check[k] = true;
+            nbrcheck++;
+          }
+        }
+        if (nbrcheck == 3) {
+          for (k = 0; k < 4; k++) {
+            if (!check[k]) {
+              CheckBoundTriangle(Msh->Tri, Msh->Ver, i, Msh->Tet[j][k]);
+              break;
+            }
+          }
+          break;
+        }
+      }
+
+      /*--- Check if tri is part of pris ---*/
+      if (nbrcheck < 3) {
+        nbrcheck = 0;
+        for (k = 0; k < 6; k++) check[k] = false;
+
+        for (j = 1; j <= Msh->NbrPri; j++) {
+          for (k = 0; k < 6; k++) {
+            if ((Msh->Pri[j][k] == Msh->Tri[i][0]) ||
+                (Msh->Pri[j][k] == Msh->Tri[i][1]) ||
+                (Msh->Pri[j][k] == Msh->Tri[i][2])) {
+              check[k] = true;
+              nbrcheck++;
+            }
+          }
+          if (nbrcheck == 3) {
+            for (k = 0; k < 6; k++) {
+              if (!check[k]) {
+                CheckBoundTriangle(Msh->Tri, Msh->Ver, i, Msh->Pri[j][k]);
+                break;
+              }
+            }
+            break;
+          }
+        }
+      }
+
+      /*--- Check if tri is part of pyrs ---*/
+      if (nbrcheck < 3) {
+        nbrcheck = 0;
+        for (k = 0; k < 5; k++) check[k] = false;
+
+        for (j = 1; j <= Msh->NbrPyr; j++) {
+          for (k = 0; k < 5; k++) {
+            if ((Msh->Pyr[j][k] == Msh->Tri[i][0]) ||
+                (Msh->Pyr[j][k] == Msh->Tri[i][1]) ||
+                (Msh->Pyr[j][k] == Msh->Tri[i][2])) {
+              check[k] = true;
+              nbrcheck++;
+            }
+          }
+          if (nbrcheck == 3) {
+            for (k = 0; k < 5; k++) {
+              if (!check[k]) {
+                CheckBoundTriangle(Msh->Tri, Msh->Ver, i, Msh->Pyr[j][k]);
+                break;
+              }
+            }
+            break;
+          }
+        }
+      }
+    }
+
+    for (i = 1; i <= Msh->NbrQua; i++) {
+      nbrcheck = 0;
+      for (k = 0; k < 8; k++) check[k] = false;
+
+      /*--- Check if qua is part of hexs ---*/
+      for (j = 1; j <= Msh->NbrHex; j++) {
+        for (k = 0; k < 8; k++) {
+          if ((Msh->Hex[j][k] == Msh->Qua[i][0]) ||
+              (Msh->Hex[j][k] == Msh->Qua[i][1]) ||
+              (Msh->Hex[j][k] == Msh->Qua[i][2]) ||
+              (Msh->Hex[j][k] == Msh->Qua[i][3])) {
+            check[k] = true;
+            nbrcheck++;
+          }
+        }
+        if (nbrcheck == 4) {
+          for (k = 0; k < 8; k++) {
+            if (!check[k]) {
+              CheckBoundQuadrilateral(Msh->Qua, Msh->Ver, i, Msh->Hex[j][k]);
+              break;
+            }
+          }
+          break;
+        }
+      }
+
+      /*--- Check if qua is part of pris ---*/
+      if (nbrcheck < 4) {
+        nbrcheck = 0;
+        for (k = 0; k < 6; k++) check[k] = false;
+
+        for (j = 1; j <= Msh->NbrPri; j++) {
+          for (k = 0; k < 6; k++) {
+            if ((Msh->Pri[j][k] == Msh->Qua[i][0]) ||
+                (Msh->Pri[j][k] == Msh->Qua[i][1]) ||
+                (Msh->Pri[j][k] == Msh->Qua[i][2]) ||
+                (Msh->Pri[j][k] == Msh->Qua[i][3])) {
+              check[k] = true;
+              nbrcheck++;
+            }
+          }
+          if (nbrcheck == 4) {
+            for (k = 0; k < 6; k++) {
+              if (!check[k]) {
+                CheckBoundQuadrilateral(Msh->Qua, Msh->Ver, i, Msh->Pri[j][k]);
+                break;
+              }
+            }
+            break;
+          }
+        }
+      }
+
+      /*--- Check if tri is part of pyrs ---*/
+      if (nbrcheck < 4) {
+        nbrcheck = 0;
+        for (k = 0; k < 5; k++) check[k] = false;
+
+        for (j = 1; j <= Msh->NbrPyr; j++) {
+          for (k = 0; k < 5; k++) {
+            if ((Msh->Pyr[j][k] == Msh->Qua[i][0]) ||
+                (Msh->Pyr[j][k] == Msh->Qua[i][1]) ||
+                (Msh->Pyr[j][k] == Msh->Qua[i][2]) ||
+                (Msh->Pyr[j][k] == Msh->Qua[i][3])) {
+              check[k] = true;
+              nbrcheck++;
+            }
+          }
+          if (nbrcheck == 4) {
+            for (k = 0; k < 5; k++) {
+              if (!check[k]) {
+                CheckBoundQuadrilateral(Msh->Qua, Msh->Ver, i, Msh->Pyr[j][k]);
+                break;
+              }
+            }
+            break;
+          }
+        }
+      }
     }
   }
 
