@@ -579,8 +579,6 @@ Conn* AllocConn (int NbrVer)
     Con->NbrPri[iVer] = 0;
     Con->NbrPyr[iVer] = 0;
   }
-
-
   
   return Con;    
 }

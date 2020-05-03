@@ -518,9 +518,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       if ( Msh->NbrTri > Msh->MaxNbrTri ) {
         printf("  ## ERROR LoadSU2Elements: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
         return 0;
-      }
-      
-      AddTriangle(Msh,Msh->NbrTri,is,ref);
+      }      
     }
     else if ( typ == SU2_RECTANGLE ) {
       for (s=0; s<4; s++) {
@@ -536,9 +534,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       if ( Msh->NbrQua > Msh->MaxNbrQua ) {
         printf("  ## ERROR LoadSU2Elements: quad out of bound (id=%d)\n", Msh->NbrQua);
         return 0;
-      }
-    
-      AddQuadrilateral(Msh,Msh->NbrQua,is,ref);
+      }    
     }
     else if ( typ == SU2_TETRAHEDRAL ) {
       for (s=0; s<4; s++) {
@@ -554,9 +550,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       if ( Msh->NbrTet > Msh->MaxNbrTet ) {
         printf("  ## ERROR LoadSU2Elements: tetra out of bound (tid=%d)\n", Msh->NbrTet);
         return 0;
-      }
-      
-      AddTetrahedron(Msh,Msh->NbrTet,is,ref);
+      }      
     }
     else if ( typ == SU2_PYRAMID ) {
       for (s=0; s<5; s++) {
@@ -572,9 +566,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       if ( Msh->NbrPyr > Msh->MaxNbrPyr ) {
         printf("  ## ERROR LoadSU2Elements: pyramid out of bound (id=%d)\n", Msh->NbrPyr);
         return 0;
-      }
-    
-      AddPyramid(Msh,Msh->NbrPyr,is,ref);
+      }    
     }
     else if ( typ == SU2_WEDGE ) {    
       for (s=0; s<6; s++) {
@@ -590,9 +582,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       if ( Msh->NbrPri > Msh->MaxNbrPri ) {
         printf("  ## ERROR LoadSU2Elements: prism out of bound (id=%d)\n", Msh->NbrPri);
         return 0;
-      }
-    
-      AddPrism(Msh,Msh->NbrPri,is,ref);
+      }    
     }
     else if ( typ == SU2_HEXAHEDRAL ) {
       for (s=0; s<8; s++) {
@@ -608,9 +598,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       if ( Msh->NbrHex > Msh->MaxNbrHex ) {
         printf("  ## ERROR LoadSU2Elements: hexahedron out of bound (hid=%d)\n", Msh->NbrHex);
         return 0;
-      }
-      
-      AddHexahedron(Msh,Msh->NbrHex,is,ref);
+      }      
     }
     else {
       printf("  ## ERROR : Unknown element type %d\n", typ);
@@ -656,9 +644,6 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
           printf("  ## ERROR LoadSU2Elements: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
           return 0;
         }
-
-        // switchTriIdx(swi,is);
-        AddTriangle(Msh,Msh->NbrTri,swi,iMark+1);
       }
       else if ( typ == SU2_RECTANGLE ) {          
         for (s=0; s<4; s++) {
@@ -673,9 +658,6 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
           printf("  ## ERROR LoadSU2Elements: quad out of bound (id=%d)\n", Msh->NbrQua);
           return 0;
         }
-
-        // switchQuaIdx(swi,is);
-        AddQuadrilateral(Msh,Msh->NbrQua,swi,iMark+1);
       }
       else if ( typ == SU2_LINE ) {
         for (s=0; s<2; s++) {
@@ -690,8 +672,6 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
           printf("  ## ERROR LoadSU2Elements: boundary edge out of bound (id=%d, max=%d)\n", Msh->NbrEfr, Msh->MaxNbrEfr);
           return 0;
         }
-        
-        AddEdge(Msh,Msh->NbrEfr,swi,iMark+1);
       }
       else {
         printf("  ## ERROR : Unknown element type %d\n", typ);
