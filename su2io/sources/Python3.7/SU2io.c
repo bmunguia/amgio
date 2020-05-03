@@ -466,20 +466,13 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
   int iElt, NbrElt=0, typ, is[8], swi[8], buf, s, idx, res;
 
   for (int iVer = 1; iVer <= Msh->NbrVer; iVer++) {
-    if (Con->NbrEfr[iVer] > 0)
-      Con->Efr[iVer] = (int*)malloc(sizeof(int)*(Con->NbrEfr[iVer]));
-    if (Con->NbrTri[iVer] > 0)
-      Con->Tri[iVer] = (int*)malloc(sizeof(int)*(Con->NbrTri[iVer]));
-    if (Con->NbrTet[iVer] > 0)
-      Con->Tet[iVer] = (int*)malloc(sizeof(int)*(Con->NbrTet[iVer]));
-    if (Con->NbrQua[iVer] > 0)
-      Con->Qua[iVer] = (int*)malloc(sizeof(int)*(Con->NbrQua[iVer]));
-    if (Con->NbrHex[iVer] > 0)
-      Con->Hex[iVer] = (int*)malloc(sizeof(int)*(Con->NbrHex[iVer]));
-    if (Con->NbrPri[iVer] > 0)
-      Con->Pri[iVer] = (int*)malloc(sizeof(int)*(Con->NbrPri[iVer]));
-    if (Con->NbrPyr[iVer] > 0)
-      Con->Pyr[iVer] = (int*)malloc(sizeof(int)*(Con->NbrPyr[iVer]));
+    if (Con->NbrEfr[iVer] > 0) Con->Efr[iVer] = (int*)malloc(sizeof(int)*(Con->NbrEfr[iVer]));
+    if (Con->NbrTri[iVer] > 0) Con->Tri[iVer] = (int*)malloc(sizeof(int)*(Con->NbrTri[iVer]));
+    if (Con->NbrTet[iVer] > 0) Con->Tet[iVer] = (int*)malloc(sizeof(int)*(Con->NbrTet[iVer]));
+    if (Con->NbrQua[iVer] > 0) Con->Qua[iVer] = (int*)malloc(sizeof(int)*(Con->NbrQua[iVer]));
+    if (Con->NbrHex[iVer] > 0) Con->Hex[iVer] = (int*)malloc(sizeof(int)*(Con->NbrHex[iVer]));
+    if (Con->NbrPri[iVer] > 0) Con->Pri[iVer] = (int*)malloc(sizeof(int)*(Con->NbrPri[iVer]));
+    if (Con->NbrPyr[iVer] > 0) Con->Pyr[iVer] = (int*)malloc(sizeof(int)*(Con->NbrPyr[iVer]));
 
     Con->NbrEfr[iVer] = Con->NbrTri[iVer] = Con->NbrTet[iVer] = Con->NbrQua[iVer] = 0;
     Con->NbrHex[iVer] = Con->NbrPri[iVer] = Con->NbrPyr[iVer] = 0;
@@ -569,7 +562,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
     else if ( typ == SU2_WEDGE ) {    
       for (s=0; s<6; s++) {
         fscanf(FilHdl, "%d", &buf);
-        Con->Pri[buf+1][Con->NbrTri[buf+1]] = Msh->NbrPri+1;
+        Con->Pri[buf+1][Con->NbrPri[buf+1]] = Msh->NbrPri+1;
         Con->NbrPri[buf+1]++;
       }
 

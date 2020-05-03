@@ -180,20 +180,13 @@ int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
   int NbrVer, NbrTri, NbrEfr, NbrCor, NbrTet, NbrHex, NbrQua, NbrPri, NbrPyr;
 
   for (int iVer = 1; iVer <= Msh->NbrVer; iVer++) {
-    if (Con->NbrEfr[iVer] > 0)
-      Con->Efr[iVer] = (int*)malloc(sizeof(int)*(Con->NbrEfr[iVer]));
-    if (Con->NbrTri[iVer] > 0)
-      Con->Tri[iVer] = (int*)malloc(sizeof(int)*(Con->NbrTri[iVer]));
-    if (Con->NbrTet[iVer] > 0)
-      Con->Tet[iVer] = (int*)malloc(sizeof(int)*(Con->NbrTet[iVer]));
-    if (Con->NbrQua[iVer] > 0)
-      Con->Qua[iVer] = (int*)malloc(sizeof(int)*(Con->NbrQua[iVer]));
-    if (Con->NbrHex[iVer] > 0)
-      Con->Hex[iVer] = (int*)malloc(sizeof(int)*(Con->NbrHex[iVer]));
-    if (Con->NbrPri[iVer] > 0)
-      Con->Pri[iVer] = (int*)malloc(sizeof(int)*(Con->NbrPri[iVer]));
-    if (Con->NbrPyr[iVer] > 0)
-      Con->Pyr[iVer] = (int*)malloc(sizeof(int)*(Con->NbrPyr[iVer]));
+    if (Con->NbrEfr[iVer] > 0) Con->Efr[iVer] = (int*)malloc(sizeof(int)*(Con->NbrEfr[iVer]));
+    if (Con->NbrTri[iVer] > 0) Con->Tri[iVer] = (int*)malloc(sizeof(int)*(Con->NbrTri[iVer]));
+    if (Con->NbrTet[iVer] > 0) Con->Tet[iVer] = (int*)malloc(sizeof(int)*(Con->NbrTet[iVer]));
+    if (Con->NbrQua[iVer] > 0) Con->Qua[iVer] = (int*)malloc(sizeof(int)*(Con->NbrQua[iVer]));
+    if (Con->NbrHex[iVer] > 0) Con->Hex[iVer] = (int*)malloc(sizeof(int)*(Con->NbrHex[iVer]));
+    if (Con->NbrPri[iVer] > 0) Con->Pri[iVer] = (int*)malloc(sizeof(int)*(Con->NbrPri[iVer]));
+    if (Con->NbrPyr[iVer] > 0) Con->Pyr[iVer] = (int*)malloc(sizeof(int)*(Con->NbrPyr[iVer]));
 
     Con->NbrEfr[iVer] = Con->NbrTri[iVer] = Con->NbrTet[iVer] = Con->NbrQua[iVer] = 0;
     Con->NbrHex[iVer] = Con->NbrPri[iVer] = Con->NbrPyr[iVer] = 0;
@@ -229,7 +222,7 @@ int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
     GmfGetLin(InpMsh, GmfTriangles, &bufInt[0], &bufInt[1], &bufInt[2], &ref);
     Msh->NbrTri++;
     for (j = 0; j < 3; j++) {
-      Con->Tri[bufInt[j]][Con->NbrEfr[bufInt[j]]] = Msh->NbrTri;
+      Con->Tri[bufInt[j]][Con->NbrTri[bufInt[j]]] = Msh->NbrTri;
       Con->NbrTri[bufInt[j]]++;
     }
   }
