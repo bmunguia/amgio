@@ -459,7 +459,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
   return 1;
 }
 
-int LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con)
+int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
 {
   int  ref=1;
   char str[1024];
@@ -488,8 +488,9 @@ int LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con)
   }
 
   Msh->NbrTri = Msh->NbrTet = Msh->NbrHex = Msh->NbrEfr = Msh->NbrQua = Msh->NbrPyr = Msh->NbrPri = 0;
+  
+  FILE *FilHdl = fopen (FilNam, "r");
 
-  rewind(FilHdl);
   do {
     res = fscanf(FilHdl, "%s", str);
   }while( (res != EOF) && strcmp(str, "NELEM=") );
@@ -624,9 +625,7 @@ int LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con)
   
   rewind(FilHdl);
   NbrMark = GetSU2KeywordValue (FilHdl, "NMARK=");
-  
-  Msh->NbrMarkers = NbrMark;
-  
+    
   for (iMark=1; iMark<=NbrMark; iMark++) {
     
     GetSU2KeywordValueStr (FilHdl, "MARKER_TAG=", str);

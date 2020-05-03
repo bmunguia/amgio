@@ -24,7 +24,7 @@ int  AddSU2MeshSize(char *FilNam, int *SizMsh) ;
 int  GetSU2KeywordValue(FILE *FilHdl, char *Kwd);
 int  GetSU2KeywordValueStr(FILE *FilHdl, char *Kwd, char *StrVal);
 int  LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con);
-int  LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con);
+int  LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con);
 int  LoadSU2Mesh(char *FilNam, Mesh *Msh, Conn *Con);
 int  LoadSU2Solution(char *SolNam, Mesh *Msh);
 int  LoadSU2SolutionBin(char *SolNam, Mesh *Msh);
