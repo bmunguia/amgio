@@ -914,8 +914,10 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
 
   double3* Ver = Msh->Ver;
   int i, j, k, l, idx;
-  int nbrcheck;
+  int nbrcheck = 0;
   int check[8];
+
+  for (k = 0; k < 8; k++) check[k] = 0;
   
   /*--- Check edge orientation ---*/
   if (Msh->Dim == 2) {
@@ -943,14 +945,15 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
             }
             break;
           }
+          else {
+            nbrcheck = 0;
+            for (l = 0; l < 4; l++) check[l] = 0;
+          }
         }
       }
 
       /*--- Check if edge is part of triangles ---*/
       if (nbrcheck < 2) {
-        nbrcheck = 0;
-        for (k = 0; k < 3; k++) check[k] = 0;
-
         for (j = 0; j < 2; j++) {
           for (k = 0; k < Con->NbrTri[Msh->Efr[i][j]]; k++) {
             idx = Con->Tri[Msh->Efr[i][j]][k];
@@ -969,6 +972,10 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
                 }
               }
               break;
+            }
+            else {
+              nbrcheck = 0;
+              for (l = 0; l < 3; l++) check[l] = 0;
             }
           }
         }
@@ -1003,14 +1010,15 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
             }
             break;
           }
+          else {
+            nbrcheck = 0;
+            for (l = 0; l < 4; l++) check[l] = 0;
+          }
         }
       }
 
       /*--- Check if tri is part of pris ---*/
       if (nbrcheck < 3) {
-        nbrcheck = 0;
-        for (k = 0; k < 6; k++) check[k] = 0;
-
         for (j = 0; j < 3; j++) {
           for (k = 0; k < Con->NbrPri[Msh->Tri[i][j]]; k++) {
             idx = Con->Pri[Msh->Tri[i][j]][k];
@@ -1031,15 +1039,16 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
               }
               break;
             }
+            else {
+            nbrcheck = 0;
+            for (l = 0; l < 6; l++) check[l] = 0;
+          }
           }
         }
       }
 
       /*--- Check if tri is part of pyrs ---*/
       if (nbrcheck < 3) {
-        nbrcheck = 0;
-        for (k = 0; k < 5; k++) check[k] = 0;
-
         for (j = 0; j < 3; j++) {
           for (k = 0; k < Con->NbrPyr[Msh->Tri[i][j]]; k++) {
             idx = Con->Pyr[Msh->Tri[i][j]][k];
@@ -1060,6 +1069,10 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
               }
               break;
             }
+            else {
+            nbrcheck = 0;
+            for (l = 0; l < 5; l++) check[l] = 0;
+          }
           }
         }
       }
@@ -1091,14 +1104,15 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
             }
             break;
           }
+          else {
+            nbrcheck = 0;
+            for (l = 0; l < 8; l++) check[l] = 0;
+          }
         }
       }
 
       /*--- Check if qua is part of pris ---*/
       if (nbrcheck < 4) {
-        nbrcheck = 0;
-        for (k = 0; k < 6; k++) check[k] = 0;
-
         for (j = 0; j < 4; j++) {
           for (k = 0; k < Con->NbrPri[Msh->Qua[i][j]]; k++) {
             idx = Con->Pri[Msh->Qua[i][j]][k];
@@ -1120,15 +1134,16 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
               }
               break;
             }
+            else {
+              nbrcheck = 0;
+              for (l = 0; l < 6; l++) check[l] = 0;
+            }
           }
         }
       }
 
       /*--- Check if tri is part of pyrs ---*/
       if (nbrcheck < 4) {
-        nbrcheck = 0;
-        for (k = 0; k < 5; k++) check[k] = 0;
-
         for (j = 0; j < 4; j++) {
           for (k = 0; k < Con->NbrPyr[Msh->Qua[i][j]]; k++) {
             idx = Con->Pyr[Msh->Qua[i][j]][k];
@@ -1149,6 +1164,10 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
                 }
               }
               break;
+            }
+            else {
+              nbrcheck = 0;
+              for (l = 0; l < 5; l++) check[l] = 0;
             }
           }
         }
