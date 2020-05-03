@@ -100,13 +100,13 @@ typedef struct S_Conn
   int* NbrQua;
   int* NbrPyr;
 
-  int4 **Tri;      
-  int3 **Efr;   
-  int5 **Tet;
-  int9 **Hex;
-  int7 **Pri;
-  int5 **Qua;  
-  int6 **Pyr;
+  int **Tri;      
+  int **Efr;   
+  int **Tet;
+  int **Hex;
+  int **Pri;
+  int **Qua;  
+  int **Pyr;
     
 } Conn;
 
