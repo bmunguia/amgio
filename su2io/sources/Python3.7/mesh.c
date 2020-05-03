@@ -918,7 +918,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
       /*--- Check if edge is part of quad ---*/
       for (j = 0; j < 2; j++) {
         for (k = 0; k < Con->NbrQua[Msh->Efr[i][j]]; k++) {
-          idx = Con->Tri[Point[j]][k];
+          idx = Con->Tri[Msh->Efr[i][j]][k];
           for (l = 0; l < 4; l++) {
             if ((Msh->Qua[idx][l] == Msh->Efr[i][0]) ||
                 (Msh->Qua[idx][l] == Msh->Efr[i][1])) {
@@ -945,7 +945,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
 
         for (j = 0; j < 2; j++) {
           for (k = 0; k < Con->NbrTri[Msh->Efr[i][j]]; k++) {
-            idx = Con->Qua[Point[j]][k];
+            idx = Con->Qua[Msh->Efr[i][j]][k];
             for (l = 0; l < 3; l++) {
               if ((Msh->Tri[idx][l] == Msh->Efr[i][0]) ||
                   (Msh->Tri[idx][l] == Msh->Efr[i][1])) {
@@ -977,7 +977,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
       /*--- Check if tri is part of tets ---*/
       for (j = 0; j < 3; j++) {
         for (k = 0; k < Con->NbrTet[Msh->Tri[i][j]]; k++) {
-          idx = Con->Tet[Point[j]][k];
+          idx = Con->Tet[Msh->Tri[i][j]][k];
           for (l = 0; l < 4; l++) {
             if ((Msh->Tet[idx][l] == Msh->Tri[i][0]) ||
                 (Msh->Tet[idx][l] == Msh->Tri[i][1]) ||
@@ -1005,7 +1005,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
 
         for (j = 0; j < 3; j++) {
           for (k = 0; k < Con->NbrPri[Msh->Tri[i][j]]; k++) {
-            idx = Con->Pri[Point[j]][k];
+            idx = Con->Pri[Msh->Tri[i][j]][k];
             for (l = 0; l < 6; l++) {
               if ((Msh->Pri[idx][l] == Msh->Tri[i][0]) ||
                   (Msh->Pri[idx][l] == Msh->Tri[i][1]) ||
@@ -1034,7 +1034,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
 
         for (j = 0; j < 3; j++) {
           for (k = 0; k < Con->NbrPyr[Msh->Tri[i][j]]; k++) {
-            idx = Con->Pyr[Point[j]][k];
+            idx = Con->Pyr[Msh->Tri[i][j]][k];
             for (l = 0; l < 5; l++) {
               if ((Msh->Pyr[idx][l] == Msh->Tri[i][0]) ||
                   (Msh->Pyr[idx][l] == Msh->Tri[i][1]) ||
@@ -1064,7 +1064,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
       /*--- Check if qua is part of hexs ---*/
       for (j = 0; j < 4; j++) {
         for (k = 0; k < Con->NbrHex[Msh->Qua[i][j]]; k++) {
-          idx = Con->Hex[Point[j]][k];
+          idx = Con->Hex[Msh->Qua[i][j]][k];
           for (l = 0; l < 8; l++) {
             if ((Msh->Hex[idx][l] == Msh->Qua[i][0]) ||
                 (Msh->Hex[idx][l] == Msh->Qua[i][1]) ||
@@ -1093,7 +1093,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
 
         for (j = 0; j < 4; j++) {
           for (k = 0; k < Con->NbrPri[Msh->Qua[i][j]]; k++) {
-            idx = Con->Pri[Point[j]][k];
+            idx = Con->Pri[Msh->Qua[i][j]][k];
             for (l = 0; l < 6; l++) {
               if ((Msh->Pri[idx][l] == Msh->Qua[i][0]) ||
                   (Msh->Pri[idx][l] == Msh->Qua[i][1]) ||
@@ -1123,7 +1123,7 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
 
         for (j = 0; j < 4; j++) {
           for (k = 0; k < Con->NbrPyr[Msh->Qua[i][j]]; k++) {
-            idx = Con->Pyr[Point[j]][k];
+            idx = Con->Pyr[Msh->Qua[i][j]][k];
             for (l = 0; l < 5; l++) {
               if ((Msh->Pyr[idx][l] == Msh->Qua[i][0]) ||
                   (Msh->Pyr[idx][l] == Msh->Qua[i][1]) ||
