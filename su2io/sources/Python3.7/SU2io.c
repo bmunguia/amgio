@@ -163,7 +163,7 @@ int GetSU2KeywordValue (FILE *FilHdl, char *Kwd)
     res = fscanf(FilHdl, "%s", str);
   }while( (res != EOF) && strncmp(str, kwd, lenKwd) );
   
-  if ((res == EOF)) {
+  if (res == EOF) {
     fprintf(stderr,"  ## WARNING: MISSING SU2 MESH FILE KEYWORD: %s.\n", Kwd);
     return 0;
   }
@@ -202,7 +202,7 @@ int GetSU2KeywordValueStr (FILE *FilHdl, char *Kwd, char *StrVal)
     res = fscanf(FilHdl, "%s", str);
   }while( (res != EOF) && strncmp(str, kwd, lenKwd) );
   
-  if ((res == EOF)) {
+  if (res == EOF) {
     fprintf(stderr,"  ## ERROR: INVALID SU2 FILE (CHECK KEYWORD: %s).\n", Kwd);
     return 0;
   }
@@ -1351,7 +1351,7 @@ int WriteSU2SolutionBin (char *SolNam, int Dim, int NbrVer, double3 *Ver,  doubl
   OutFil = fopen(SolNam, "wb");
   
   if ( !OutFil ) {
-    printf("  ## ERROR WriteSU2Solution: Can't open %s\n", OutFil);
+    printf("  ## ERROR WriteSU2Solution: Can't open %s\n", SolNam);
   }
 
   //--- Write restart vars.

@@ -848,7 +848,7 @@ Mesh *SetupSolution (char *SolNam, int NbrVer, int Dim)
   Mesh *Sol = NULL;
   int SizSol[GmfMaxSizMsh+1];
   int FilTyp = GetInputFileType(SolNam);
-  int val;
+  int val=0;
   
   if ( !FilTyp ) {
     printf("  ## ERROR SetupMeshAndSolution : Unknown mesh format.\n");

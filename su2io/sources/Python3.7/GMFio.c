@@ -683,4 +683,6 @@ int SplitQuads(char *nam, Mesh *Msh)
 
   /*--- Set NbrQua = 0 ---*/
   Msh->NbrQua = 0;
+
+  return 1;
 }
