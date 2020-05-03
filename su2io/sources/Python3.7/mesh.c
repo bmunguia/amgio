@@ -531,6 +531,50 @@ Mesh* AllocMesh (int * SizMsh)
   return Msh;    
 }
 
+Conn* AllocConn (int NbrVer)
+{
+  Conn* Con=NULL;
+  Con = (Conn*)malloc(sizeof(struct S_Conn));
+
+  Con->NbrVer = NbrVer;
+  
+  Con->Efr = NULL;
+  Con->Tri = NULL;
+  Con->Tet = NULL;
+  Con->Qua = NULL;
+  Con->Hex = NULL;
+  Con->Pri = NULL;
+  Con->Pyr = NULL;
+
+  Con->NbrEfr = NULL;
+  Con->NbrTri = NULL;
+  Con->NbrTet = NULL;
+  Con->NbrQua = NULL;
+  Con->NbrHex = NULL;
+  Con->NbrPri = NULL;
+  Con->NbrPyr = NULL;
+
+  Con->Efr    = (int**)malloc(sizeof(int*)*(NbrVer+1));
+  Con->Tri    = (int**)malloc(sizeof(int*)*(NbrVer+1));
+  Con->Tet    = (int**)malloc(sizeof(int*)*(NbrVer+1));
+  Con->Qua    = (int**)malloc(sizeof(int*)*(NbrVer+1));
+  Con->Hex    = (int**)malloc(sizeof(int*)*(NbrVer+1));
+  Con->Pri    = (int**)malloc(sizeof(int*)*(NbrVer+1));
+  Con->Pyr    = (int**)malloc(sizeof(int*)*(NbrVer+1));
+
+  Con->NbrEfr = (int*)malloc(sizeof(int)*(NbrVer+1));
+  Con->NbrTri = (int*)malloc(sizeof(int)*(NbrVer+1));
+  Con->NbrTet = (int*)malloc(sizeof(int)*(NbrVer+1));
+  Con->NbrQua = (int*)malloc(sizeof(int)*(NbrVer+1));
+  Con->NbrHex = (int*)malloc(sizeof(int)*(NbrVer+1));
+  Con->NbrPri = (int*)malloc(sizeof(int)*(NbrVer+1));
+  Con->NbrPyr = (int*)malloc(sizeof(int)*(NbrVer+1));
+
+
+  
+  return Con;    
+}
+
 int cmp_int2(const void *a, const void *b)
 {
   int *ia = (int*) a;
@@ -607,6 +651,42 @@ int FreeMesh(Mesh *Msh)
   }
   
   free(Msh);
+  
+  return 1;  
+}
+
+int FreeConn(Conn *Con)
+{
+  
+  if ( !Con ) return 0;
+
+  for (int i = 0; i <= Con->NbrVer; i++) {
+    if (Con->Efr[i]) free(Con->Efr[i]);
+    if (Con->Tri[i]) free(Con->Tri[i]);
+    if (Con->Tet[i]) free(Con->Tet[i]);
+    if (Con->Qua[i]) free(Con->Qua[i]);
+    if (Con->Hex[i]) free(Con->Hex[i]);
+    if (Con->Pri[i]) free(Con->Pri[i]);
+    if (Con->Pyr[i]) free(Con->Pyr[i]);
+  }
+
+  if (Con->Efr) free(Con->Efr);
+  if (Con->Tri) free(Con->Tri);
+  if (Con->Tet) free(Con->Tet);
+  if (Con->Qua) free(Con->Qua);
+  if (Con->Hex) free(Con->Hex);
+  if (Con->Pri) free(Con->Pri);
+  if (Con->Pyr) free(Con->Pyr);
+
+  if (Con->NbrEfr) free(Con->NbrEfr);
+  if (Con->NbrTri) free(Con->NbrTri);
+  if (Con->NbrTet) free(Con->NbrTet);
+  if (Con->NbrQua) free(Con->NbrQua);
+  if (Con->NbrHex) free(Con->NbrHex);
+  if (Con->NbrPri) free(Con->NbrPri);
+  if (Con->NbrPyr) free(Con->NbrPyr);
+  
+  free(Con);
   
   return 1;  
 }
@@ -704,6 +784,7 @@ int RemoveUnconnectedVertices(Mesh *Msh)
 Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
 {
   Mesh *Msh = NULL;
+  Conn *Con = NULL;
   int SizMsh[GmfMaxSizMsh+1];
   int FilTyp = GetInputFileType(MshNam);
   int val;
@@ -719,9 +800,11 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
     AddGMFMeshSize(MshNam, SizMsh);
   
   Msh = AllocMesh(SizMsh);
+  Con = AllocConn(SizMsh[GmfVertices]);
   
   if ( FilTyp == FILE_SU2MSH ) {
-    LoadSU2Mesh(MshNam, Msh);
+    LoadSU2Mesh(MshNam, Msh, Con);
+    LoadSU2ConnData(MshNam, Msh, Con);
     if ( strcmp(SolNam,"") ) {
       FilTyp = GetInputFileType(SolNam);
       if (FilTyp == FILE_SU2BIN)
@@ -736,13 +819,16 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
     
   }  
   else if ( FilTyp == FILE_GMF ){
-    LoadGMFMesh(MshNam, Msh);
+    LoadGMFMesh(MshNam, Msh, Con);
+    LoadGMFConnData(MshNam, Msh, Con);
     if ( strcmp(SolNam,"") )
       LoadGMFSolution(SolNam, Msh);
   }
 
   CheckVolumeElementOrientation(Msh);
-  CheckSurfaceElementOrientation(Msh);
+  CheckSurfaceElementOrientation(Msh, Con);
+
+  if (Con) FreeConn(Con);
 
   return Msh;
 }
@@ -816,10 +902,10 @@ void CheckVolumeElementOrientation(Mesh *Msh) {
 
 }
 
-void CheckSurfaceElementOrientation(Mesh *Msh) {
+void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con) {
 
   double3* Ver = Msh->Ver;
-  int i, j, k, l;
+  int i, j, k, l, idx;
   int nbrcheck;
   int check[8];
   
@@ -829,47 +915,53 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
       nbrcheck = 0;
       for (k = 0; k < 4; k++) check[k] = 0;
 
-      /*--- Check if edge is part of quads ---*/
-      for (j = 1; j <= Msh->NbrQua; j++) {
-        for (k = 0; k < 4; k++) {
-          if ((Msh->Qua[j][k] == Msh->Efr[i][0]) ||
-              (Msh->Qua[j][k] == Msh->Efr[i][1])) {
-            check[k] = 1;
-            nbrcheck++;
-          }
-        }
-        if (nbrcheck == 2) {
-          for (k = 0; k < 4; k++) {
-            if (check[k]==0) {
-              CheckBoundEdge(Msh->Efr, Msh->Ver, i, Msh->Qua[j][k]);
-              break;
-            }
-          }
-          break;
-        }
-      }
-
-      /*--- Check if edge is part of tris ---*/
-      if (nbrcheck < 2) {
-        nbrcheck = 0;
-        for (k = 0; k < 3; k++) check[k] = 0;
-
-        for (j = 1; j <= Msh->NbrTri; j++) {
-          for (k = 0; k < 3; k++) {
-            if ((Msh->Tri[j][k] == Msh->Efr[i][0]) ||
-                (Msh->Tri[j][k] == Msh->Efr[i][1])) {
-              check[k] = 1;
+      /*--- Check if edge is part of quad ---*/
+      for (j = 0; j < 2; j++) {
+        for (k = 0; k < Con->NbrQua[Msh->Efr[i][j]]; k++) {
+          idx = Con->Tri[Point[j]][k];
+          for (l = 0; l < 4; l++) {
+            if ((Msh->Qua[idx][l] == Msh->Efr[i][0]) ||
+                (Msh->Qua[idx][l] == Msh->Efr[i][1])) {
+              check[l] = 1;
               nbrcheck++;
             }
           }
           if (nbrcheck == 2) {
-            for (k = 0; k < 3; k++) {
-              if (check[k]==0) {
-                CheckBoundEdge(Msh->Efr, Msh->Ver, i, Msh->Tri[j][k]);
+            for (l = 0; l < 4; l++) {
+              if (check[l]==0) {
+                CheckBoundEdge(Msh->Efr, Msh->Ver, i, Msh->Qua[idx][l]);
                 break;
               }
             }
             break;
+          }
+        }
+      }
+
+      /*--- Check if edge is part of triangles ---*/
+      if (nbrcheck < 2) {
+        nbrcheck = 0;
+        for (k = 0; k < 3; k++) check[k] = 0;
+
+        for (j = 0; j < 2; j++) {
+          for (k = 0; k < Con->NbrTri[Msh->Efr[i][j]]; k++) {
+            idx = Con->Qua[Point[j]][k];
+            for (l = 0; l < 3; l++) {
+              if ((Msh->Tri[idx][l] == Msh->Efr[i][0]) ||
+                  (Msh->Tri[idx][l] == Msh->Efr[i][1])) {
+                check[l] = 1;
+                nbrcheck++;
+              }
+            }
+            if (nbrcheck == 2) {
+              for (l = 0; l < 3; l++) {
+                if (check[l]==0) {
+                  CheckBoundEdge(Msh->Efr, Msh->Ver, i, Msh->Tri[idx][l]);
+                  break;
+                }
+              }
+              break;
+            }
           }
         }
       }
@@ -883,23 +975,26 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
       for (k = 0; k < 4; k++) check[k] = 0;
 
       /*--- Check if tri is part of tets ---*/
-      for (j = 1; j <= Msh->NbrTet; j++) {
-        for (k = 0; k < 4; k++) {
-          if ((Msh->Tet[j][k] == Msh->Tri[i][0]) ||
-              (Msh->Tet[j][k] == Msh->Tri[i][1]) ||
-              (Msh->Tet[j][k] == Msh->Tri[i][2])) {
-            check[k] = 1;
-            nbrcheck++;
-          }
-        }
-        if (nbrcheck == 3) {
-          for (k = 0; k < 4; k++) {
-            if (check[k]==0) {
-              CheckBoundTriangle(Msh->Tri, Msh->Ver, i, Msh->Tet[j][k]);
-              break;
+      for (j = 0; j < 3; j++) {
+        for (k = 0; k < Con->NbrTet[Msh->Tri[i][j]]; k++) {
+          idx = Con->Tet[Point[j]][k];
+          for (l = 0; l < 4; l++) {
+            if ((Msh->Tet[idx][l] == Msh->Tri[i][0]) ||
+                (Msh->Tet[idx][l] == Msh->Tri[i][1]) ||
+                (Msh->Tet[idx][l] == Msh->Tri[i][2])) {
+              check[l] = 1;
+              nbrcheck++;
             }
           }
-          break;
+          if (nbrcheck == 3) {
+            for (l = 0; l < 4; l++) {
+              if (check[l]==0) {
+                CheckBoundTriangle(Msh->Tri, Msh->Ver, i, Msh->Tet[idx][l]);
+                break;
+              }
+            }
+            break;
+          }
         }
       }
 
@@ -908,23 +1003,26 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
         nbrcheck = 0;
         for (k = 0; k < 6; k++) check[k] = 0;
 
-        for (j = 1; j <= Msh->NbrPri; j++) {
-          for (k = 0; k < 6; k++) {
-            if ((Msh->Pri[j][k] == Msh->Tri[i][0]) ||
-                (Msh->Pri[j][k] == Msh->Tri[i][1]) ||
-                (Msh->Pri[j][k] == Msh->Tri[i][2])) {
-              check[k] = 1;
-              nbrcheck++;
-            }
-          }
-          if (nbrcheck == 3) {
-            for (k = 0; k < 6; k++) {
-              if (check[k]==0) {
-                CheckBoundTriangle(Msh->Tri, Msh->Ver, i, Msh->Pri[j][k]);
-                break;
+        for (j = 0; j < 3; j++) {
+          for (k = 0; k < Con->NbrPri[Msh->Tri[i][j]]; k++) {
+            idx = Con->Pri[Point[j]][k];
+            for (l = 0; l < 6; l++) {
+              if ((Msh->Pri[idx][l] == Msh->Tri[i][0]) ||
+                  (Msh->Pri[idx][l] == Msh->Tri[i][1]) ||
+                  (Msh->Pri[idx][l] == Msh->Tri[i][2])) {
+                check[l] = 1;
+                nbrcheck++;
               }
             }
-            break;
+            if (nbrcheck == 3) {
+              for (l = 0; l < 6; l++) {
+                if (check[l]==0) {
+                  CheckBoundTriangle(Msh->Tri, Msh->Ver, i, Msh->Pri[idx][l]);
+                  break;
+                }
+              }
+              break;
+            }
           }
         }
       }
@@ -934,23 +1032,26 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
         nbrcheck = 0;
         for (k = 0; k < 5; k++) check[k] = 0;
 
-        for (j = 1; j <= Msh->NbrPyr; j++) {
-          for (k = 0; k < 5; k++) {
-            if ((Msh->Pyr[j][k] == Msh->Tri[i][0]) ||
-                (Msh->Pyr[j][k] == Msh->Tri[i][1]) ||
-                (Msh->Pyr[j][k] == Msh->Tri[i][2])) {
-              check[k] = 1;
-              nbrcheck++;
-            }
-          }
-          if (nbrcheck == 3) {
-            for (k = 0; k < 5; k++) {
-              if (check[k]==0) {
-                CheckBoundTriangle(Msh->Tri, Msh->Ver, i, Msh->Pyr[j][k]);
-                break;
+        for (j = 0; j < 3; j++) {
+          for (k = 0; k < Con->NbrPyr[Msh->Tri[i][j]]; k++) {
+            idx = Con->Pyr[Point[j]][k];
+            for (l = 0; l < 5; l++) {
+              if ((Msh->Pyr[idx][l] == Msh->Tri[i][0]) ||
+                  (Msh->Pyr[idx][l] == Msh->Tri[i][1]) ||
+                  (Msh->Pyr[idx][l] == Msh->Tri[i][2])) {
+                check[l] = 1;
+                nbrcheck++;
               }
             }
-            break;
+            if (nbrcheck == 3) {
+              for (l = 0; l < 5; l++) {
+                if (check[l]==0) {
+                  CheckBoundTriangle(Msh->Tri, Msh->Ver, i, Msh->Pyr[idx][l]);
+                  break;
+                }
+              }
+              break;
+            }
           }
         }
       }
@@ -961,24 +1062,27 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
       for (k = 0; k < 8; k++) check[k] = 0;
 
       /*--- Check if qua is part of hexs ---*/
-      for (j = 1; j <= Msh->NbrHex; j++) {
-        for (k = 0; k < 8; k++) {
-          if ((Msh->Hex[j][k] == Msh->Qua[i][0]) ||
-              (Msh->Hex[j][k] == Msh->Qua[i][1]) ||
-              (Msh->Hex[j][k] == Msh->Qua[i][2]) ||
-              (Msh->Hex[j][k] == Msh->Qua[i][3])) {
-            check[k] = 1;
-            nbrcheck++;
-          }
-        }
-        if (nbrcheck == 4) {
-          for (k = 0; k < 8; k++) {
-            if (check[k]==0) {
-              CheckBoundQuadrilateral(Msh->Qua, Msh->Ver, i, Msh->Hex[j][k]);
-              break;
+      for (j = 0; j < 4; j++) {
+        for (k = 0; k < Con->NbrHex[Msh->Qua[i][j]]; k++) {
+          idx = Con->Hex[Point[j]][k];
+          for (l = 0; l < 8; l++) {
+            if ((Msh->Hex[idx][l] == Msh->Qua[i][0]) ||
+                (Msh->Hex[idx][l] == Msh->Qua[i][1]) ||
+                (Msh->Hex[idx][l] == Msh->Qua[i][2]) ||
+                (Msh->Hex[idx][l] == Msh->Qua[i][3])) {
+              check[l] = 1;
+              nbrcheck++;
             }
           }
-          break;
+          if (nbrcheck == 4) {
+            for (l = 0; l < 8; l++) {
+              if (check[l]==0) {
+                CheckBoundQuadrilateral(Msh->Qua, Msh->Ver, i, Msh->Hex[idx][l]);
+                break;
+              }
+            }
+            break;
+          }
         }
       }
 
@@ -987,24 +1091,27 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
         nbrcheck = 0;
         for (k = 0; k < 6; k++) check[k] = 0;
 
-        for (j = 1; j <= Msh->NbrPri; j++) {
-          for (k = 0; k < 6; k++) {
-            if ((Msh->Pri[j][k] == Msh->Qua[i][0]) ||
-                (Msh->Pri[j][k] == Msh->Qua[i][1]) ||
-                (Msh->Pri[j][k] == Msh->Qua[i][2]) ||
-                (Msh->Pri[j][k] == Msh->Qua[i][3])) {
-              check[k] = 1;
-              nbrcheck++;
-            }
-          }
-          if (nbrcheck == 4) {
-            for (k = 0; k < 6; k++) {
-              if (check[k]==0) {
-                CheckBoundQuadrilateral(Msh->Qua, Msh->Ver, i, Msh->Pri[j][k]);
-                break;
+        for (j = 0; j < 4; j++) {
+          for (k = 0; k < Con->NbrPri[Msh->Qua[i][j]]; k++) {
+            idx = Con->Pri[Point[j]][k];
+            for (l = 0; l < 6; l++) {
+              if ((Msh->Pri[idx][l] == Msh->Qua[i][0]) ||
+                  (Msh->Pri[idx][l] == Msh->Qua[i][1]) ||
+                  (Msh->Pri[idx][l] == Msh->Qua[i][2]) ||
+                  (Msh->Pri[idx][l] == Msh->Qua[i][3])) {
+                check[l] = 1;
+                nbrcheck++;
               }
             }
-            break;
+            if (nbrcheck == 4) {
+              for (l = 0; l < 6; l++) {
+                if (check[l]==0) {
+                  CheckBoundQuadrilateral(Msh->Qua, Msh->Ver, i, Msh->Pri[idx][l]);
+                  break;
+                }
+              }
+              break;
+            }
           }
         }
       }
@@ -1014,24 +1121,27 @@ void CheckSurfaceElementOrientation(Mesh *Msh) {
         nbrcheck = 0;
         for (k = 0; k < 5; k++) check[k] = 0;
 
-        for (j = 1; j <= Msh->NbrPyr; j++) {
-          for (k = 0; k < 5; k++) {
-            if ((Msh->Pyr[j][k] == Msh->Qua[i][0]) ||
-                (Msh->Pyr[j][k] == Msh->Qua[i][1]) ||
-                (Msh->Pyr[j][k] == Msh->Qua[i][2]) ||
-                (Msh->Pyr[j][k] == Msh->Qua[i][3])) {
-              check[k] = 1;
-              nbrcheck++;
-            }
-          }
-          if (nbrcheck == 4) {
-            for (k = 0; k < 5; k++) {
-              if (check[k]==0) {
-                CheckBoundQuadrilateral(Msh->Qua, Msh->Ver, i, Msh->Pyr[j][k]);
-                break;
+        for (j = 0; j < 4; j++) {
+          for (k = 0; k < Con->NbrPyr[Msh->Qua[i][j]]; k++) {
+            idx = Con->Pyr[Point[j]][k];
+            for (l = 0; l < 5; l++) {
+              if ((Msh->Pyr[idx][l] == Msh->Qua[i][0]) ||
+                  (Msh->Pyr[idx][l] == Msh->Qua[i][1]) ||
+                  (Msh->Pyr[idx][l] == Msh->Qua[i][2]) ||
+                  (Msh->Pyr[idx][l] == Msh->Qua[i][3])) {
+                check[l] = 1;
+                nbrcheck++;
               }
             }
-            break;
+            if (nbrcheck == 4) {
+              for (l = 0; l < 5; l++) {
+                if (check[l]==0) {
+                  CheckBoundQuadrilateral(Msh->Qua, Msh->Ver, i, Msh->Pyr[idx][l]);
+                  break;
+                }
+              }
+              break;
+            }
           }
         }
       }

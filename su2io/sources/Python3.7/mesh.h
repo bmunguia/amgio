@@ -89,6 +89,27 @@ typedef struct S_Mesh
     
 } Mesh;
 
+typedef struct S_Conn
+{
+  int NbrVer;
+  int* NbrTri;
+  int* NbrEfr;
+  int* NbrTet;
+  int* NbrHex;
+  int* NbrPri;
+  int* NbrQua;
+  int* NbrPyr;
+
+  int4 **Tri;      
+  int3 **Efr;   
+  int5 **Tet;
+  int9 **Hex;
+  int7 **Pri;
+  int5 **Qua;  
+  int6 **Pyr;
+    
+} Conn;
+
 
 
 

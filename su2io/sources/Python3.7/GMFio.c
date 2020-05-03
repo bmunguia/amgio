@@ -37,9 +37,9 @@ int AddGMFMeshSize (char *MshNam, int *SizMsh)
   return 1;
 }
 
-int LoadGMFMesh (char *MshNam, Mesh *Msh)
+int LoadGMFMesh (char *MshNam, Mesh *Msh, Conn *Con)
 {
-  int i, idx;
+  int i, j, idx;
   int dim, FilVer, InpMsh, ref; 
   double bufDbl[3];
   int bufInt[8], is[8];
@@ -99,6 +99,7 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
     GmfGetLin(InpMsh, GmfEdges, &bufInt[0], &bufInt[1], &ref);
     Msh->NbrEfr++;
     AddEdge(Msh,Msh->NbrEfr,bufInt,ref);
+    for (j = 0; j < 2; j++) Con->NbrEfr[bufInt[j]]++;
   }
 
   //--- Read Triangles
@@ -110,6 +111,7 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
     // switchTriIdx(bufInt,is);
     // AddTriangle(Msh,Msh->NbrTri,is,ref);
     AddTriangle(Msh,Msh->NbrTri,bufInt,ref);
+    for (j = 0; j < 3; j++) Con->NbrTri[bufInt[j]]++;
   }
   
   //--- Read Quads
@@ -121,6 +123,7 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
     // switchQuaIdx(bufInt,is);
     // AddQuadrilateral(Msh,Msh->NbrQua,is,ref);
     AddQuadrilateral(Msh,Msh->NbrQua,bufInt,ref);
+    for (j = 0; j < 4; j++) Con->NbrQua[bufInt[j]]++;
   }
 
   //--- Read tetrahedra
@@ -130,6 +133,7 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
     GmfGetLin(InpMsh, GmfTetrahedra, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3], &ref);
     Msh->NbrTet++;
     AddTetrahedron(Msh,Msh->NbrTet,bufInt,ref);
+    for (j = 0; j < 4; j++) Con->NbrTet[bufInt[j]]++;
   }
 
   //--- Read Pyramids
@@ -139,6 +143,7 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
     GmfGetLin(InpMsh, GmfPyramids, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3],  &bufInt[4], &ref);
     Msh->NbrPyr++;
     AddPyramid(Msh,Msh->NbrPyr,bufInt,ref);
+    for (j = 0; j < 5; j++) Con->NbrPyr[bufInt[j]]++;
   }
 
   //--- Read Prisms
@@ -148,6 +153,7 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
     GmfGetLin(InpMsh, GmfPrisms, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3],  &bufInt[4],  &bufInt[5], &ref);
     Msh->NbrPri++;
     AddPrism(Msh,Msh->NbrPri,bufInt,ref);
+    for (j = 0; j < 6; j++) Con->NbrPri[bufInt[j]]++;
   }
   
   //--- Read Hexahedra
@@ -157,6 +163,141 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh)
     GmfGetLin(InpMsh, GmfHexahedra, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3], &bufInt[4], &bufInt[5], &bufInt[6], &bufInt[7], &ref);
     Msh->NbrHex++;
     AddHexahedron(Msh,Msh->NbrHex,bufInt,ref);
+    for (j = 0; j < 8; j++) Con->NbrHex[bufInt[j]]++;
+  }
+  
+  if ( !GmfCloseMesh(InpMsh) ) {
+    printf("  ## ERROR: Cannot close solution file %s ! \n",MshNam);
+    return 0;
+  }
+    
+  return 1;
+}
+
+int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
+{
+  int i, j, idx;
+  int dim, FilVer, InpMsh, ref; 
+  double bufDbl[3];
+  int bufInt[8], is[8];
+  
+  int NbrVer, NbrTri, NbrEfr, NbrCor, NbrTet, NbrHex, NbrQua, NbrPri, NbrPyr;
+
+  for (int iVer = 1; iVer <= Msh->NbrVer; iVer++) {
+    if (Con->NbrEfr[iVer] > 0)
+      Con->Efr[iVer] = (int*)malloc(sizeof(int)*(Con->NbrEfr[iVer]));
+    if (Con->NbrTri[iVer] > 0)
+      Con->Tri[iVer] = (int*)malloc(sizeof(int)*(Con->NbrTri[iVer]));
+    if (Con->NbrTet[iVer] > 0)
+      Con->Tet[iVer] = (int*)malloc(sizeof(int)*(Con->NbrTet[iVer]));
+    if (Con->NbrQua[iVer] > 0)
+      Con->Qua[iVer] = (int*)malloc(sizeof(int)*(Con->NbrQua[iVer]));
+    if (Con->NbrHex[iVer] > 0)
+      Con->Hex[iVer] = (int*)malloc(sizeof(int)*(Con->NbrHex[iVer]));
+    if (Con->NbrPri[iVer] > 0)
+      Con->Pri[iVer] = (int*)malloc(sizeof(int)*(Con->NbrPri[iVer]));
+    if (Con->NbrPyr[iVer] > 0)
+      Con->Pyr[iVer] = (int*)malloc(sizeof(int)*(Con->NbrPyr[iVer]));
+
+    Con->NbrEfr[iVer] = Con->NbrTri[iVer] = Con->NbrTet[iVer] = Con->NbrQua[iVer] = 0;
+    Con->NbrHex[iVer] = Con->NbrPri[iVer] = Con->NbrPyr[iVer] = 0;
+  }
+  
+  if ( !(InpMsh = GmfOpenMesh(MshNam,GmfRead,&FilVer,&dim)) ) {
+    printf("  ## ERROR: Mesh data file %s.mesh[b] not found ! \n",MshNam);
+    return 0;
+  }
+    
+  Msh->NbrTri = Msh->NbrEfr = 0;
+  Msh->NbrTet = Msh->NbrHex = Msh->NbrQua = Msh->NbrPri = Msh->NbrPyr = 0;
+  Msh->NbrCor = 0;
+  
+  NbrTri = NbrEfr = 0;
+  NbrTet = NbrHex = NbrQua = NbrPri = NbrPyr = 0;
+  NbrCor = 0;
+
+  //--- Read boundary edges
+  NbrEfr = GmfStatKwd(InpMsh, GmfEdges);  
+  GmfGotoKwd(InpMsh, GmfEdges);
+  for (i=1; i<=NbrEfr; ++i) {
+    GmfGetLin(InpMsh, GmfEdges, &bufInt[0], &bufInt[1], &ref);
+    Msh->NbrEfr++;
+    for (j = 0; j < 2; j++) {
+      Con->Efr[Con->NbrEfr[bufInt[j]]] = Msh->NbrEfr;
+      Con->NbrEfr[bufInt[j]]++;
+    }
+  }
+
+  //--- Read Triangles
+  NbrTri = GmfStatKwd(InpMsh, GmfTriangles);  
+  GmfGotoKwd(InpMsh, GmfTriangles);
+  for (i=1; i<=NbrTri; ++i) {
+    GmfGetLin(InpMsh, GmfTriangles, &bufInt[0], &bufInt[1], &bufInt[2], &ref);
+    Msh->NbrTri++;
+    for (j = 0; j < 3; j++) {
+      Con->Tri[Con->NbrEfr[bufInt[j]]] = Msh->NbrTri;
+      Con->NbrTri[bufInt[j]]++;
+    }
+  }
+  
+  //--- Read Quads
+  NbrQua = GmfStatKwd(InpMsh, GmfQuadrilaterals);  
+  GmfGotoKwd(InpMsh, GmfQuadrilaterals);
+  for (i=1; i<=NbrQua; ++i) {
+    GmfGetLin(InpMsh, GmfQuadrilaterals, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3], &ref);
+    Msh->NbrQua++;
+    for (j = 0; j < 4; j++) {
+      Con->Qua[Con->NbrQua[bufInt[j]]] = Msh->NbrQua;
+      Con->NbrQua[bufInt[j]]++;
+    }
+  }
+
+  //--- Read tetrahedra
+  NbrTet = GmfStatKwd(InpMsh, GmfTetrahedra);  
+  GmfGotoKwd(InpMsh, GmfTetrahedra);
+  for (i=1; i<=NbrTet; ++i) {
+    GmfGetLin(InpMsh, GmfTetrahedra, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3], &ref);
+    Msh->NbrTet++;
+    for (j = 0; j < 4; j++) {
+      Con->Tet[Con->NbrTet[bufInt[j]]] = Msh->NbrTet;
+      Con->NbrTet[bufInt[j]]++;
+    }
+  }
+
+  //--- Read Pyramids
+  NbrPyr = GmfStatKwd(InpMsh, GmfPyramids);  
+  GmfGotoKwd(InpMsh, GmfPyramids);
+  for (i=1; i<=NbrPyr; ++i) {
+    GmfGetLin(InpMsh, GmfPyramids, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3],  &bufInt[4], &ref);
+    Msh->NbrPyr++;
+    for (j = 0; j < 5; j++) {
+      Con->Pyr[Con->NbrPyr[bufInt[j]]] = Msh->NbrPyr;
+      Con->NbrPyr[bufInt[j]]++;
+    }
+  }
+
+  //--- Read Prisms
+  NbrPri = GmfStatKwd(InpMsh, GmfPrisms);  
+  GmfGotoKwd(InpMsh, GmfPrisms);
+  for (i=1; i<=NbrPri; ++i) {
+    GmfGetLin(InpMsh, GmfPrisms, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3],  &bufInt[4],  &bufInt[5], &ref);
+    Msh->NbrPri++;
+    for (j = 0; j < 6; j++) {
+      Con->Pri[Con->NbrPri[bufInt[j]]] = Msh->NbrPri;
+      Con->NbrPri[bufInt[j]]++;
+    }
+  }
+  
+  //--- Read Hexahedra
+  NbrHex = GmfStatKwd(InpMsh, GmfHexahedra);  
+  GmfGotoKwd(InpMsh, GmfHexahedra);
+  for (i=1; i<=NbrHex; ++i) {
+    GmfGetLin(InpMsh, GmfHexahedra, &bufInt[0], &bufInt[1], &bufInt[2], &bufInt[3], &bufInt[4], &bufInt[5], &bufInt[6], &bufInt[7], &ref);
+    Msh->NbrHex++;
+    for (j = 0; j < 8; j++) {
+      Con->Hex[Con->NbrHex[bufInt[j]]] = Msh->NbrHex;
+      Con->NbrHex[bufInt[j]]++;
+    }
   }
   
   if ( !GmfCloseMesh(InpMsh) ) {

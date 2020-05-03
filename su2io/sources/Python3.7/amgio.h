@@ -23,8 +23,9 @@
 int  AddSU2MeshSize(char *FilNam, int *SizMsh) ;
 int  GetSU2KeywordValue(FILE *FilHdl, char *Kwd);
 int  GetSU2KeywordValueStr(FILE *FilHdl, char *Kwd, char *StrVal);
-int  LoadSU2Elements(FILE *FilHdl, Mesh *Msh);
-int  LoadSU2Mesh(char *FilNam, Mesh *Msh);
+int  LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con);
+int  LoadSU2ConnData(FILE *FilHdl, Mesh *Msh, Conn *Con);
+int  LoadSU2Mesh(char *FilNam, Mesh *Msh, Conn *Con);
 int  LoadSU2Solution(char *SolNam, Mesh *Msh);
 int  LoadSU2SolutionBin(char *SolNam, Mesh *Msh);
 int  LoadSU2Vertices(FILE *FilHdl, Mesh *Msh);
@@ -35,7 +36,8 @@ int  WriteSU2SolutionBin(char *SolNam, int Dim, int NbrVer, double3 *Ver,  doubl
 
 //--- GMFio.c
 int AddGMFMeshSize (char *MshNam, int *SizMsh);
-int LoadGMFMesh (char *MshNam, Mesh *Msh);
+int LoadGMFMesh (char *MshNam, Mesh *Msh, Conn *Con);
+int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con);
 int LoadGMFSolution(char *SolNam, Mesh *Msh);
 int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin);
 int WriteGMFSolution(char *SolNam, double *Sol, int SolSiz, int NbrVer, int Dim, int NbrFld, int* FldTab);
@@ -58,7 +60,7 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam);
 Mesh *SetupSolution (char *SolNam, int NbrVer, int Dim);
 void  CopyBoundaryMarkers (Mesh *Msh, Mesh *BndMsh);
 void  CheckVolumeElementOrientation(Mesh *Msh);
-void  CheckSurfaceElementOrientation(Mesh *Msh);
+void  CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con);
 int   RemoveUnconnectedVertices (Mesh *Msh);
 void  AddCorner(Mesh *Msh, int idxCor, int *is);
 void  AddVertex(Mesh *Msh, int idxVer, double *Crd);
