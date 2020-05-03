@@ -411,7 +411,6 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
           return 0;
         }
 
-        // switchTriIdx(swi,is);
         AddTriangle(Msh,Msh->NbrTri,swi,iMark+1);
       }
       else if ( typ == SU2_RECTANGLE ) {          
@@ -428,7 +427,6 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
           return 0;
         }
 
-        // switchQuaIdx(swi,is);
         AddQuadrilateral(Msh,Msh->NbrQua,swi,iMark+1);
       }
       else if ( typ == SU2_LINE ) {
