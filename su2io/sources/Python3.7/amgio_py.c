@@ -545,9 +545,9 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
   {
     for (i=1; i<NbrMarkers; i++){
       PyObject *oo = PyList_GetItem(pyMarkers,i);
-      strcpy(Msh->Markers[i-1], (char*) PyUnicode_AsUTF8(oo));
+      strcpy(Msh->Markers[i], (char*) PyUnicode_AsUTF8(oo));
     }
-    Msh->NbrMarkers = NbrMarkers;
+    Msh->NbrMarkers = NbrMarkers-1;
   }
   
   
@@ -898,9 +898,9 @@ void py_WriteMesh(char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTr
   {
     for (i=1; i<NbrMarkers; i++){
       PyObject *oo = PyList_GetItem(pyMarkers,i);
-      strcpy(Msh->Markers[i-1], (char*) PyUnicode_AsUTF8(oo));
+      strcpy(Msh->Markers[i], (char*) PyUnicode_AsUTF8(oo));
     }
-    Msh->NbrMarkers = NbrMarkers;
+    Msh->NbrMarkers = NbrMarkers-1;
   }
   
   //--- Write Mesh
