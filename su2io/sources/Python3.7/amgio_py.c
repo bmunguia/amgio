@@ -604,27 +604,9 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
   char BasNam[1024], BasNamSol[1024], OutSol[1024];
   
   // --- Get BasNam
-  
-    strcpy(BasNam,MshNam);
-  
-    ptr = strstr(BasNam,".su2");  
-    if ( ptr != NULL )
-      BasNam[ptr-BasNam]='\0';
-    ptr = strstr(BasNam,".meshb");  
-    if ( ptr != NULL )
-      BasNam[ptr-BasNam]='\0';
-  
-    strcpy(BasNamSol,SolNam);
-  
-    ptr = strstr(BasNamSol,".csv");  
-    if ( ptr != NULL )
-      BasNamSol[ptr-BasNamSol]='\0';
-    ptr = strstr(BasNamSol,".dat");  
-    if ( ptr != NULL )
-      BasNamSol[ptr-BasNamSol]='\0';
-    ptr = strstr(BasNamSol,".solb");  
-    if ( ptr != NULL )
-      BasNamSol[ptr-BasNamSol]='\0';
+
+  GetBasNam(MshNam, BasNam);
+  GetBasNam(SolNam, BasNamSol);
   
   if ( FilTyp != FILE_SU2MSH ) {
     WriteGMFMesh(BasNam, Msh, 1);
@@ -924,19 +906,12 @@ void py_WriteMesh(char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTr
   //--- Write Mesh
   
   int FilTyp = GetInputFileType(MshNam);
-    char *ptr = NULL;
-  char BasNam[1024], BasNamSol[1024], OutSol[1024];
+  char *ptr = NULL;
+  char BasNam[1024];
   
   // --- Get BasNam
   
-    strcpy(BasNam,MshNam);
-  
-    ptr = strstr(BasNam,".su2");  
-    if ( ptr != NULL )
-      BasNam[ptr-BasNam]='\0';
-    ptr = strstr(BasNam,".meshb");  
-    if ( ptr != NULL )
-      BasNam[ptr-BasNam]='\0';
+  GetBasNam(MshNam, BasNam);
   
   if ( FilTyp != FILE_SU2MSH ) {
     WriteGMFMesh(BasNam, Msh, 1);

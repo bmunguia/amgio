@@ -20,8 +20,6 @@ Options* AllocOptions()
   strcpy(mshopt->OutNam, "");
   strcpy(mshopt->BasNam, "");
   strcpy(mshopt->SolNam, "");
-
-  strcpy(mshopt->HeaderNam, "");
   
   return mshopt;
 }
@@ -53,8 +51,8 @@ int CheckOptions (Options *mshopt)
   if ( strcmp(mshopt->SolNam, "") ) {
     SolTyp = GetInputFileType(mshopt->SolNam);
     
-    if ( mshopt->InpFilTyp == FILE_SU2MSH && SolTyp != FILE_SU2CSV ) {
-      printf("  ## ERROR : Wrong format for solution file (.csv expected)\n");
+    if ( mshopt->InpFilTyp == FILE_SU2MSH && SolTyp != FILE_SU2CSV && SolTyp != FILE_SU2BIN ) {
+      printf("  ## ERROR : Wrong format for solution file (.csv or .dat expected)\n");
       return 0;
     }
     
@@ -92,19 +90,23 @@ int GetBasNam (char *InpNam, char *BasNam)
   
   strcpy(BasNam,InpNam);
   
-  ptr = strstr(BasNam,".mesh");  
-  if ( ptr != NULL )
-    BasNam[ptr-BasNam]='\0';
-    
-  ptr = strstr(BasNam,".sol");  
+  ptr = strstr(BasNam,".su2");  
   if ( ptr != NULL )
     BasNam[ptr-BasNam]='\0';
 
-  ptr = strstr(BasNam,".solb");
+  ptr = strstr(BasNam,".meshb");  
   if ( ptr != NULL )
     BasNam[ptr-BasNam]='\0';
 
-  ptr = strstr(BasNam,".su2");
+  ptr = strstr(BasNam,".csv");  
+  if ( ptr != NULL )
+    BasNam[ptr-BasNam]='\0';
+
+  ptr = strstr(BasNam,".dat");  
+  if ( ptr != NULL )
+    BasNam[ptr-BasNam]='\0';
+  
+  ptr = strstr(BasNam,".solb");  
   if ( ptr != NULL )
     BasNam[ptr-BasNam]='\0';
 

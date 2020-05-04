@@ -17,50 +17,9 @@ int ConvertGMFtoSU2Sol (Options *mshopt)
     printf("  ## ERROR : Input mesh file must be a .mesh (GMF) (FilTyp=%d)\n", Msh->FilTyp);
     return 0;
   }
-  
-  //--- Get header information from reference file
-
-  if ( strcmp(mshopt->HeaderNam, "") ) {
-
-    FilHdl = fopen(mshopt->HeaderNam,"r");
-
-    if ( !FilHdl ) {
-      printf("  ## ERROR: ConvertGMFtoSU2Sol: UNABLE TO OPEN %s. \n", mshopt->HeaderNam);
-      return 0;
-    }
-
-    if ( getline(&lin, &len, FilHdl) != -1 ) {
-      tok = strtok (lin, "  ,");
-      skip = 0;
-      SolSiz = 0;
-      while ( tok ) {
-        if ( !strcmp(tok,"\"PointID\"") || !strcmp(tok,"\"x\"") || !strcmp(tok,"\"y\"") || !strcmp(tok,"\"z\"")   ) {
-          tok = strtok (NULL, "  ,");
-          skip++;
-          continue;
-        }
-
-        strcpy(Msh->SolTag[SolSiz], tok);
-        StrRemoveChars(Msh->SolTag[SolSiz], '\"');
-        StrRemoveChars(Msh->SolTag[SolSiz], '\n');
-        SolSiz++;
-
-        if ( SolSiz > Msh->SolSiz ) {
-          printf("  ## ERROR: ConvertGMFtoSU2Sol: Provided header size does not match.\n");
-          return 0;
-        }
-
-        tok = strtok (NULL, "  ,");
-      }
-    }
-
-  }
 
   if ( mshopt->clean == 1 )
     RemoveUnconnectedVertices(Msh);
-  
-  if ( mshopt->Dim == 2 )
-    Msh->Dim = 2;
   
   WriteSU2Mesh(mshopt->OutNam, Msh);
   
@@ -108,50 +67,9 @@ int ConvertGMFWithBoundtoSU2Sol (Options *mshopt, char* BndMshNam)
     printf("  ## ERROR : Input mesh file must be a .mesh (GMF) (FilTyp=%d)\n", Msh->FilTyp);
     return 0;
   }
-  
-  //--- Get header information from reference file
-
-  if ( strcmp(mshopt->HeaderNam, "") ) {
-
-    FilHdl = fopen(mshopt->HeaderNam,"r");
-
-    if ( !FilHdl ) {
-      printf("  ## ERROR: ConvertGMFtoSU2Sol: UNABLE TO OPEN %s. \n", mshopt->HeaderNam);
-      return 0;
-    }
-
-    if ( getline(&lin, &len, FilHdl) != -1 ) {
-      tok = strtok (lin, "  ,");
-      skip = 0;
-      SolSiz = 0;
-      while ( tok ) {
-        if ( !strcmp(tok,"\"PointID\"") || !strcmp(tok,"\"x\"") || !strcmp(tok,"\"y\"") || !strcmp(tok,"\"z\"")   ) {
-          tok = strtok (NULL, " ,");
-          skip++;
-          continue;
-        }
-
-        strcpy(Msh->SolTag[SolSiz], tok);
-        StrRemoveChars(Msh->SolTag[SolSiz], '\"');
-        StrRemoveChars(Msh->SolTag[SolSiz], '\n');
-        SolSiz++;
-
-        if ( SolSiz > Msh->SolSiz ) {
-          printf("  ## ERROR: ConvertGMFtoSU2Sol: Provided header size does not match.\n");
-          return 0;
-        }
-
-        tok = strtok (NULL, " ,");
-      }
-    }
-
-  }
 
   if ( mshopt->clean == 1 )
     RemoveUnconnectedVertices(Msh);
-  
-  if ( mshopt->Dim == 2 )
-    Msh->Dim = 2;
   
   WriteSU2Mesh(mshopt->OutNam, Msh);
   
@@ -189,50 +107,9 @@ int ConvertGMFSoltoMet (Options *mshopt)
     printf("  ## ERROR : Input mesh file must be a .mesh (GMF) (FilTyp=%d)\n", Msh->FilTyp);
     return 0;
   }
-  
-  //--- Get header information from reference file
-
-  if ( strcmp(mshopt->HeaderNam, "") ) {
-
-    FilHdl = fopen(mshopt->HeaderNam,"r");
-
-    if ( !FilHdl ) {
-      printf("  ## ERROR: ConvertGMFtoSU2Sol: UNABLE TO OPEN %s. \n", mshopt->HeaderNam);
-      return 0;
-    }
-
-    if ( getline(&lin, &len, FilHdl) != -1 ) {
-      tok = strtok (lin, "  ,");
-      skip = 0;
-      SolSiz = 0;
-      while ( tok ) {
-        if ( !strcmp(tok,"\"PointID\"") || !strcmp(tok,"\"x\"") || !strcmp(tok,"\"y\"") || !strcmp(tok,"\"z\"")   ) {
-          tok = strtok (NULL, " ,");
-          skip++;
-          continue;
-        }
-
-        strcpy(Msh->SolTag[SolSiz], tok);
-        StrRemoveChars(Msh->SolTag[SolSiz], '\"');
-        StrRemoveChars(Msh->SolTag[SolSiz], '\n');
-        SolSiz++;
-
-        if ( SolSiz > Msh->SolSiz ) {
-          printf("  ## ERROR: ConvertGMFtoSU2Sol: Provided header size does not match.\n");
-          return 0;
-        }
-
-        tok = strtok (NULL, " ,");
-      }
-    }
-
-  }
 
   if ( mshopt->clean == 1 )
     RemoveUnconnectedVertices(Msh);
-  
-  if ( mshopt->Dim == 2 )
-    Msh->Dim = 2;
   
   sprintf(OutMet, "%s.solb", mshopt->OutNam);
   WriteGMFMetric(OutMet, Msh, 1);
@@ -282,7 +159,7 @@ int SplitSolution (Mesh *Msh, char *prefix, char *adap_sensor)
   double *OutSol = NULL;
   char OutNam[256];
   
-  int pres_flag=0, mach_flag=0, temp_flag=0, goal_flag=0;
+  int pres_flag=0, mach_flag=0, temp_flag=0;
     
   if (!strcmp(adap_sensor, "MACH_PRES")) {
     NbrFld = 2;
@@ -295,10 +172,6 @@ int SplitSolution (Mesh *Msh, char *prefix, char *adap_sensor)
   else if (!strcmp(adap_sensor, "PRES")) {
     NbrFld = 1;
     pres_flag = 1;
-  }
-  else if (!strcmp(adap_sensor, "GOAL_ECC")) {
-    NbrFld = 2;
-    goal_flag = mach_flag = 1;
   }
   else {
     printf("## ERROR SplitSolution: Unknown adap_sensor.\n");
@@ -316,7 +189,6 @@ int SplitSolution (Mesh *Msh, char *prefix, char *adap_sensor)
   int iMach = -1;
   int iPres = -1;
   int iTemp = -1;
-  int iGoal = -1;
     
   for (i=0; i<Msh->NbrFld; i++) {
     if ( !strcmp(Msh->SolTag[i], "Mach") && mach_flag == 1 ) {
@@ -327,9 +199,6 @@ int SplitSolution (Mesh *Msh, char *prefix, char *adap_sensor)
     }
     if ( !strcmp(Msh->SolTag[i], "Temperature") && temp_flag == 1 ) {
       iTemp = i;
-    }
-    if ( !strcmp(Msh->SolTag[i], "Adaptation_Parameter") && goal_flag == 1 ) {
-      iGoal = i;
     }
   }
   
@@ -355,11 +224,6 @@ int SplitSolution (Mesh *Msh, char *prefix, char *adap_sensor)
     if ( pres_flag == 1 ){
       idx++;
       OutSol[idx] = Msh->Sol[iVer*Msh->SolSiz+iPres];
-    }
-
-    if ( goal_flag == 1 ){
-      idx++;
-      OutSol[idx] = Msh->Sol[iVer*Msh->SolSiz+iGoal];
     }
   }
   
