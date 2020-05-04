@@ -433,7 +433,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
         for (s=0; s<2; s++) {
           fscanf(FilHdl, "%d", &buf);
           swi[s] = buf+1;
-          Con->NbrEfr[is[s]]++;
+          Con->NbrEfr[swi[s]]++;
         }
 
         Msh->NbrEfr++;
@@ -608,9 +608,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
   for (iMark=1; iMark<=NbrMark; iMark++) {
     
     GetSU2KeywordValueStr (FilHdl, "MARKER_TAG=", str);
-    
-    if ( iMark < 10000-1 ) strcpy(Msh->Markers[iMark], str);
-    
+        
     if ( !strcmp(str,"SEND_RECEIVE") ) {
       printf("      Tag %s was ignored.\n", str);
       continue;
