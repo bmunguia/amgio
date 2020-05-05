@@ -269,7 +269,9 @@ void CheckPrism(int7* Pri, double3* Ver, int iPri) {
   n[2] = a[0]*b[1]-b[0]*a[1];
   const double test2 = n[0]*c[0]+n[1]*c[1]+n[2]*c[2];
 
-  if ((test1 < 0.0) || (test2 < 0.0)) {
+  //--- This is the opposite of SU2's convention, but consistent with GMF
+  //--- and the rest of the VTK elements. SU2 will just anyway.
+  if ((test1 > 0.0) || (test2 > 0.0)) {
     Pri[iPri][0] = Point1;
     Pri[iPri][1] = Point0;
     Pri[iPri][3] = Point4;
@@ -749,28 +751,29 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
   Mesh *Msh = NULL;
   Conn *Con = NULL;
   int SizMsh[GmfMaxSizMsh+1];
-  int FilTyp = GetInputFileType(MshNam);
   int val=0;
+
+  const int MshFilTyp = GetInputFileType(MshNam);
   
-  if ( !FilTyp ) {
+  if ( !MshFilTyp ) {
     printf("  ## ERROR SetupMeshAndSolution : Unknown mesh format.\n");
     return NULL;
   }
   
-  if ( FilTyp == FILE_SU2MSH )
+  if ( MshFilTyp == FILE_SU2MSH )
     AddSU2MeshSize(MshNam, SizMsh);
-  else if ( FilTyp == FILE_GMF )
+  else if ( MshFilTyp == FILE_GMF )
     AddGMFMeshSize(MshNam, SizMsh);
   
   Msh = AllocMesh(SizMsh);
   Con = AllocConn(SizMsh[GmfVertices]);
   
-  if ( FilTyp == FILE_SU2MSH ) {
+  if ( MshFilTyp == FILE_SU2MSH ) {
     LoadSU2Mesh(MshNam, Msh, Con);
     LoadSU2ConnData(MshNam, Msh, Con);
     if ( strcmp(SolNam,"") ) {
-      FilTyp = GetInputFileType(SolNam);
-      if (FilTyp == FILE_SU2BIN)
+      const int SolFilTyp = GetInputFileType(SolNam);
+      if (SolFilTyp == FILE_SU2BIN)
         val = LoadSU2SolutionBin(SolNam, Msh);
       else
         val = LoadSU2Solution(SolNam, Msh);
@@ -781,7 +784,7 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
     }
     
   }  
-  else if ( FilTyp == FILE_GMF ){
+  else if ( MshFilTyp == FILE_GMF ){
     LoadGMFMesh(MshNam, Msh, Con);
     LoadGMFConnData(MshNam, Msh, Con);
     if ( strcmp(SolNam,"") )
