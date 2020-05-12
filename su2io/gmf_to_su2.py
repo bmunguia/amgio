@@ -19,25 +19,35 @@ def main():
     parser = OptionParser()
     parser.add_option("-m", "--mesh", dest="meshfilename", type="string",
                       help="read mesh from .meshb MESHFILE (ext required)", metavar="MESHFILE")
-    parser.add_option("-s", "--sol", dest="solfilename", type="string", default=None,
+    parser.add_option("-s", "--sol", dest="solfilename", type="string",
                       help="read sol from .solb SOLFILE (ext required)", metavar="SOLFILE")
-    parser.add_option("-b", "--boundmesh", dest="boundmeshfilename", type="string", default=None,
-                      help="read boundary marker names from .su2 BOUNDMESHFILE (ext required)", metavar="BOUNDSOLFILE")
+    parser.add_option("-b", "--boundmesh", dest="boundmeshfilename", type="string",
+                      help="read boundary marker names from .su2 BOUNDMESHFILE (ext required)", metavar="BOUNDMESHFILE")
     parser.add_option("-o", "--out", dest="outfilename", type="string", default="out",
                       help="write output to .csv/.su2 OUTFILE (ext NOT required)", metavar="OUTFILE")
     (options, args)=parser.parse_args()
 
-    options.meshfilename = str(options.meshfilename)
-    if options.solfilename == None:
+    # Mesh
+    if not options.meshfilename:
+        raise Exception('No .meshb file provided. Run with -h for full list of options.\n')
+    else:
+        options.meshfilename = str(options.meshfilename)
+
+    # Solution
+    if not options.solfilename:
         options.solfilename = ""
         sys.stdout.write("No input solution provided. Only converting mesh.\n")
         sys.stdout.flush()
     else:
         options.solfilename = str(options.solfilename)
-    if options.boundmeshfilename == None:
+
+    # Boundary mesh
+    if not options.boundmeshfilename:
         raise Exception('No .su2 file provided with MARKER_TAG information. Run with -h for full list of options.\n')
     else:
         options.boundmeshfilename = str(options.boundmeshfilename)
+
+    # Output
     options.outfilename = str(options.outfilename)
 
     gmf_to_su2(options.meshfilename,

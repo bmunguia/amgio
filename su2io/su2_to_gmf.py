@@ -19,19 +19,27 @@ def main():
     parser = OptionParser()
     parser.add_option("-m", "--mesh", dest="meshfilename", type="string",
                       help="read mesh from .su2 MESHFILE (ext required)", metavar="MESHFILE")
-    parser.add_option("-s", "--sol", dest="solfilename", type="string", default=None,
+    parser.add_option("-s", "--sol", dest="solfilename", type="string",
                       help="read sol from .csv SOLFILE (ext required)", metavar="SOLFILE")
     parser.add_option("-o", "--out", dest="outfilename", type="string", default="out",
                       help="write output to .solb/.meshb OUTFILE (ext NOT required)", metavar="OUTFILE")
     (options, args)=parser.parse_args()
 
-    options.meshfilename = str(options.meshfilename)
-    if options.solfilename == None:
+    # Mesh
+    if not options.meshfilename:
+        raise Exception('No .meshb file provided. Run with -h for full list of options.\n')
+    else:
+        options.meshfilename = str(options.meshfilename)
+
+    # Solution
+    if not options.solfilename:
         options.solfilename = ""
         sys.stdout.write("No input solution provided. Only converting mesh.\n")
         sys.stdout.flush()
     else:
         options.solfilename = str(options.solfilename)
+
+    # Output
     options.outfilename = str(options.outfilename)
 
     su2_to_gmf(options.meshfilename,
