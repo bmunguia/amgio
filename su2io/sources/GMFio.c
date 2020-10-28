@@ -589,7 +589,7 @@ int WriteGMFSolution(char *SolNam, double *Sol, int SolSiz, int NbrVer, int Dim,
 int WriteGMFSolutionItf(char *SolNam, char *FldNam, Mesh *Msh)
 {
 
-  if ( !strcasecmp(Msh->SolTag[i], 'all') )
+  if ( !strcasecmp(FldNam, "all") )
     return WriteGMFSolution(SolNam, Msh->Sol, Msh->SolSiz, Msh->NbrVer, Msh->Dim, Msh->NbrFld, Msh->FldTab);
   else {
     int NbrFld = 1, i, iVer, idx;
@@ -607,14 +607,14 @@ int WriteGMFSolutionItf(char *SolNam, char *FldNam, Mesh *Msh)
     int iSens = -1;
       
     for (i=0; i<Msh->NbrFld; i++) {
-      if ( !strcasecmp(Msh->SolTag[i], sensor) ) {
+      if ( !strcasecmp(Msh->SolTag[i], FldNam) ) {
         iSens = i;
         break;
       }
     }
     
     if ( iSens < 0 ) {
-      printf("  ## ERROR: SplitSolution: Unknown sensor %s. Index not found.\n", sensor);
+      printf("  ## ERROR: SplitSolution: Unknown sensor %s. Index not found.\n", FldNam);
       return 0;
     }
     
