@@ -12,45 +12,26 @@ def setup_amgio(argv=[]):
     
     os.chdir(file_dir);
 
-    #--- Python 2.7
-    if sys.version_info[0] < 3:
-      setup(name="_amgio",
-            version= "2.1.1",
-            description="This is an extension to convert SU2 meshes and solutions to GMF.",
-            author="Victorien Menier, Brian C. Munguía",
-            author_email="bmunguia@stanford.edu",
-            url="https://github.com/bmunguia/AMGIO",
-            ext_modules=[ Extension( "_amgio", \
-            sources=[ "./sources/Python2.7/amgio_py.c", \
-                      "./sources/Python2.7/mesh.c", \
-                      "./sources/Python2.7/GMFio.c", \
-                      "./sources/Python2.7/SU2io.c", \
-                      "./sources/Python2.7/option.c", \
-                      "./sources/Python2.7/libmesh6.c", \
-                      "./sources/Python2.7/amgio_py.i", \
-                      "./sources/Python2.7/convert.c"],
-            extra_compile_args=["-std=c99",
-                                "-Wno-unused-variable",
-                                "-Wno-unused-result"]),
-          ],);
+    #--- Python 3.7 is required
+    if sys.version_info < (3, 7):
+      raise Exception("Script must be run using Python 3.7 or greater")
 
-    #--- Python 3.7
-    elif sys.version_info >= (3, 7):
+    else:
       setup(name="_amgio",
-            version= "2.1.1",
+            version= "3.0.0",
             description="This is an extension to convert SU2 meshes and solutions to GMF.",
             author="Victorien Menier, Brian C. Munguía",
             author_email="bmunguia@stanford.edu",
             url="https://github.com/bmunguia/AMGIO",
             ext_modules=[ Extension( "_amgio", \
-            sources=[ "./sources/Python3.7/amgio_py.c", \
-                      "./sources/Python3.7/mesh.c", \
-                      "./sources/Python3.7/GMFio.c", \
-                      "./sources/Python3.7/SU2io.c", \
-                      "./sources/Python3.7/option.c", \
-                      "./sources/Python3.7/libmesh6.c", \
-                      "./sources/Python3.7/amgio_py.i", \
-                      "./sources/Python3.7/convert.c"],
+            sources=[ "./sources/amgio_py.c", \
+                      "./sources/mesh.c", \
+                      "./sources/GMFio.c", \
+                      "./sources/SU2io.c", \
+                      "./sources/option.c", \
+                      "./sources/libmesh6.c", \
+                      "./sources/amgio_py.i", \
+                      "./sources/convert.c"],
             extra_compile_args=["-std=c99",
                                 "-Wno-unused-variable",
                                 "-Wno-unused-result",

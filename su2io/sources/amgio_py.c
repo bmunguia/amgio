@@ -20,6 +20,24 @@ int py_ConvertSU2toInria( char *MshNam, char *SolNam, char *OutNam )
   
 }
 
+int py_ConvertSU2toInriaSensor( char *MshNam, char *SolNam, char *OutNam, char *FldNam ) 
+{
+
+  Options *mshopt = AllocOptions();
+  
+  strcpy(mshopt->OutNam,OutNam);
+  strcpy(mshopt->InpNam,MshNam);
+  strcpy(mshopt->SolNam,SolNam);
+  strcpy(mshopt->FldNam,FldNam);
+
+  if ( !CheckOptions(mshopt) ) {
+    return 0;
+  }
+
+  return ConvertSU2SolToGMFSensor (mshopt);
+
+}
+
 int py_ConvertInriatoSU2( char *MshNam, char *SolNam, char *OutNam ) 
 {
   

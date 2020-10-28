@@ -152,6 +152,33 @@ int ConvertSU2SolToGMF (Options *mshopt)
   return 1;
 }
 
+int ConvertSU2SolToGMFSensor (Options *mshopt)
+{
+  Mesh *Msh = NULL;
+  char OutSol[1024];
+
+  Msh = SetupMeshAndSolution (mshopt->InpNam, mshopt->SolNam);
+
+  if ( Msh->FilTyp != FILE_SU2MSH ) {
+    printf("  ## ERROR : Input mesh file must be a .su2.\n");
+    return 0;
+  }
+
+  WriteGMFMesh(mshopt->OutNam, Msh, 1);
+
+  if ( Msh->Sol ) {
+    sprintf(OutSol, "%s.solb", mshopt->OutNam);
+    if ( ! WriteGMFSolutionItf(OutSol, Msh) ) {
+      printf("  ## ERROR : outputmach FAILED.\n");
+    }
+  }
+
+  if ( Msh )
+     FreeMesh(Msh);
+
+  return 1;
+}
+
 int SplitSolution (Mesh *Msh, char *prefix, char *adap_sensor)
 {
   int NbrFld = 1, i, iVer, idx;
@@ -161,17 +188,21 @@ int SplitSolution (Mesh *Msh, char *prefix, char *adap_sensor)
   
   int pres_flag=0, mach_flag=0, temp_flag=0;
     
-  if (!strcmp(adap_sensor, "MACH_PRES")) {
-    NbrFld = 2;
-    pres_flag = mach_flag = 1;
-  }
-  else if (!strcmp(adap_sensor, "MACH")) {
+  if (!strcmp(adap_sensor, "MACH")) {
     NbrFld = 1;
     mach_flag = 1;
   }
-  else if (!strcmp(adap_sensor, "PRES")) {
+  else if (!strcmp(adap_sensor, "PRESSURE")) {
     NbrFld = 1;
     pres_flag = 1;
+  }
+  else if (!strcmp(adap_sensor, "TEMPERATURE")) {
+    NbrFld = 1;
+    pres_flag = 1;
+  }
+  else if (!strcmp(adap_sensor, "MACH_PRES")) {
+    NbrFld = 2;
+    pres_flag = mach_flag = 1;
   }
   else {
     printf("## ERROR SplitSolution: Unknown adap_sensor.\n");

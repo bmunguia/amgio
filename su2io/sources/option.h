@@ -13,6 +13,7 @@ typedef struct T_Options
   char BasNam[1024]; // Base name from InpNam
   char OutNam[1024]; // Output file name
   char SolNam[1024]; // Input solution name
+  char FldNam[1024]; // Output file fields
     
   int flagSol; // Output solution?
   

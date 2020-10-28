@@ -1,6 +1,8 @@
 
 int py_ConvertSU2toInria( char *MshNam, char *SolNam, char *OutNam );
 
+int py_ConvertSU2toInriaSensor( char *MshNam, char *SolNam, char *OutNam, char *FldNam );
+
 int py_ConvertInriatoSU2( char *MshNam, char *SolNam, char *OutNam );
 
 int py_ConvertInriaWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam );

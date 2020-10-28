@@ -7,7 +7,7 @@
 
 import sys
 import _amgio as amgio
-from optparse import OptionParser
+from argparse import ArgumentParser, RawTextHelpFormatter
 
 # -------------------------------------------------------------------
 #  Main 
@@ -16,35 +16,48 @@ from optparse import OptionParser
 def main(): 
 
     # Command Line Options
-    parser = OptionParser()
-    parser.add_option("-m", "--mesh", dest="meshfilename", type="string",
-                      help="read mesh from .su2 MESHFILE (ext required)", metavar="MESHFILE")
-    parser.add_option("-s", "--sol", dest="solfilename", type="string",
-                      help="read sol from .csv SOLFILE (ext required)", metavar="SOLFILE")
-    parser.add_option("-o", "--out", dest="outfilename", type="string", default="out",
-                      help="write output to .solb/.meshb OUTFILE (ext NOT required)", metavar="OUTFILE")
-    (options, args)=parser.parse_args()
+    parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
+    parser.add_argument("-m", "--mesh", 
+                        dest="meshfilename", 
+                        type=str,
+                        help="input SU2 format mesh (ext required)", 
+                        metavar="meshfile")
+    parser.add_argument("-s", "--sol", 
+                        dest="solfilename", 
+                        type=str,
+                        help="input SU2 format solution (ext required)", 
+                        metavar="solfile")
+    parser.add_argument("-o", "--out", 
+                        dest="outfilename", 
+                        type=str, 
+                        default="out",
+                        help="output GMF mesh/solution (ext NOT required)",
+                        metavar="outfile")
+    parser.add_argument("-f", "--field", 
+                        dest="fieldname", 
+                        type=str, 
+                        default="all",
+                        help="fields to write, supported options:\n"  
+                             "all (D), mach, pressure", 
+                        metavar="field")
+    args=parser.parse_args()
 
-    # Mesh
-    if not options.meshfilename:
+    # Mesh required
+    if not args.meshfilename:
         raise Exception('No .meshb file provided. Run with -h for full list of options.\n')
-    else:
-        options.meshfilename = str(options.meshfilename)
 
-    # Solution
-    if not options.solfilename:
-        options.solfilename = ""
+    # Solution not required, but user should know
+    if not args.solfilename:
+        args.solfilename = ""
         sys.stdout.write("No input solution provided. Only converting mesh.\n")
         sys.stdout.flush()
-    else:
-        options.solfilename = str(options.solfilename)
 
-    # Output
-    options.outfilename = str(options.outfilename)
+    args.fieldname = args.fieldname.upper()
 
-    su2_to_gmf(options.meshfilename,
-    	       options.solfilename,
-    	       options.outfilename)
+    su2_to_gmf(args.meshfilename,
+    	       args.solfilename,
+    	       args.outfilename,
+               args.fieldname)
 
 #: def main()
 
@@ -54,9 +67,13 @@ def main():
 
 def su2_to_gmf( meshfilename ,
                 solfilename  ,
-                outfilename  ):
+                outfilename  ,
+                fieldname    ):
 
-	amgio.py_ConvertSU2toInria(meshfilename, solfilename, outfilename)
+    if (fieldname == 'ALL'):
+        amgio.py_ConvertSU2toInria(meshfilename, solfilename, outfilename)
+    else:
+        amgio.py_ConvertSU2toInriaSensor(meshfilename, solfilename, outfilename, fieldname)
 
 #: def su2_to_gmf()
 

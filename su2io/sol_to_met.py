@@ -7,7 +7,7 @@
 
 import sys
 import _amgio as amgio
-from optparse import OptionParser
+from argparse import ArgumentParser
 
 # -------------------------------------------------------------------
 #  Main 
@@ -16,34 +16,37 @@ from optparse import OptionParser
 def main(): 
 
     # Command Line Options
-    parser = OptionParser()
-    parser.add_option("-m", "--mesh", dest="meshfilename", type="string",
-                      help="read mesh from .meshb MESHFILE (ext required)", metavar="MESHFILE")
-    parser.add_option("-s", "--sol", dest="solfilename", type="string",
-                      help="read sol from .solb SOLFILE (ext required)", metavar="SOLFILE")
-    parser.add_option("-o", "--out", dest="outfilename", type="string", default="out",
-                      help="write output to .meshb OUTFILE (ext NOT required)", metavar="OUTFILE")
+    parser = ArgumentParser()
+    parser.add_argument("-m", "--mesh", 
+                        dest="meshfilename", 
+                        type=str,
+                        help="input GMF mesh (ext required)", 
+                        metavar="meshfile")
+    parser.add_argument("-s", "--sol", 
+                        dest="solfilename", 
+                        type=str,
+                        help="input GMF solution (ext required)", 
+                        metavar="SOLFILE")
+    parser.add_argument("-o", "--out", 
+                        dest="outfilename", 
+                        type=str, 
+                        default="out",
+                        help="output GMF metric (ext NOT required)", 
+                        metavar="OUTFILE")
     (options, args)=parser.parse_args()
 
-    # Mesh
-    if not options.meshfilename:
+    # Mesh required
+    if not args.meshfilename:
         raise Exception('No .meshb file provided. Run with -h for full list of options.\n')
-    else:
-        options.meshfilename = str(options.meshfilename)
 
-    # Solution
-    if not options.solfilename:
+    # Solution required
+    if not args.solfilename:
         raise Exception('No .solb file provided. Run with -h for full list of options.\n')
         sys.stdout.flush()
-    else:
-        options.solfilename = str(options.solfilename)
 
-    # Output
-    options.outfilename = str(options.outfilename)
-
-    sol_to_met(options.meshfilename,
-               options.solfilename,
-    	       options.outfilename)
+    sol_to_met(args.meshfilename,
+               args.solfilename,
+    	       args.outfilename)
 
 #: def main()
 

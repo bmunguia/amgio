@@ -7,7 +7,7 @@
 
 import sys
 import _amgio as amgio
-from optparse import OptionParser
+from argparse import ArgumentParser
 
 # -------------------------------------------------------------------
 #  Main 
@@ -16,44 +16,47 @@ from optparse import OptionParser
 def main(): 
 
     # Command Line Options
-    parser = OptionParser()
-    parser.add_option("-m", "--mesh", dest="meshfilename", type="string",
-                      help="read mesh from .meshb MESHFILE (ext required)", metavar="MESHFILE")
-    parser.add_option("-s", "--sol", dest="solfilename", type="string",
-                      help="read sol from .solb SOLFILE (ext required)", metavar="SOLFILE")
-    parser.add_option("-b", "--boundmesh", dest="boundmeshfilename", type="string",
-                      help="read boundary marker names from .su2 BOUNDMESHFILE (ext required)", metavar="BOUNDMESHFILE")
-    parser.add_option("-o", "--out", dest="outfilename", type="string", default="out",
-                      help="write output to .csv/.su2 OUTFILE (ext NOT required)", metavar="OUTFILE")
-    (options, args)=parser.parse_args()
+    parser = ArgumentParser()
+    parser.add_argument("-m", "--mesh", 
+                        dest="meshfilename", 
+                        type=str,
+                        help="input GMF mesh (ext required)", 
+                        metavar="meshfile")
+    parser.add_argument("-s", "--sol", 
+                        dest="solfilename", 
+                        type=str,
+                        help="input GMF solution (ext required)", 
+                        metavar="solfile")
+    parser.add_argument("-b", "--boundmesh", 
+                        dest="boundmeshfilename", 
+                        type=str,
+                        help="input SU2 format mesh containing boundary marker names (ext required)", 
+                        metavar="boundmeshfile")
+    parser.add_argument("-o", "--out", 
+                        dest="outfilename", 
+                        type=str, 
+                        default="out",
+                        help="output SU2 format mesh/solution (ext NOT required)", 
+                        metavar="outfile")
+    args=parser.parse_args()
 
-    # Mesh
-    if not options.meshfilename:
+    # Mesh required
+    if not args.meshfilename:
         raise Exception('No .meshb file provided. Run with -h for full list of options.\n')
-    else:
-        options.meshfilename = str(options.meshfilename)
 
-    # Solution
-    if not options.solfilename:
-        options.solfilename = ""
+    # Solution not required, but user should know
+    if not args.solfilename:
+        args.solfilename = ""
         sys.stdout.write("No input solution provided. Only converting mesh.\n")
-        sys.stdout.flush()
-    else:
-        options.solfilename = str(options.solfilename)
 
-    # Boundary mesh
-    if not options.boundmeshfilename:
+    # Boundary mesh required
+    if not args.boundmeshfilename:
         raise Exception('No .su2 file provided with MARKER_TAG information. Run with -h for full list of options.\n')
-    else:
-        options.boundmeshfilename = str(options.boundmeshfilename)
 
-    # Output
-    options.outfilename = str(options.outfilename)
-
-    gmf_to_su2(options.meshfilename,
-    	       options.solfilename,
-               options.boundmeshfilename,
-    	       options.outfilename)
+    gmf_to_su2(args.meshfilename,
+    	       args.solfilename,
+               args.boundmeshfilename,
+    	       args.outfilename)
 
 #: def main()
 
