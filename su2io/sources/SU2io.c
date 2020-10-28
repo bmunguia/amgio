@@ -911,7 +911,7 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
     fclose(FilHdl);
     
   if ( NbrLin != Msh->NbrVer ) {
-    fprintf(stderr,"  ## ERROR: LoadSU2Sol: Inconsistent number of vertices. \n", SolNam);
+    fprintf(stderr,"  ## ERROR: LoadSU2Sol: Inconsistent number of vertices. \n");
     return 0;
   }
 
