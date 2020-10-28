@@ -73,7 +73,7 @@ int AddSU2MeshSize(char *FilNam, int *SizMsh)
       NbrP2Lin++;
     }
     else {
-      printf("  ## ERROR : AddSU2MeshSize: Unknown element type %d\n", typ);
+      printf("  ## ERROR: AddSU2MeshSize: Unknown element type %d\n", typ);
       return 0;
     }
     fgets (str, sizeof str, FilHdl);
@@ -83,7 +83,8 @@ int AddSU2MeshSize(char *FilNam, int *SizMsh)
   SizMsh[GmfVertices] = GetSU2KeywordValue (FilHdl, "NPOIN=");
 
   rewind(FilHdl);
-  NbrCor = GetSU2KeywordValue (FilHdl, "NCORNERS=");
+  if(SizMsh[GmfDimension] == 2)
+    NbrCor = GetSU2KeywordValue (FilHdl, "NCORNERS=");
   
   //--- Boundary Elements?
   NbrMark = 0;  
@@ -119,7 +120,7 @@ int AddSU2MeshSize(char *FilNam, int *SizMsh)
         NbrP2Lin++;
       }
       else {
-        printf("  ## ERROR : AddSU2MeshSize : Unknown boundary element type %d\n", typ);
+        printf("  ## ERROR: AddSU2MeshSize : Unknown boundary element type %d\n", typ);
         return 0;
       }
       fgets (str, sizeof str, FilHdl);
@@ -203,7 +204,7 @@ int GetSU2KeywordValueStr (FILE *FilHdl, char *Kwd, char *StrVal)
   }while( (res != EOF) && strncmp(str, kwd, lenKwd) );
   
   if (res == EOF) {
-    fprintf(stderr,"  ## ERROR: INVALID SU2 FILE (CHECK KEYWORD: %s).\n", Kwd);
+    fprintf(stderr,"  ## ERROR: Invalid SU2 file (Check kwd: %s).\n", Kwd);
     return 0;
   }
   
@@ -252,7 +253,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
         swi[s] = buf+1;
         is[s]  = buf+1;
         if ( swi[s] > Msh->NbrVer ) {
-          printf("  ## ERROR LoadSU2Elements: vertex out of bound (vid=%d)\n", swi[s]);
+          printf("  ## ERROR: LoadSU2Elements: vertex out of bound (vid=%d)\n", swi[s]);
           return 0;
         }
         Con->NbrTri[is[s]]++;
@@ -263,7 +264,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       Msh->NbrTri++;
 
       if ( Msh->NbrTri > Msh->MaxNbrTri ) {
-        printf("  ## ERROR LoadSU2Elements: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
+        printf("  ## ERROR: LoadSU2Elements: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
         return 0;
       }
       
@@ -282,7 +283,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       Msh->NbrQua++;
     
       if ( Msh->NbrQua > Msh->MaxNbrQua ) {
-        printf("  ## ERROR LoadSU2Elements: quad out of bound (id=%d)\n", Msh->NbrQua);
+        printf("  ## ERROR: LoadSU2Elements: quad out of bound (id=%d)\n", Msh->NbrQua);
         return 0;
       }
     
@@ -301,7 +302,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       Msh->NbrTet++;
       
       if ( Msh->NbrTet > Msh->MaxNbrTet ) {
-        printf("  ## ERROR LoadSU2Elements: tetra out of bound (tid=%d)\n", Msh->NbrTet);
+        printf("  ## ERROR: LoadSU2Elements: tetra out of bound (tid=%d)\n", Msh->NbrTet);
         return 0;
       }
       
@@ -320,7 +321,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       Msh->NbrPyr++;
     
       if ( Msh->NbrPyr > Msh->MaxNbrPyr ) {
-        printf("  ## ERROR LoadSU2Elements: pyramid out of bound (id=%d)\n", Msh->NbrPyr);
+        printf("  ## ERROR: LoadSU2Elements: pyramid out of bound (id=%d)\n", Msh->NbrPyr);
         return 0;
       }
     
@@ -339,7 +340,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       Msh->NbrPri++;
     
       if ( Msh->NbrPri > Msh->MaxNbrPri ) {
-        printf("  ## ERROR LoadSU2Elements: prism out of bound (id=%d)\n", Msh->NbrPri);
+        printf("  ## ERROR: LoadSU2Elements: prism out of bound (id=%d)\n", Msh->NbrPri);
         return 0;
       }
     
@@ -358,14 +359,14 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       Msh->NbrHex++;
       
       if ( Msh->NbrHex > Msh->MaxNbrHex ) {
-        printf("  ## ERROR LoadSU2Elements: hexahedron out of bound (hid=%d)\n", Msh->NbrHex);
+        printf("  ## ERROR: LoadSU2Elements: hexahedron out of bound (hid=%d)\n", Msh->NbrHex);
         return 0;
       }
       
       AddHexahedron(Msh,Msh->NbrHex,is,ref);
     }
     else {
-      printf("  ## ERROR : Unknown element type %d\n", typ);
+      printf("  ## ERROR: LoadSU2Elements: Unknown element type %d\n", typ);
       return 0;
     }
     
@@ -407,7 +408,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
         Msh->NbrTri++;
 
         if ( Msh->NbrTri > Msh->MaxNbrTri ) {
-          printf("  ## ERROR LoadSU2Elements: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
+          printf("  ## ERROR: LoadSU2Elements: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
           return 0;
         }
 
@@ -423,7 +424,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
         Msh->NbrQua++;
 
         if ( Msh->NbrQua > Msh->MaxNbrQua ) {
-          printf("  ## ERROR LoadSU2Elements: quad out of bound (id=%d)\n", Msh->NbrQua);
+          printf("  ## ERROR: LoadSU2Elements: quad out of bound (id=%d)\n", Msh->NbrQua);
           return 0;
         }
 
@@ -439,14 +440,14 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
         Msh->NbrEfr++;
         
         if ( Msh->NbrEfr > Msh->MaxNbrEfr ) {
-          printf("  ## ERROR LoadSU2Elements: boundary edge out of bound (id=%d, max=%d)\n", Msh->NbrEfr, Msh->MaxNbrEfr);
+          printf("  ## ERROR: LoadSU2Elements: boundary edge out of bound (id=%d, max=%d)\n", Msh->NbrEfr, Msh->MaxNbrEfr);
           return 0;
         }
         
         AddEdge(Msh,Msh->NbrEfr,swi,iMark+1);
       }
       else {
-        printf("  ## ERROR : Unknown element type %d\n", typ);
+        printf("  ## ERROR: LoadSU2Elements: Unknown element type %d\n", typ);
         return 0;
       }
       fgets (str, sizeof str, FilHdl);
@@ -507,7 +508,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       Msh->NbrTri++;
 
       if ( Msh->NbrTri > Msh->MaxNbrTri ) {
-        printf("  ## ERROR LoadSU2Elements: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
+        printf("  ## ERROR: LoadSU2ConnData: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
         return 0;
       }      
     }
@@ -523,7 +524,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       Msh->NbrQua++;
     
       if ( Msh->NbrQua > Msh->MaxNbrQua ) {
-        printf("  ## ERROR LoadSU2Elements: quad out of bound (id=%d)\n", Msh->NbrQua);
+        printf("  ## ERROR: LoadSU2ConnData: quad out of bound (id=%d)\n", Msh->NbrQua);
         return 0;
       }    
     }
@@ -539,7 +540,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       Msh->NbrTet++;
       
       if ( Msh->NbrTet > Msh->MaxNbrTet ) {
-        printf("  ## ERROR LoadSU2Elements: tetra out of bound (tid=%d)\n", Msh->NbrTet);
+        printf("  ## ERROR: LoadSU2ConnData: tetra out of bound (tid=%d)\n", Msh->NbrTet);
         return 0;
       }      
     }
@@ -555,7 +556,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       Msh->NbrPyr++;
     
       if ( Msh->NbrPyr > Msh->MaxNbrPyr ) {
-        printf("  ## ERROR LoadSU2Elements: pyramid out of bound (id=%d)\n", Msh->NbrPyr);
+        printf("  ## ERROR: LoadSU2ConnData: pyramid out of bound (id=%d)\n", Msh->NbrPyr);
         return 0;
       }    
     }
@@ -571,7 +572,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       Msh->NbrPri++;
     
       if ( Msh->NbrPri > Msh->MaxNbrPri ) {
-        printf("  ## ERROR LoadSU2Elements: prism out of bound (id=%d)\n", Msh->NbrPri);
+        printf("  ## ERROR: LoadSU2ConnData: prism out of bound (id=%d)\n", Msh->NbrPri);
         return 0;
       }    
     }
@@ -587,12 +588,12 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       Msh->NbrHex++;
       
       if ( Msh->NbrHex > Msh->MaxNbrHex ) {
-        printf("  ## ERROR LoadSU2Elements: hexahedron out of bound (hid=%d)\n", Msh->NbrHex);
+        printf("  ## ERROR: LoadSU2ConnData: hexahedron out of bound (hid=%d)\n", Msh->NbrHex);
         return 0;
       }      
     }
     else {
-      printf("  ## ERROR : Unknown element type %d\n", typ);
+      printf("  ## ERROR: Unknown element type %d\n", typ);
       return 0;
     }
     
@@ -630,7 +631,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
         Msh->NbrTri++;
 
         if ( Msh->NbrTri > Msh->MaxNbrTri ) {
-          printf("  ## ERROR LoadSU2Elements: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
+          printf("  ## ERROR: LoadSU2ConnData: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
           return 0;
         }
       }
@@ -644,7 +645,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
         Msh->NbrQua++;
 
         if ( Msh->NbrQua > Msh->MaxNbrQua ) {
-          printf("  ## ERROR LoadSU2Elements: quad out of bound (id=%d)\n", Msh->NbrQua);
+          printf("  ## ERROR: LoadSU2ConnData: quad out of bound (id=%d)\n", Msh->NbrQua);
           return 0;
         }
       }
@@ -658,12 +659,12 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
         Msh->NbrEfr++;
         
         if ( Msh->NbrEfr > Msh->MaxNbrEfr ) {
-          printf("  ## ERROR LoadSU2Elements: boundary edge out of bound (id=%d, max=%d)\n", Msh->NbrEfr, Msh->MaxNbrEfr);
+          printf("  ## ERROR: LoadSU2ConnData: boundary edge out of bound (id=%d, max=%d)\n", Msh->NbrEfr, Msh->MaxNbrEfr);
           return 0;
         }
       }
       else {
-        printf("  ## ERROR : Unknown element type %d\n", typ);
+        printf("  ## ERROR: LoadSU2ConnData: Unknown element type %d\n", typ);
         return 0;
       }
       fgets (str, sizeof str, FilHdl);
@@ -697,14 +698,14 @@ int LoadSU2Corners(FILE *FilHdl, Mesh *Msh)
       fscanf(FilHdl, "%d", &buf);
       swi[0] = buf+1;
       if ( swi[0] > Msh->NbrVer ) {
-        printf("  ## ERROR Corners: vertex out of bound (vid=%d)\n", swi[0]);
+        printf("  ## ERROR: LoadSU2Corners: vertex out of bound (vid=%d)\n", swi[0]);
         return 0;
       }
 
       Msh->NbrCor++;
 
       if ( Msh->NbrCor > Msh->MaxNbrCor ) {
-        printf("  ## ERROR LoadSU2Corners: corner (id=%d, max=%d)\n", Msh->NbrCor, Msh->MaxNbrCor);
+        printf("  ## ERROR: LoadSU2Corners: corner (id=%d, max=%d)\n", Msh->NbrCor, Msh->MaxNbrCor);
         return 0;
       }
       
@@ -712,7 +713,7 @@ int LoadSU2Corners(FILE *FilHdl, Mesh *Msh)
 
     }
     else {
-      printf("  ## ERROR : Unknown element type %d\n", typ);
+      printf("  ## ERROR: LoadSU2Corners: Unknown element type %d\n", typ);
       return 0;
     }
     
@@ -729,7 +730,7 @@ int LoadSU2Mesh(char *FilNam, Mesh *Msh, Conn *Con)
   FILE *FilHdl=NULL;
   
   if ( (Msh == NULL) || (FilNam == NULL) ) {
-    printf("  ## ERROR: LOADMESH: MESH/FILE NAME NOT ALLOCATED \n");
+    printf("  ## ERROR: LoadSU2Mesh: Mesh file name not allocated. \n");
     return 0; 
   }
   
@@ -752,7 +753,7 @@ int LoadSU2Mesh(char *FilNam, Mesh *Msh, Conn *Con)
   rewind(FilHdl);
   
   if ( Msh->Dim != 2 && Msh->Dim != 3 ) {
-    fprintf(stderr, "  ## ERROR SU2: WRONG DIMENSION NUMBER FOR MESH FILE %s (DIM=%d).\n", FilNam, Msh->Dim);
+    fprintf(stderr, "  ## ERROR: LoadSU2Mesh: Invalid dimension number for mesh %s (dim=%d).\n", FilNam, Msh->Dim);
     return 0;
   }
   
@@ -814,7 +815,7 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
   
   if ( Msh->Sol )
   {
-    printf("  ## ERROR LoadSU2Solution : Msh->Sol already allocated.\n");
+    printf("  ## ERROR: LoadSU2Solution : Msh->Sol already allocated.\n");
     return 0;
   }
   
@@ -910,7 +911,7 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
     fclose(FilHdl);
     
   if ( NbrLin != Msh->NbrVer ) {
-    fprintf(stderr,"  ## ERROR: LOADSU2SOL (%s): INCONSISTENT NUMBER OF VERTICES. \n", SolNam);
+    fprintf(stderr,"  ## ERROR: LoadSU2Sol: Inconsistent number of vertices. \n", SolNam);
     return 0;
   }
 
@@ -934,7 +935,7 @@ int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
   
   if ( Msh->Sol )
   {
-    printf("  ## ERROR LoadSU2SolutionBin : Msh->Sol already allocated.\n");
+    printf("  ## ERROR: LoadSU2SolutionBin : Msh->Sol already allocated.\n");
     return 0;
   }
   
@@ -1015,7 +1016,7 @@ int LoadSU2Vertices(FILE *FilHdl, Mesh *Msh)
   Msh->NbrVer = GetSU2KeywordValue (FilHdl, "NPOIN=");
   
   if ( Msh->NbrVer > Msh->MaxNbrVer ) {
-    printf("  ## ERROR: LoadSU2Vertices: INCONSISTENT NUMBER OF VERTICES.\n");
+    printf("  ## ERROR: LoadSU2Vertices : INCONSISTENT NUMBER OF VERTICES.\n");
     return 0;
   }
   
@@ -1057,7 +1058,7 @@ void WriteSU2Mesh(char *nam, Mesh *Msh)
   OutFil = fopen(OutNam, "wb");
   
   if ( !OutFil ) {
-    printf("  ## ERROR Write SU2: Can't open %s\n", OutNam);
+    printf("  ## ERROR: WriteSU2Mesh : Can't open %s\n", OutNam);
   }
      
   fprintf(OutFil, "NDIME= %d\n", Dim);
@@ -1274,7 +1275,7 @@ int WriteSU2Solution (char *SolNam, int Dim, int NbrVer, double3 *Ver,  double *
   OutFil = fopen(SolNam, "wb");
   
   if ( !OutFil ) {
-    printf("  ## ERROR WriteSU2Solution: Can't open %s\n", SolNam);
+    printf("  ## ERROR: WriteSU2Solution: Can't open %s\n", SolNam);
   }
      
   //--- Write header
@@ -1320,7 +1321,7 @@ int WriteSU2SolutionBin (char *SolNam, int Dim, int NbrVer, double3 *Ver,  doubl
   OutFil = fopen(SolNam, "wb");
   
   if ( !OutFil ) {
-    printf("  ## ERROR WriteSU2Solution: Can't open %s\n", SolNam);
+    printf("  ## ERROR: WriteSU2Solution: Can't open %s\n", SolNam);
   }
 
   //--- Write restart vars.

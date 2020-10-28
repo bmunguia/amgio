@@ -13,7 +13,7 @@ int AddGMFMeshSize (char *MshNam, int *SizMsh)
     SizMsh[i] = 0;
 
   if ( !(InpMsh = GmfOpenMesh(MshNam,GmfRead,&FilVer,&dim)) ) {
-    fprintf(stderr,"  ## ERROR: Mesh data file %s.mesh[b] not found ! ",MshNam);
+    fprintf(stderr,"  ## ERROR: AddGMFMeshSize : Mesh data file %s.mesh[b] not found ! ",MshNam);
     return 0;
   }
   
@@ -30,7 +30,7 @@ int AddGMFMeshSize (char *MshNam, int *SizMsh)
   SizMsh[GmfQuadrilaterals] = GmfStatKwd(InpMsh, GmfQuadrilaterals);
   
   if ( SizMsh[GmfVertices] <= 0 ) {
-    fprintf(stderr,"\n  ## ERROR: NO VERTICES. IGNORED\n");
+    fprintf(stderr,"\n  ## ERROR: AddGMFMeshSize : NO VERTICES. IGNORED\n");
     return 0;
   }
   
@@ -47,7 +47,7 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh, Conn *Con)
   int NbrVer, NbrTri, NbrEfr, NbrCor, NbrTet, NbrHex, NbrQua, NbrPri, NbrPyr;
   
   if ( !(InpMsh = GmfOpenMesh(MshNam,GmfRead,&FilVer,&dim)) ) {
-    printf("  ## ERROR: Mesh data file %s.mesh[b] not found ! \n",MshNam);
+    printf("  ## ERROR: LoadGMFMesh : Mesh data file %s.mesh[b] not found ! \n",MshNam);
     return 0;
   }
 
@@ -163,7 +163,7 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh, Conn *Con)
   }
   
   if ( !GmfCloseMesh(InpMsh) ) {
-    printf("  ## ERROR: Cannot close solution file %s ! \n",MshNam);
+    printf("  ## ERROR: LoadGMFMesh : Cannot close solution file %s ! \n",MshNam);
     return 0;
   }
     
@@ -193,7 +193,7 @@ int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
   }
   
   if ( !(InpMsh = GmfOpenMesh(MshNam,GmfRead,&FilVer,&dim)) ) {
-    printf("  ## ERROR: Mesh data file %s.mesh[b] not found ! \n",MshNam);
+    printf("  ## ERROR: LoadGMFConnData : Mesh data file %s.mesh[b] not found ! \n",MshNam);
     return 0;
   }
     
@@ -288,7 +288,7 @@ int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
   }
   
   if ( !GmfCloseMesh(InpMsh) ) {
-    printf("  ## ERROR: Cannot close solution file %s ! \n",MshNam);
+    printf("  ## ERROR: LoadGMFConnData : Cannot close solution file %s ! \n",MshNam);
     return 0;
   }
     
@@ -303,7 +303,7 @@ int LoadGMFSolution(char *SolNam, Mesh *Msh)
     
   if ( Msh->Sol )
   {
-    printf("  ## ERROR LoadGMFSolution : Msh->Sol already allocated.\n");
+    printf("  ## ERROR: LoadGMFSolution : Msh->Sol already allocated.\n");
     return 0;
   }
   
@@ -320,7 +320,7 @@ int LoadGMFSolution(char *SolNam, Mesh *Msh)
   strcpy(Msh->SolNam, SolNam);
 
   if ( dim != 2 && dim != 3 ) {
-    printf("  ## ERROR: WRONG DIMENSION NUMBER. IGNORED\n");
+    printf("  ## ERROR: LoadGMFSolution : Invalid dimension number.\n");
     return 0;
   }
   
@@ -328,12 +328,12 @@ int LoadGMFSolution(char *SolNam, Mesh *Msh)
   NbrLin = GmfStatKwd(SolMsh, SolTyp, &NbrTyp, &SolSiz, TypTab);
   
   if ( NbrLin == 0 ) {
-    printf("  ## ERROR LoadGMFSolution : No SolAtVertices in the solution file !\n");
+    printf("  ## ERROR: LoadGMFSolution : No SolAtVertices in the solution file !\n");
     return 0;
   }
   
   if ( NbrLin != Msh->NbrVer ) {
-    printf("  ## ERROR LoadGMFSolution : The number of vertices does not match (NbrLin %d, NbrVer %d).\n", NbrLin, Msh->NbrVer);
+    printf("  ## ERROR: LoadGMFSolution : The number of vertices does not match (NbrLin %d, NbrVer %d).\n", NbrLin, Msh->NbrVer);
     return 0;
   } 
   
@@ -553,18 +553,18 @@ int WriteGMFSolution(char *SolNam, double *Sol, int SolSiz, int NbrVer, int Dim,
   double   *dbl=NULL;
   
   if ( !Sol ) {
-    printf("  ## ERROR WriteGMFSolution : Sol not allocated.\n");
+    printf("  ## ERROR: WriteGMFSolution : Sol not allocated.\n");
     return 0;  
   }
   
   if ( SolSiz < 1 ) {
-    printf("  ## ERROR WriteGMFSolution : SolSiz < 1.\n");
+    printf("  ## ERROR: WriteGMFSolution : SolSiz < 1.\n");
     return 0;
   }
   
   //--- Open solution file
   if ( !(OutSol = GmfOpenMesh(SolNam, GmfWrite, GmfDouble, Dim)) ) {
-    fprintf(stderr,"  ## ERROR: Cannot open solution file %s ! \n",SolNam);
+    fprintf(stderr,"  ## ERROR: WriteGMFSolution : Cannot open solution file %s ! \n",SolNam);
     exit(1);
   }
 
@@ -576,7 +576,7 @@ int WriteGMFSolution(char *SolNam, double *Sol, int SolSiz, int NbrVer, int Dim,
   }
     
   if ( !GmfCloseMesh(OutSol) ) {
-    printf("  ## ERROR: Cannot close solution file %s ! \n",SolNam);
+    printf("  ## ERROR: WriteGMFSolution : Cannot close solution file %s ! \n",SolNam);
     return 0;
   }
   
@@ -610,18 +610,18 @@ int WriteGMFMetric(char *MetNam, Mesh *Msh, int OptBin)
   double   *dbl=NULL;
   
   if ( !Sol ) {
-    printf("  ## ERROR WriteGMFSolution : Sol not allocated.\n");
+    printf("  ## ERROR: WriteGMFMetric : Sol not allocated.\n");
     return 0; 
   }
   
   if ( SolSiz < 1 ) {
-    printf("  ## ERROR WriteGMFSolution : SolSiz < 1.\n");
+    printf("  ## ERROR: WriteGMFMetric : SolSiz < 1.\n");
     return 0;
   }
   
   //--- Open solution file
   if ( !(OutMet = GmfOpenMesh(MetNam, GmfWrite, GmfDouble, Dim)) ) {
-    fprintf(stderr,"  ## ERROR: Cannot open solution file %s ! \n",MetNam);
+    fprintf(stderr,"  ## ERROR: WriteGMFMetric : Cannot open solution file %s ! \n",MetNam);
     exit(1);
   }
   //printf("  %%%% %s OPENED (WRITE)\n",SolNam);
@@ -635,7 +635,7 @@ int WriteGMFMetric(char *MetNam, Mesh *Msh, int OptBin)
   }
     
   if ( !GmfCloseMesh(OutMet) ) {
-    printf("  ## ERROR: Cannot close solution file %s ! \n",MetNam);
+    printf("  ## ERROR: WriteGMFMetric : Cannot close solution file %s ! \n",MetNam);
     return 0;
   }
   

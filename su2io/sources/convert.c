@@ -196,10 +196,10 @@ int SplitSolution (Mesh *Msh, char *prefix, char *sensor)
     NbrFld = 1;
     pres_flag = 1;
   }
-  else if (!strcmp(sensor, "MACH_PRES")) {
-    NbrFld = 2;
-    pres_flag = mach_flag = 1;
-  }
+  // else if (!strcmp(sensor, "MACH_PRES")) {
+  //   NbrFld = 2;
+  //   pres_flag = mach_flag = 1;
+  // }
   else {
     printf("## ERROR SplitSolution: Unknown sensor.\n");
     exit(1);
@@ -218,24 +218,24 @@ int SplitSolution (Mesh *Msh, char *prefix, char *sensor)
   int iTemp = -1;
     
   for (i=0; i<Msh->NbrFld; i++) {
-    if ( !strcmp(Msh->SolTag[i], "Mach") && mach_flag == 1 ) {
+    if ( !strcmp(Msh->SolTag[i], "Mach") && (mach_flag == 1) ) {
       iMach = i;
     }
-    if ( !strcmp(Msh->SolTag[i], "Pressure") && pres_flag == 1 ) {
+    if ( !strcmp(Msh->SolTag[i], "Pressure") && (pres_flag == 1) ) {
       iPres = i;
     }
-    if ( !strcmp(Msh->SolTag[i], "Temperature") && temp_flag == 1 ) {
+    if ( !strcmp(Msh->SolTag[i], "Temperature") && (temp_flag == 1) ) {
       iTemp = i;
     }
   }
   
-  if ( iMach < 0 ) {
+  if ( (iMach < 0) && (mach_flag == 1) ) {
     printf("  ## ERROR OutputMach : Mach index not found.\n");
     return 0;
   }
   
-  if ( iPres < 0 ) {
-    printf("  ## ERROR OutputMach : Pres index not found.\n");
+  if ( (iPres < 0) && (press_flag == 1) ) {
+    printf("  ## ERROR Output Pres : Pres index not found.\n");
     return 0;
   }
   
