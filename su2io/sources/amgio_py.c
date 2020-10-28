@@ -597,7 +597,7 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
     if ( Msh->Sol ) {
       sprintf(OutSol, "%s.solb", BasNamSol);
       strcpy(FldNam, "all");
-      if ( ! WriteGMFSolutionItf(OutSol, Msh) ) {
+      if ( ! WriteGMFSolutionItf(OutSol, FldNam, Msh) ) {
         printf("  ## ERROR : Output solution FAILED.\n");
       }
     }
