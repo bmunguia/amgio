@@ -585,7 +585,7 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
   int FilTyp = GetInputFileType(MshNam);
   int SolTyp = GetInputFileType(SolNam);
   char *ptr = NULL;
-  char BasNam[1024], BasNamSol[1024], OutSol[1024];
+  char BasNam[1024], BasNamSol[1024], OutSol[1024], FldNam[1024];
   
   // --- Get BasNam
 
@@ -596,6 +596,7 @@ void py_WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *p
     WriteGMFMesh(BasNam, Msh, 1);
     if ( Msh->Sol ) {
       sprintf(OutSol, "%s.solb", BasNamSol);
+      strcpy(FldNam, "all");
       if ( ! WriteGMFSolutionItf(OutSol, Msh) ) {
         printf("  ## ERROR : Output solution FAILED.\n");
       }
