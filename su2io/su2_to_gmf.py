@@ -38,7 +38,7 @@ def main():
                         type=str, 
                         default="all",
                         help="fields to write, supported options:\n"  
-                             "all (D), mach, pressure", 
+                             "all (D), <sensor name>, metric", 
                         metavar="field")
     args=parser.parse_args()
 
@@ -52,7 +52,7 @@ def main():
         sys.stdout.write("No input solution provided. Only converting mesh.\n")
         sys.stdout.flush()
 
-    args.fieldname = args.fieldname.upper()
+    args.fieldname = args.fieldname.lower()
 
     su2_to_gmf(args.meshfilename,
     	       args.solfilename,
@@ -70,8 +70,10 @@ def su2_to_gmf( meshfilename ,
                 outfilename  ,
                 fieldname    ):
 
-    if (fieldname == 'ALL'):
+    if (fieldname == 'all'):
         amgio.py_ConvertSU2toInria(meshfilename, solfilename, outfilename)
+    # if (fieldname == 'metric'): # TODO
+    #     amgio.py_ConvertSU2toInria(meshfilename, solfilename, outfilename)
     else:
         amgio.py_ConvertSU2toInriaSensor(meshfilename, solfilename, outfilename, fieldname)
 

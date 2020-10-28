@@ -624,7 +624,6 @@ int WriteGMFMetric(char *MetNam, Mesh *Msh, int OptBin)
     fprintf(stderr,"  ## ERROR: WriteGMFMetric : Cannot open solution file %s ! \n",MetNam);
     exit(1);
   }
-  //printf("  %%%% %s OPENED (WRITE)\n",SolNam);
 
   GmfSetKwd(OutMet, GmfSolAtVertices, NbrVer, NbrFld, FldTab);
   

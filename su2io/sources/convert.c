@@ -175,35 +175,12 @@ int ConvertSU2SolToGMFSensor (Options *mshopt)
   return 1;
 }
 
-int SplitSolution (Mesh *Msh, char *prefix, char *sensor)
+int WriteGMFSensor (Mesh *Msh, char *prefix, char *sensor)
 {
   int NbrFld = 1, i, iVer, idx;
   int FldTab[10]; 
   double *OutSol = NULL;
   char OutNam[256];
-  
-  int PresFlag=0, MachFlag=0, TempFlag=0;
-    
-  if (!strcmp(sensor, "MACH")) {
-    NbrFld = 1;
-    MachFlag = 1;
-  }
-  else if (!strcmp(sensor, "PRESSURE")) {
-    NbrFld = 1;
-    PresFlag = 1;
-  }
-  else if (!strcmp(sensor, "TEMPERATURE")) {
-    NbrFld = 1;
-    PresFlag = 1;
-  }
-  // else if (!strcmp(sensor, "MACH_PRES")) {
-  //   NbrFld = 2;
-  //   PresFlag = MachFlag = 1;
-  // }
-  else {
-    printf("## ERROR: SplitSolution: Unknown sensor.\n");
-    exit(1);
-  }
   
   for (i=0; i<NbrFld; i++) {
     FldTab[i] = 1;
@@ -213,45 +190,23 @@ int SplitSolution (Mesh *Msh, char *prefix, char *sensor)
   
   //--- Get fields indices
 
-  int iMach = -1;
-  int iPres = -1;
-  int iTemp = -1;
+  int iSens = -1;
     
   for (i=0; i<Msh->NbrFld; i++) {
-    if ( !strcmp(Msh->SolTag[i], "Mach") && (MachFlag == 1) ) {
-      iMach = i;
-    }
-    if ( !strcmp(Msh->SolTag[i], "Pressure") && (PresFlag == 1) ) {
-      iPres = i;
-    }
-    if ( !strcmp(Msh->SolTag[i], "Temperature") && (TempFlag == 1) ) {
-      iTemp = i;
+    if ( !strcasecmp(Msh->SolTag[i], sensor) ) {
+      iSens = i;
+      break;
     }
   }
   
-  if ( (iMach < 0) && (MachFlag == 1) ) {
-    printf("  ## ERROR: SplitSolution: Mach index not found.\n");
-    return 0;
-  }
-  
-  if ( (iPres < 0) && (PresFlag == 1) ) {
-    printf("  ## ERROR SplitSolution: Pres index not found.\n");
+  if ( iSens < 0 ) {
+    printf("  ## ERROR: SplitSolution: Unknown sensor %s. Index not found.\n", sensor);
     return 0;
   }
   
   for (iVer=1; iVer<=Msh->NbrVer; iVer++) {    
-    
-    idx = iVer*NbrFld-1;
-    
-    if ( MachFlag == 1 ){
-      idx++;
-      OutSol[idx] = Msh->Sol[iVer*Msh->SolSiz+iMach];
-    }
-    
-    if ( PresFlag == 1 ){
-      idx++;
-      OutSol[idx] = Msh->Sol[iVer*Msh->SolSiz+iPres];
-    }
+    idx = iVer*NbrFld;
+    OutSol[idx] = Msh->Sol[iVer*Msh->SolSiz+iSens];
   }
   
   sprintf(OutNam, "%s.solb", prefix);
