@@ -42,6 +42,7 @@ int LoadGMFSolution (char *SolNam, Mesh *Msh);
 int WriteGMFMesh (char *nam, Mesh *Msh, int OptBin);
 int WriteGMFSolution (char *SolNam, double *Sol, int SolSiz, int NbrVer, int Dim, int NbrFld, int* FldTab);
 int WriteGMFSolutionItf (char *SolNam, Mesh *Msh);
+int WriteGMFSensorItf (Mesh *Msh, char *prefix, char *sensor);
 int WriteGMFMetric (char *nam, Mesh *Msh, int OptBin);
 int SplitQuads (char *nam, Mesh *Msh);
 
@@ -91,4 +92,3 @@ int ConvertGMFWithBoundtoSU2Sol (Options *mshopt, char* BndMshNam);
 int ConvertGMFSoltoMet (Options *mshopt);
 int ConvertSU2SolToGMF (Options *mshopt);
 int ConvertSU2SolToGMFSensor (Options *mshopt);
-int WriteGMFSensor (Mesh *Msh, char *prefix, char *sensor);
