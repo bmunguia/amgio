@@ -95,23 +95,6 @@ int py_ConvertInriaSoltoMet( char *MshNam, char *SolNam, char *OutNam )
     
 }
 
-int py_SplitSol(char *SolNam, int dim, char *prefix, char *adap_sensor)
-{
-  
-  int SizMsh[GmfMaxSizMsh+1];
-  memset(SizMsh,0,sizeof(int)*(GmfMaxSizMsh+1));
-  
-  Mesh *Msh = AllocMesh(SizMsh);
-  
-  Msh->NbrVer = GetSU2SolSize(SolNam);
-  
-  LoadSU2Solution(SolNam, Msh);
-  
-  Msh->Dim = dim;
-  return SplitSolution(Msh, prefix, adap_sensor);
-  
-}
-
 void py_ReadMeshAndSol (char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, 
                         PyObject *pyEdg, PyObject *pyHex, PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pySol, 
                         PyObject *pySolHeader,  PyObject *pyMarkers)

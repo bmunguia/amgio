@@ -9,8 +9,6 @@ int py_ConvertInriaWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, 
 
 int py_ConvertInriaSoltoMet( char *MshNam, char *SolNam, char *OutNam );
 
-int py_SplitSol(char *SolNam, int dim, char *prefix, char *adap_sensor);
-
 void py_ReadMeshAndSol (char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, 
      PyObject *pyEdg, PyObject *pyHex, PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pySol, 
      PyObject *pySolHeader,  PyObject *pyMarkers);
