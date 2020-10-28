@@ -182,26 +182,26 @@ int SplitSolution (Mesh *Msh, char *prefix, char *sensor)
   double *OutSol = NULL;
   char OutNam[256];
   
-  int pres_flag=0, mach_flag=0, temp_flag=0;
+  int PresFlag=0, MachFlag=0, TempFlag=0;
     
   if (!strcmp(sensor, "MACH")) {
     NbrFld = 1;
-    mach_flag = 1;
+    MachFlag = 1;
   }
   else if (!strcmp(sensor, "PRESSURE")) {
     NbrFld = 1;
-    pres_flag = 1;
+    PresFlag = 1;
   }
   else if (!strcmp(sensor, "TEMPERATURE")) {
     NbrFld = 1;
-    pres_flag = 1;
+    PresFlag = 1;
   }
   // else if (!strcmp(sensor, "MACH_PRES")) {
   //   NbrFld = 2;
-  //   pres_flag = mach_flag = 1;
+  //   PresFlag = MachFlag = 1;
   // }
   else {
-    printf("## ERROR SplitSolution: Unknown sensor.\n");
+    printf("## ERROR: SplitSolution: Unknown sensor.\n");
     exit(1);
   }
   
@@ -218,24 +218,24 @@ int SplitSolution (Mesh *Msh, char *prefix, char *sensor)
   int iTemp = -1;
     
   for (i=0; i<Msh->NbrFld; i++) {
-    if ( !strcmp(Msh->SolTag[i], "Mach") && (mach_flag == 1) ) {
+    if ( !strcmp(Msh->SolTag[i], "Mach") && (MachFlag == 1) ) {
       iMach = i;
     }
-    if ( !strcmp(Msh->SolTag[i], "Pressure") && (pres_flag == 1) ) {
+    if ( !strcmp(Msh->SolTag[i], "Pressure") && (PresFlag == 1) ) {
       iPres = i;
     }
-    if ( !strcmp(Msh->SolTag[i], "Temperature") && (temp_flag == 1) ) {
+    if ( !strcmp(Msh->SolTag[i], "Temperature") && (TempFlag == 1) ) {
       iTemp = i;
     }
   }
   
-  if ( (iMach < 0) && (mach_flag == 1) ) {
-    printf("  ## ERROR OutputMach : Mach index not found.\n");
+  if ( (iMach < 0) && (MachFlag == 1) ) {
+    printf("  ## ERROR: SplitSolution: Mach index not found.\n");
     return 0;
   }
   
-  if ( (iPres < 0) && (press_flag == 1) ) {
-    printf("  ## ERROR Output Pres : Pres index not found.\n");
+  if ( (iPres < 0) && (PresFlag == 1) ) {
+    printf("  ## ERROR SplitSolution: Pres index not found.\n");
     return 0;
   }
   
@@ -243,12 +243,12 @@ int SplitSolution (Mesh *Msh, char *prefix, char *sensor)
     
     idx = iVer*NbrFld-1;
     
-    if ( mach_flag == 1 ){
+    if ( MachFlag == 1 ){
       idx++;
       OutSol[idx] = Msh->Sol[iVer*Msh->SolSiz+iMach];
     }
     
-    if ( pres_flag == 1 ){
+    if ( PresFlag == 1 ){
       idx++;
       OutSol[idx] = Msh->Sol[iVer*Msh->SolSiz+iPres];
     }
