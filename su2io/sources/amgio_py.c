@@ -1,7 +1,7 @@
 #include "amgio.h"
 #include "Python.h"
 
-int py_ConvertSU2toInria( char *MshNam, char *SolNam, char *OutNam ) 
+int py_ConvertSU2toGMF( char *MshNam, char *SolNam, char *OutNam, char *FldNam  ) 
 {
   
   Options *mshopt = AllocOptions();
@@ -9,6 +9,7 @@ int py_ConvertSU2toInria( char *MshNam, char *SolNam, char *OutNam )
   strcpy(mshopt->OutNam,OutNam);
   strcpy(mshopt->InpNam,MshNam);
   strcpy(mshopt->SolNam,SolNam);
+  strcpy(mshopt->FldNam,FldNam);
   
   mshopt->clean = 0; // remove unconnected vertices
   
@@ -20,25 +21,7 @@ int py_ConvertSU2toInria( char *MshNam, char *SolNam, char *OutNam )
   
 }
 
-int py_ConvertSU2toInriaSensor( char *MshNam, char *SolNam, char *OutNam, char *FldNam ) 
-{
-
-  Options *mshopt = AllocOptions();
-  
-  strcpy(mshopt->OutNam,OutNam);
-  strcpy(mshopt->InpNam,MshNam);
-  strcpy(mshopt->SolNam,SolNam);
-  strcpy(mshopt->FldNam,FldNam);
-
-  if ( !CheckOptions(mshopt) ) {
-    return 0;
-  }
-
-  return ConvertSU2SolToGMFSensor (mshopt);
-
-}
-
-int py_ConvertInriatoSU2( char *MshNam, char *SolNam, char *OutNam ) 
+int py_ConvertGMFtoSU2( char *MshNam, char *SolNam, char *OutNam ) 
 {
   
   Options *mshopt = AllocOptions();
@@ -57,7 +40,7 @@ int py_ConvertInriatoSU2( char *MshNam, char *SolNam, char *OutNam )
   
 }
 
-int py_ConvertInriaWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam ) 
+int py_ConvertGMFWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam ) 
 {
   
   Options *mshopt = AllocOptions();
@@ -76,7 +59,7 @@ int py_ConvertInriaWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, 
     
 }
 
-int py_ConvertInriaSoltoMet( char *MshNam, char *SolNam, char *OutNam ) 
+int py_ConvertGMFSoltoMet( char *MshNam, char *SolNam, char *OutNam ) 
 {
   
   Options *mshopt = AllocOptions();

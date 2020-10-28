@@ -1,13 +1,11 @@
 
-int py_ConvertSU2toInria( char *MshNam, char *SolNam, char *OutNam );
+int py_ConvertSU2toGMF( char *MshNam, char *SolNam, char *OutNam, char *FldNam );
 
-int py_ConvertSU2toInriaSensor( char *MshNam, char *SolNam, char *OutNam, char *FldNam );
+int py_ConvertGMFtoSU2( char *MshNam, char *SolNam, char *OutNam );
 
-int py_ConvertInriatoSU2( char *MshNam, char *SolNam, char *OutNam );
+int py_ConvertGMFWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam );
 
-int py_ConvertInriaWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam );
-
-int py_ConvertInriaSoltoMet( char *MshNam, char *SolNam, char *OutNam );
+int py_ConvertGMFSoltoMet( char *MshNam, char *SolNam, char *OutNam );
 
 void py_ReadMeshAndSol (char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, 
      PyObject *pyEdg, PyObject *pyHex, PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pySol, 

@@ -58,7 +58,7 @@ def sol_to_met( mshfilename       ,
                 solfilename       ,
                 outfilename       ):
 
-	amgio.py_ConvertInriaSoltoMet(mshfilename, solfilename, outfilename)
+	amgio.py_ConvertGMFSoltoMet(mshfilename, solfilename, outfilename)
 
 #: def sol_to_met()
 

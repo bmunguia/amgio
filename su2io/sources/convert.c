@@ -141,33 +141,10 @@ int ConvertSU2SolToGMF (Options *mshopt)
 
   if ( Msh->Sol ) {
     sprintf(OutSol, "%s.solb", mshopt->OutNam);
-    if ( ! WriteGMFSolutionItf(OutSol, Msh) ) {
+    if ( ! WriteGMFSolutionItf(OutSol, mshopt->FldNam, Msh) ) {
       printf("  ## ERROR : outputmach FAILED.\n");
     }
   }
-
-  if ( Msh )
-     FreeMesh(Msh);
-
-  return 1;
-}
-
-int ConvertSU2SolToGMFSensor (Options *mshopt)
-{
-  Mesh *Msh = NULL;
-  char OutSol[1024];
-
-  Msh = SetupMeshAndSolution (mshopt->InpNam, mshopt->SolNam);
-
-  if ( Msh->FilTyp != FILE_SU2MSH ) {
-    printf("  ## ERROR : Input mesh file must be a .su2.\n");
-    return 0;
-  }
-
-  WriteGMFMesh(mshopt->OutNam, Msh, 1);
-
-  if ( Msh->Sol )
-    WriteGMFSensorItf(Msh, mshopt->OutNam, mshopt->FldNam);
 
   if ( Msh )
      FreeMesh(Msh);

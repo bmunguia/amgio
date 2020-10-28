@@ -69,7 +69,7 @@ def gmf_to_su2( meshfilename      ,
                 boundmeshfilename ,
                 outfilename       ):
 
-	amgio.py_ConvertInriaWithBoundtoSU2(meshfilename, solfilename, boundmeshfilename, outfilename)
+	amgio.py_ConvertGMFWithBoundtoSU2(meshfilename, solfilename, boundmeshfilename, outfilename)
 
 #: def gmf_to_su2()
 

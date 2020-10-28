@@ -586,61 +586,54 @@ int WriteGMFSolution(char *SolNam, double *Sol, int SolSiz, int NbrVer, int Dim,
 /*
   Interface to function WriteGMFSolution()
 */
-int WriteGMFSolutionItf(char *SolNam, Mesh *Msh)
+int WriteGMFSolutionItf(char *SolNam, char *FldNam, Mesh *Msh)
 {
-  double *Sol      = Msh->Sol;
-  int     SolSiz   = Msh->SolSiz;
-  int     NbrVer   = Msh->NbrVer;
-  int     Dim      = Msh->Dim; 
-  int     NbrFld   = Msh->NbrFld; 
-  int    *FldTab   = Msh->FldTab; 
-  
-  return WriteGMFSolution(SolNam, Sol, SolSiz, NbrVer, Dim, NbrFld, FldTab);
-}
 
-int WriteGMFSensorItf (Mesh *Msh, char *prefix, char *sensor)
-{
-  int NbrFld = 1, i, iVer, idx;
-  int FldTab[10]; 
-  double *OutSol = NULL;
-  char OutNam[256];
-  
-  for (i=0; i<NbrFld; i++) {
-    FldTab[i] = 1;
-  }
-  
-  OutSol = (double*)malloc(sizeof(double)*(Msh->NbrVer+1));
-  
-  //--- Get fields indices
-
-  int iSens = -1;
+  if ( !strcasecmp(Msh->SolTag[i], 'all') )
+    return WriteGMFSolution(SolNam, Msh->Sol, Msh->SolSiz, Msh->NbrVer, Msh->Dim, Msh->NbrFld, Msh->FldTab);
+  else {
+    int NbrFld = 1, i, iVer, idx;
+    int FldTab[10]; 
+    double *OutSol = NULL;
     
-  for (i=0; i<Msh->NbrFld; i++) {
-    if ( !strcasecmp(Msh->SolTag[i], sensor) ) {
-      iSens = i;
-      break;
+    for (i=0; i<NbrFld; i++) {
+      FldTab[i] = 1;
     }
+    
+    OutSol = (double*)malloc(sizeof(double)*(Msh->NbrVer+1));
+    
+    //--- Get fields indices
+
+    int iSens = -1;
+      
+    for (i=0; i<Msh->NbrFld; i++) {
+      if ( !strcasecmp(Msh->SolTag[i], sensor) ) {
+        iSens = i;
+        break;
+      }
+    }
+    
+    if ( iSens < 0 ) {
+      printf("  ## ERROR: SplitSolution: Unknown sensor %s. Index not found.\n", sensor);
+      return 0;
+    }
+    
+    for (iVer=1; iVer<=Msh->NbrVer; iVer++) {    
+      idx = iVer*NbrFld;
+      OutSol[idx] = Msh->Sol[iVer*Msh->SolSiz+iSens];
+    }
+    
+    if ( !WriteGMFSolution(SolNam, OutSol, NbrFld, Msh->NbrVer, Msh->Dim, NbrFld, FldTab) ) {
+      printf("  ## ERROR : Output of solution failed.\n");
+      return 0;
+    }
+    
+    if ( OutSol )
+      free(OutSol);
+    
+    return 1;
+
   }
-  
-  if ( iSens < 0 ) {
-    printf("  ## ERROR: SplitSolution: Unknown sensor %s. Index not found.\n", sensor);
-    return 0;
-  }
-  
-  for (iVer=1; iVer<=Msh->NbrVer; iVer++) {    
-    idx = iVer*NbrFld;
-    OutSol[idx] = Msh->Sol[iVer*Msh->SolSiz+iSens];
-  }
-  
-  sprintf(OutNam, "%s.solb", prefix);
-  if ( ! WriteGMFSolution(OutNam, OutSol, NbrFld, Msh->NbrVer, Msh->Dim, NbrFld, FldTab) ) {
-    printf("  ## ERROR : Output of solution failed.\n");
-  }
-  
-  if ( OutSol )
-    free(OutSol);
-  
-  return 1;
 }
 
 int WriteGMFMetric(char *MetNam, Mesh *Msh, int OptBin)
