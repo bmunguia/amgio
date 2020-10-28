@@ -91,4 +91,4 @@ int ConvertGMFWithBoundtoSU2Sol (Options *mshopt, char* BndMshNam);
 int ConvertGMFSoltoMet (Options *mshopt);
 int ConvertSU2SolToGMF (Options *mshopt);
 int ConvertSU2SolToGMFSensor (Options *mshopt);
-int SplitSolution (Mesh *Msh, char *prefix, char *adap_sensor);
+int SplitSolution (Mesh *Msh, char *prefix, char *sensor);

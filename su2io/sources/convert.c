@@ -166,12 +166,8 @@ int ConvertSU2SolToGMFSensor (Options *mshopt)
 
   WriteGMFMesh(mshopt->OutNam, Msh, 1);
 
-  if ( Msh->Sol ) {
-    sprintf(OutSol, "%s.solb", mshopt->OutNam);
-    if ( ! WriteGMFSolutionItf(OutSol, Msh) ) {
-      printf("  ## ERROR : outputmach FAILED.\n");
-    }
-  }
+  if ( Msh->Sol )
+    SplitSolution (Msh, mshopt->OutNam, mshopt->FldNam);
 
   if ( Msh )
      FreeMesh(Msh);
@@ -179,7 +175,7 @@ int ConvertSU2SolToGMFSensor (Options *mshopt)
   return 1;
 }
 
-int SplitSolution (Mesh *Msh, char *prefix, char *adap_sensor)
+int SplitSolution (Mesh *Msh, char *prefix, char *sensor)
 {
   int NbrFld = 1, i, iVer, idx;
   int FldTab[10]; 
@@ -188,24 +184,24 @@ int SplitSolution (Mesh *Msh, char *prefix, char *adap_sensor)
   
   int pres_flag=0, mach_flag=0, temp_flag=0;
     
-  if (!strcmp(adap_sensor, "MACH")) {
+  if (!strcmp(sensor, "MACH")) {
     NbrFld = 1;
     mach_flag = 1;
   }
-  else if (!strcmp(adap_sensor, "PRESSURE")) {
+  else if (!strcmp(sensor, "PRESSURE")) {
     NbrFld = 1;
     pres_flag = 1;
   }
-  else if (!strcmp(adap_sensor, "TEMPERATURE")) {
+  else if (!strcmp(sensor, "TEMPERATURE")) {
     NbrFld = 1;
     pres_flag = 1;
   }
-  else if (!strcmp(adap_sensor, "MACH_PRES")) {
+  else if (!strcmp(sensor, "MACH_PRES")) {
     NbrFld = 2;
     pres_flag = mach_flag = 1;
   }
   else {
-    printf("## ERROR SplitSolution: Unknown adap_sensor.\n");
+    printf("## ERROR SplitSolution: Unknown sensor.\n");
     exit(1);
   }
   
@@ -258,16 +254,13 @@ int SplitSolution (Mesh *Msh, char *prefix, char *adap_sensor)
     }
   }
   
-  sprintf(OutNam, "%s_sensor.solb", prefix);
+  sprintf(OutNam, "%s.solb", prefix);
   if ( ! WriteGMFSolution(OutNam, OutSol, NbrFld, Msh->NbrVer, Msh->Dim, NbrFld, FldTab) ) {
     printf("  ## ERROR : Output of solution failed.\n");
   }
   
   if ( OutSol )
     free(OutSol);
-  
-  if ( Msh )
-     FreeMesh(Msh);
   
   return 1;
 }
