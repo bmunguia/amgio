@@ -79,12 +79,11 @@ int AddSU2MeshSize(char *FilNam, int *SizMsh)
     fgets (str, sizeof str, FilHdl);
   }//for iElt
   
-   rewind(FilHdl);
+  rewind(FilHdl);
   SizMsh[GmfVertices] = GetSU2KeywordValue (FilHdl, "NPOIN=");
 
   rewind(FilHdl);
-  if(SizMsh[GmfDimension] == 2)
-    NbrCor = GetSU2KeywordValue (FilHdl, "NCORNERS=");
+  NbrCor = GetSU2KeywordValue (FilHdl, "NCORNERS=");
   
   //--- Boundary Elements?
   NbrMark = 0;  

@@ -18,7 +18,7 @@ def setup_amgio(argv=[]):
 
     else:
       setup(name="_amgio",
-            version= "3.0.1",
+            version= "3.0.2",
             description="This is an extension to convert SU2 meshes and solutions to GMF.",
             author="Victorien Menier, Brian C. Munguía",
             author_email="bmunguia@stanford.edu",
