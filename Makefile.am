@@ -1,4 +1,4 @@
-pkg_cppflags  = @INRIA_CPPFLAGS@ -I$(srcdir)
+pkg_cppflags  = @AMGIO_CPPFLAGS@ -I$(srcdir)
 pkg_sources = \
         sources/libmeshb7.h \
         sources/libmeshb7.c
