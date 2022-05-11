@@ -54,10 +54,10 @@ def main():
 
     args.fieldname = args.fieldname.lower()
 
-    su2_to_gmf(args.meshfilename,
-    	       args.solfilename,
-    	       args.outfilename,
-               args.fieldname)
+    su2_to_gmf( args.meshfilename ,
+    	        args.solfilename  ,
+    	        args.outfilename  ,
+                args.fieldname    )
 
 #: def main()
 

@@ -33,7 +33,7 @@ def main():
                         default="out",
                         help="output GMF metric (ext NOT required)", 
                         metavar="OUTFILE")
-    (options, args)=parser.parse_args()
+    args=parser.parse_args()
 
     # Mesh required
     if not args.meshfilename:
@@ -44,9 +44,9 @@ def main():
         raise Exception('No .solb file provided. Run with -h for full list of options.\n')
         sys.stdout.flush()
 
-    sol_to_met(args.meshfilename,
-               args.solfilename,
-    	       args.outfilename)
+    sol_to_met( args.meshfilename ,
+                args.solfilename  ,
+    	        args.outfilename  )
 
 #: def main()
 
@@ -54,9 +54,9 @@ def main():
 #  Mesh and Solution Conversion Function
 # -------------------------------------------------------------------
 
-def sol_to_met( mshfilename       ,
-                solfilename       ,
-                outfilename       ):
+def sol_to_met( mshfilename ,
+                solfilename ,
+                outfilename ):
 
 	amgio.py_ConvertGMFSoltoMet(mshfilename, solfilename, outfilename)
 

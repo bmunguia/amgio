@@ -53,10 +53,10 @@ def main():
     if not args.boundmeshfilename:
         raise Exception('No .su2 file provided with MARKER_TAG information. Run with -h for full list of options.\n')
 
-    gmf_to_su2(args.meshfilename,
-    	       args.solfilename,
-               args.boundmeshfilename,
-    	       args.outfilename)
+    gmf_to_su2( args.meshfilename      ,
+    	        args.solfilename       ,
+                args.boundmeshfilename ,
+    	        args.outfilename       )
 
 #: def main()
 
