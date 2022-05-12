@@ -1,7 +1,7 @@
 pkg_cppflags  = @AMGIO_CPPFLAGS@ -I$(srcdir)
 pkg_sources = \
-        sources/libmeshb7.h \
-        sources/libmeshb7.c
+        libMeshb/sources/libmeshb7.h \
+        libMeshb/sources/libmeshb7.c
 
 ######################################################################
 AUTOMAKE_OPTIONS = subdir-objects
