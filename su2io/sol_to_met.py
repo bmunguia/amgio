@@ -42,7 +42,6 @@ def main():
     # Solution required
     if not args.solfilename:
         raise Exception('No .solb file provided. Run with -h for full list of options.\n')
-        sys.stdout.flush()
 
     sol_to_met( args.meshfilename ,
                 args.solfilename  ,
