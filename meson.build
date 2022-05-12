@@ -8,10 +8,10 @@ if (build_machine.system() == 'linux')
   libmeshb7_flags += ['-DLINUX', '-DLINUX64']
 endif
 
-libmeshb7_include = include_directories(['./libMeshb/sources'])
+libmeshb7_include = include_directories(['libMeshb/sources'])
 
 libmeshb7 = static_library('meshb7',
-                           'libmeshb7.c',
+                           'libMeshb/sources/libmeshb7.c',
                            install : true,
                            c_args: [default_warning_flags, libmeshb7_flags],
                            include_directories: libmeshb7_include)
