@@ -6,7 +6,7 @@
 #
 
 import sys
-import _amgio as amgio
+import _su2gmf as su2gmf
 from argparse import ArgumentParser
 
 # -------------------------------------------------------------------
@@ -69,7 +69,7 @@ def gmf_to_su2( meshfilename      ,
                 boundmeshfilename ,
                 outfilename       ):
 
-	amgio.py_ConvertGMFWithBoundtoSU2(meshfilename, solfilename, boundmeshfilename, outfilename)
+	su2gmf.py_ConvertGMFWithBoundtoSU2(meshfilename, solfilename, boundmeshfilename, outfilename)
 
 #: def gmf_to_su2()
 

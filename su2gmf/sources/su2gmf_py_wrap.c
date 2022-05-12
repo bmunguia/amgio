@@ -2679,16 +2679,16 @@ static swig_module_info swig_module = {swig_types, 1, 0, 0, 0, 0};
 #define SWIG_TypeQuery SWIG_Python_TypeQuery
 
 /*-----------------------------------------------
-              @(target):= _amgio.so
+              @(target):= _su2gmf.so
   ------------------------------------------------*/
 #if PY_VERSION_HEX >= 0x03000000
-#  define SWIG_init    PyInit__amgio
+#  define SWIG_init    PyInit__su2gmf
 
 #else
-#  define SWIG_init    init_amgio
+#  define SWIG_init    init_su2gmf
 
 #endif
-#define SWIG_name    "_amgio"
+#define SWIG_name    "_su2gmf"
 
 #define SWIGVERSION 0x040002 
 #define SWIG_VERSION SWIGVERSION
@@ -2701,7 +2701,7 @@ static swig_module_info swig_module = {swig_types, 1, 0, 0, 0, 0};
     /* the resulting C file should be built as a python extension */
     #define SWIG_FILE_WITH_INIT
     /*  Includes the header in the wrapper code */
-    #include "amgio_py.h" 
+    #include "su2gmf_py.h" 
 
 
 SWIGINTERN swig_type_info*

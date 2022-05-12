@@ -2,10 +2,8 @@
 
 import sys,os
 from distutils.core import setup, Extension
-from distutils import sysconfig
 
-
-def setup_amgio(argv=[]):
+def setup_su2gmf(argv=[]):
     
     sav_argv = sys.argv;    
     
@@ -19,21 +17,22 @@ def setup_amgio(argv=[]):
       raise Exception("Script must be run using Python 3.7 or greater")
 
     else:
-      setup(name="_amgio",
+      setup(name="_su2gmf",
             version= "3.0.2",
             description="This is an extension to convert SU2 meshes and solutions to GMF.",
             author="Victorien Menier, Brian C. Munguía",
             author_email="bmunguia@stanford.edu",
-            url="https://github.com/bmunguia/AMGIO",
-            ext_modules=[ Extension( "_amgio", \
-            sources=[ "./sources/amgio_py.c", \
+            url="https://github.com/bmunguia/amgio",
+            ext_modules=[ Extension( "_su2gmf", \
+            sources=[ "../libMeshb/sources/libmeshb7.c", \
+                      "./sources/su2gmf_py.c", \
                       "./sources/mesh.c", \
-                      "./sources/GMFio.c", \
-                      "./sources/SU2io.c", \
+                      "./sources/gmfio.c", \
+                      "./sources/su2io.c", \
                       "./sources/option.c", \
-                      "./sources/libmesh6.c", \
-                      "./sources/amgio_py.i", \
+                      "./sources/su2gmf_py.i", \
                       "./sources/convert.c"],
+            include_dirs=['../libMeshb/sources'],
             extra_compile_args=["-std=c99",
                                 "-Wno-unused-variable",
                                 "-Wno-unused-result",
@@ -44,4 +43,4 @@ def setup_amgio(argv=[]):
     sys.argv = sav_argv;
 
 if __name__ == '__main__':
-    setup_amgio(sys.argv)
+    setup_su2gmf(sys.argv)

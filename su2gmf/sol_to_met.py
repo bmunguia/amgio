@@ -6,7 +6,7 @@
 #
 
 import sys
-import _amgio as amgio
+import _su2gmf as su2gmf
 from argparse import ArgumentParser
 
 # -------------------------------------------------------------------
@@ -57,7 +57,7 @@ def sol_to_met( mshfilename ,
                 solfilename ,
                 outfilename ):
 
-	amgio.py_ConvertGMFSoltoMet(mshfilename, solfilename, outfilename)
+	su2gmf.py_ConvertGMFSoltoMet(mshfilename, solfilename, outfilename)
 
 #: def sol_to_met()
 

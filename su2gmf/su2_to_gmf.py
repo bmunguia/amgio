@@ -6,7 +6,7 @@
 #
 
 import sys
-import _amgio as amgio
+import _su2gmf as su2gmf
 from argparse import ArgumentParser, RawTextHelpFormatter
 
 # -------------------------------------------------------------------
@@ -71,9 +71,9 @@ def su2_to_gmf( meshfilename ,
                 fieldname    ):
 
     # if (fieldname == 'metric'): # TODO
-    #     amgio.py_ConvertSU2toGMF(meshfilename, solfilename, outfilename)
+    #     su2gmf.py_ConvertSU2toGMF(meshfilename, solfilename, outfilename)
     # else:
-    amgio.py_ConvertSU2toGMF(meshfilename, solfilename, outfilename, fieldname)
+    su2gmf.py_ConvertSU2toGMF(meshfilename, solfilename, outfilename, fieldname)
 
 #: def su2_to_gmf()
 

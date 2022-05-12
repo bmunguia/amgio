@@ -1,4 +1,4 @@
-#include "amgio.h"
+#include "su2gmf.h"
 
 /*
 Victorien Menier Feb 2016
@@ -136,7 +136,6 @@ int AddSU2MeshSize(char *FilNam, int *SizMsh)
   SizMsh[GmfPyramids]       = NbrPyr;
   SizMsh[GmfHexahedra]      = NbrHex;
   SizMsh[GmfTrianglesP2]    = NbrP2Tri;
-  SizMsh[GmfFileType]       = FILE_SU2MSH;
   SizMsh[GmfEdgesP2]        = NbrP2Lin;
   
   if ( FilHdl )

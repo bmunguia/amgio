@@ -1,4 +1,4 @@
-#include "amgio.h"
+#include "su2gmf.h"
 
 /*
 Victorien Menier Feb 2016

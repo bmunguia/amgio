@@ -1,4 +1,4 @@
-#include "amgio.h"
+#include "su2gmf.h"
 #include "Python.h"
 
 int py_ConvertSU2toGMF( char *MshNam, char *SolNam, char *OutNam, char *FldNam  ) 

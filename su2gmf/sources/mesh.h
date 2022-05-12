@@ -3,6 +3,8 @@ Victorien Menier Feb 2016
 Brian Munguía Apr 2020
 */
 
+#include "libmeshb7.h"
+
 typedef double double2[2];
 typedef double double3[3];
 typedef int    int2[2];
@@ -36,6 +38,8 @@ typedef int    int9[9];
 #define GMSH_TRIANGLE     2
 #define GMSH_HEXAHEDRON   3
 #define GMSH_TETRAHEDRON  4
+
+#define GmfMaxSizMsh GmfMaxKwd+2+GmfMaxTyp
 
 
 typedef struct S_Mesh

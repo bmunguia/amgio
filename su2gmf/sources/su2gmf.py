@@ -10,9 +10,9 @@ if _swig_python_version_info < (2, 7, 0):
 
 # Import the low-level C/C++ module
 if __package__ or "." in __name__:
-    from . import _amgio
+    from . import _su2gmf
 else:
-    import _amgio
+    import _su2gmf
 
 try:
     import builtins as __builtin__
@@ -63,33 +63,33 @@ class _SwigNonDynamicMeta(type):
 
 
 def py_ConvertSU2toGMF(MshNam, SolNam, OutNam, FldNam):
-    return _amgio.py_ConvertSU2toGMF(MshNam, SolNam, OutNam, FldNam)
+    return _su2gmf.py_ConvertSU2toGMF(MshNam, SolNam, OutNam, FldNam)
 
 def py_ConvertGMFtoSU2(MshNam, SolNam, OutNam):
-    return _amgio.py_ConvertGMFtoSU2(MshNam, SolNam, OutNam)
+    return _su2gmf.py_ConvertGMFtoSU2(MshNam, SolNam, OutNam)
 
 def py_ConvertGMFWithBoundtoSU2(MshNam, SolNam, BndMshNam, OutNam):
-    return _amgio.py_ConvertGMFWithBoundtoSU2(MshNam, SolNam, BndMshNam, OutNam)
+    return _su2gmf.py_ConvertGMFWithBoundtoSU2(MshNam, SolNam, BndMshNam, OutNam)
 
 def py_ConvertGMFSoltoMet(MshNam, SolNam, OutNam):
-    return _amgio.py_ConvertGMFSoltoMet(MshNam, SolNam, OutNam)
+    return _su2gmf.py_ConvertGMFSoltoMet(MshNam, SolNam, OutNam)
 
 def py_ReadMeshAndSol(MshNam, SolNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pySol, pySolHeader, pyMarkers):
-    return _amgio.py_ReadMeshAndSol(MshNam, SolNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pySol, pySolHeader, pyMarkers)
+    return _su2gmf.py_ReadMeshAndSol(MshNam, SolNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pySol, pySolHeader, pyMarkers)
 
 def py_ReadMesh(MshNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pyMarkers):
-    return _amgio.py_ReadMesh(MshNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pyMarkers)
+    return _su2gmf.py_ReadMesh(MshNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pyMarkers)
 
 def py_ReadSol(SolNam, pySol, pySolHeader, NbrVer, Dim):
-    return _amgio.py_ReadSol(SolNam, pySol, pySolHeader, NbrVer, Dim)
+    return _su2gmf.py_ReadSol(SolNam, pySol, pySolHeader, NbrVer, Dim)
 
 def py_WriteMeshAndSol(MshNam, SolNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pySol, pySolHeader, pyMarkers, Dim):
-    return _amgio.py_WriteMeshAndSol(MshNam, SolNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pySol, pySolHeader, pyMarkers, Dim)
+    return _su2gmf.py_WriteMeshAndSol(MshNam, SolNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pySol, pySolHeader, pyMarkers, Dim)
 
 def py_WriteMesh(MshNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pyMarkers, Dim):
-    return _amgio.py_WriteMesh(MshNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pyMarkers, Dim)
+    return _su2gmf.py_WriteMesh(MshNam, pyVer, pyCor, pyTri, pyTet, pyEdg, pyHex, pyQua, pyPyr, pyPri, pyMarkers, Dim)
 
 def py_WriteSol(SolNam, pyVer, pySol, pySolHeader, NbrVer, Dim):
-    return _amgio.py_WriteSol(SolNam, pyVer, pySol, pySolHeader, NbrVer, Dim)
+    return _su2gmf.py_WriteSol(SolNam, pyVer, pySol, pySolHeader, NbrVer, Dim)
 
 

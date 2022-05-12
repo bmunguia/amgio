@@ -10,7 +10,6 @@
 #define max(a,b) (a>=b?a:b)
 #define min(a,b) (a<=b?a:b)
 
-#include "libmesh6.h"
 #include "mesh.h"
 #include "option.h"
 
@@ -19,7 +18,7 @@
 
 // Prototypes
 
-//--- SU2io.c
+//--- su2io.c
 int  AddSU2MeshSize (char *FilNam, int *SizMsh) ;
 int  GetSU2KeywordValue (FILE *FilHdl, char *Kwd);
 int  GetSU2KeywordValueStr (FILE *FilHdl, char *Kwd, char *StrVal);
@@ -34,7 +33,7 @@ int  GetSU2SolSize (char *SolNam);
 int  WriteSU2Solution (char *SolNam, int Dim, int NbrVer, double3 *Ver,  double *Sol, int SolSiz, char SolTag[100][256]);
 int  WriteSU2SolutionBin (char *SolNam, int Dim, int NbrVer, double3 *Ver,  double *Sol, int SolSiz, char SolTag[100][256]);
 
-//--- GMFio.c
+//--- gmfio.c
 int AddGMFMeshSize (char *MshNam, int *SizMsh);
 int LoadGMFMesh (char *MshNam, Mesh *Msh, Conn *Con);
 int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con);

@@ -1,4 +1,4 @@
-#include "amgio.h"
+#include "su2gmf.h"
 
 int ConvertGMFtoSU2Sol (Options *mshopt)
 {
