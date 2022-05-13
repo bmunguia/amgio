@@ -18,7 +18,7 @@ def setup_su2gmf(argv=[]):
 
     else:
       setup(name="_su2gmf",
-            version= "3.0.2",
+            version= "3.1.0",
             description="This is an extension to convert SU2 meshes and solutions to GMF.",
             author="Victorien Menier, Brian C. Munguía",
             author_email="bmunguia@stanford.edu",
