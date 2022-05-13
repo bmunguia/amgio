@@ -39,8 +39,9 @@ int AddGMFMeshSize (char *MshNam, int *SizMsh)
 
 int LoadGMFMesh (char *MshNam, Mesh *Msh, Conn *Con)
 {
+  int64_t InpMsh;
   int i, j, idx;
-  int dim, FilVer, InpMsh, ref; 
+  int dim, FilVer, ref; 
   double bufDbl[3];
   int bufInt[8], is[8];
   
@@ -172,8 +173,9 @@ int LoadGMFMesh (char *MshNam, Mesh *Msh, Conn *Con)
 
 int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
 {
+  int64_t InpMsh;
   int i, j, idx;
-  int dim, FilVer, InpMsh, ref; 
+  int dim, FilVer, ref; 
   double bufDbl[3];
   int bufInt[8], is[8];
   
@@ -297,8 +299,9 @@ int LoadGMFConnData (char *MshNam, Mesh *Msh, Conn *Con)
 
 int LoadGMFSolution(char *SolNam, Mesh *Msh)
 {
-  int    SolMsh,FilVer=0,dim=0,SolTyp,iVer,i, idxVer;
-  int    NbrLin,NbrTyp,SolSiz,TypTab[ GmfMaxTyp ];
+  int64_t SolMsh;
+  int FilVer=0,dim=0,SolTyp,iVer,i, idxVer;
+  int NbrLin,NbrTyp,SolSiz,TypTab[ GmfMaxTyp ];
   double *bufDbl = NULL;
     
   if ( Msh->Sol )
@@ -391,30 +394,32 @@ int LoadGMFSolution(char *SolNam, Mesh *Msh)
 
 int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
 {
-  int       OutMsh,FilVer,i, j;
-  int       iVer,iTri,iEfr,iCor,iTet,iQua; 
+  int64_t   OutMsh;
+  int FilVer,i, j;
+  int iVer,iTri,iEfr,iCor,iTet,iQua; 
   long long idx[8];
-  char      OutFil[512];
+  char OutFil[512];
   
   int Dim = Msh->Dim;
-  int NbrVer  = Msh->NbrVer;
-  int NbrTri  = Msh->NbrTri;
-  int NbrEfr  = Msh->NbrEfr;
-  int NbrCor  = Msh->NbrCor;
-  int NbrQua  = Msh->NbrQua;
-  int NbrTet  = Msh->NbrTet;
-  int NbrHex  = Msh->NbrHex;
-  int NbrPri  = Msh->NbrPri;
-  int NbrPyr  = Msh->NbrPyr;
+  int NbrVer = Msh->NbrVer;
+  int NbrTri = Msh->NbrTri;
+  int NbrEfr = Msh->NbrEfr;
+  int NbrCor = Msh->NbrCor;
+  int NbrQua = Msh->NbrQua;
+  int NbrTet = Msh->NbrTet;
+  int NbrHex = Msh->NbrHex;
+  int NbrPri = Msh->NbrPri;
+  int NbrPyr = Msh->NbrPyr;
+
   double3*Ver = Msh->Ver;
-  int4*Tri    = Msh->Tri;
-  int3*Efr    = Msh->Efr;
-  int*Cor     = Msh->Cor;
-  int5*Tet    = Msh->Tet;
-  int5*Qua    = Msh->Qua;
-  int9*Hex    = Msh->Hex;
-  int7*Pri    = Msh->Pri;
-  int6*Pyr    = Msh->Pyr;
+  int*Cor = Msh->Cor;
+  int4*Tri = Msh->Tri;
+  int3*Efr = Msh->Efr;
+  int5*Tet = Msh->Tet;
+  int5*Qua = Msh->Qua;
+  int9*Hex = Msh->Hex;
+  int7*Pri = Msh->Pri;
+  int6*Pyr = Msh->Pyr;
   
   
   //--- Define file name extension 
@@ -432,7 +437,7 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
     printf("  ## ERROR: Cannot open mesh file %s ! \n",OutFil);
     return 0;
   }
-  
+ 
   //--- Write vertices
   GmfSetKwd(OutMsh, GmfVertices, NbrVer);
 
@@ -468,7 +473,6 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
       GmfSetLin(OutMsh, GmfEdges,idx[0],idx[1],Efr[iEfr][2]);  
     }
   }
-  
   
   if ( Msh->Tri > 0 ) {
     //--- Write triangles
@@ -549,8 +553,9 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
 
 int WriteGMFSolution(char *SolNam, double *Sol, int SolSiz, int NbrVer, int Dim, int NbrFld, int* FldTab)
 {
-  int       OutSol, iVer;
-  double   *dbl=NULL;
+  int64_t OutSol;
+  int iVer;
+  double *dbl=NULL;
   
   if ( !Sol ) {
     printf("  ## ERROR: WriteGMFSolution : Sol not allocated.\n");
@@ -638,14 +643,15 @@ int WriteGMFSolutionItf(char *SolNam, char *FldNam, Mesh *Msh)
 
 int WriteGMFMetric(char *MetNam, Mesh *Msh, int OptBin)
 {
-  double *Sol       = Msh->Sol;
-  int     SolSiz    = Msh->SolSiz;
-  int     NbrVer    = Msh->NbrVer;
-  int     Dim       = Msh->Dim; 
-  int     NbrFld    = 1; 
-  int     FldTab[1] = {GmfSymMat}; 
-    int     OutMet, iVer;
-  double   *dbl=NULL;
+  int64_t OutMet;
+  int iVer;
+  double *Sol = Msh->Sol;
+  int SolSiz = Msh->SolSiz;
+  int NbrVer = Msh->NbrVer;
+  int Dim = Msh->Dim; 
+  int NbrFld = 1; 
+  int FldTab[1] = {GmfSymMat}; 
+  double *dbl=NULL;
   
   if ( !Sol ) {
     printf("  ## ERROR: WriteGMFMetric : Sol not allocated.\n");
