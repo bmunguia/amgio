@@ -394,8 +394,8 @@ int LoadGMFSolution(char *SolNam, Mesh *Msh)
 
 int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
 {
-  int64_t   OutMsh;
-  int FilVer,i, j;
+  int64_t OutMsh;
+  int FilVer, i, j;
   int iVer,iTri,iEfr,iCor,iTet,iQua; 
   long long idx[8];
   char OutFil[512];
@@ -430,7 +430,7 @@ int WriteGMFMesh(char *nam, Mesh *Msh, int OptBin)
   else
     strcat(OutFil,".mesh");
  
-  FilVer = GmfDouble;
+  FilVer = 3;
   
   //--- Open file
   if ( !(OutMsh = GmfOpenMesh(OutFil,GmfWrite,FilVer,Dim)) ) {
