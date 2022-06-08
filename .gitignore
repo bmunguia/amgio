@@ -1,2 +1,5 @@
 .vscode
 su2gmf/build
+su2gmf/src/su2gmf.egg-info
+su2gmf/src/su2gmf_wrap.c
+su2gmf/src/su2gmf.py

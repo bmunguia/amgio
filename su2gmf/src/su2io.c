@@ -1,4 +1,4 @@
-#include "su2gmf.h"
+#include "common.h"
 
 /*
 Victorien Menier Feb 2016

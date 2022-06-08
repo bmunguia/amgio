@@ -1,4 +1,4 @@
-#include "su2gmf.h"
+#include "common.h"
 
 int ConvertGMFtoSU2Sol (Options *mshopt)
 {

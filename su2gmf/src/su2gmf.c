@@ -1,4 +1,4 @@
-#include "su2gmf.h"
+#include "common.h"
 #include "Python.h"
 
 int py_ConvertSU2toGMF( char *MshNam, char *SolNam, char *OutNam, char *FldNam  ) 
