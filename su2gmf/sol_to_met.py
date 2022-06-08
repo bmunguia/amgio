@@ -5,9 +5,8 @@
 #  \author Brian Mungu\'ia
 #
 
-import sys
 import su2gmf
-from argparse import ArgumentParser
+from argparse import ArgumentParser, RawTextHelpFormatter
 
 # -------------------------------------------------------------------
 #  Main 
@@ -16,23 +15,24 @@ from argparse import ArgumentParser
 def main(): 
 
     # Command Line Options
-    parser = ArgumentParser()
-    parser.add_argument("-m", "--mesh", 
+    parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
+    parser.add_argument("-m", "--msh", 
                         dest="meshfilename", 
                         type=str,
-                        help="input GMF mesh (ext required)", 
-                        metavar="meshfile")
+                        help="input GMF mesh with ext", 
+                        metavar="MSH")
     parser.add_argument("-s", "--sol", 
                         dest="solfilename", 
                         type=str,
-                        help="input GMF solution (ext required)", 
-                        metavar="SOLFILE")
+                        help="input GMF solution with ext", 
+                        metavar="SOL")
     parser.add_argument("-o", "--out", 
                         dest="outfilename", 
                         type=str, 
                         default="out",
-                        help="output GMF metric (ext NOT required)", 
-                        metavar="OUTFILE")
+                        help="base filename for output GMF metric\n"
+                             "outputs OUT.solb",
+                        metavar="OUT")
     args=parser.parse_args()
 
     # Mesh required

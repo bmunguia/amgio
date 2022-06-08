@@ -22,24 +22,24 @@ else:
                             "-Wno-unused-result",
                             "-O3" ]
 
-    ext_module = [ Extension("_su2gmf",
+    ext_modules = [ Extension("_su2gmf",
                               sources=sources,
                               include_dirs=include_dirs,
                               extra_compile_args=extra_compile_args) ]
-    py_module= [ "su2gmf" ]
+    py_modules = [ 'su2gmf' ]
 
-    package = [ '' ]
+    packages = [ '' ]
     package_dir = {'': 'src'}
     package_data = {'': ['_su2gmf.so']}
 
-    setup(name="su2gmf",
-          version= "3.2.0",
-          description="""Extension to convert SU2 meshes and solutions to GMF.""",
-          author="Victorien Menier, Brian C. Munguía",
-          author_email="bmunguia@stanford.edu",
-          url="https://github.com/bmunguia/amgio",
-          ext_modules=ext_module,
-          py_modules=py_module,
-          packages=package,
+    setup(name='su2gmf',
+          version= '3.3.0',
+          description='''Extension to convert SU2 meshes and solutions to GMF.''',
+          author='Victorien Menier, Brian C. Munguía',
+          author_email='bmunguia@stanford.edu',
+          url='https://github.com/bmunguia/amgio',
+          ext_modules=ext_modules,
+          py_modules=py_modules,
+          packages=packages,
           package_dir=package_dir,
           package_data=package_data);

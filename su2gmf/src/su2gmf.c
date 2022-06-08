@@ -1,5 +1,15 @@
-#include "common.h"
-#include "Python.h"
+/** @file su2gmf.c
+ *  @brief Interface for reading and writing SU2 and GMF files.
+ *
+ *  Functions to read and write SU2 and GMF meshes and solutions, 
+ *  and convert between both formats.
+ *
+ *  @author Victorien Menier
+ *  @author Brian Munguía
+ *  @bug No known bugs.
+ */
+
+#include "su2gmf.h"
 
 int SU2toGMF( char *MshNam, char *SolNam, char *OutNam, char *FldNam  ) 
 {

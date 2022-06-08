@@ -17,29 +17,30 @@ def main():
 
     # Command Line Options
     parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
-    parser.add_argument("-m", "--mesh", 
+    parser.add_argument("-m", "--msh", 
                         dest="meshfilename", 
                         type=str,
-                        help="input SU2 format mesh (ext required)", 
-                        metavar="meshfile")
+                        help="input SU2 mesh with ext", 
+                        metavar="MSH")
     parser.add_argument("-s", "--sol", 
                         dest="solfilename", 
                         type=str,
-                        help="input SU2 format solution (ext required)", 
-                        metavar="solfile")
+                        help="input SU2 solution with ext", 
+                        metavar="SOL")
     parser.add_argument("-o", "--out", 
                         dest="outfilename", 
                         type=str, 
                         default="out",
-                        help="output GMF mesh/solution (ext NOT required)",
-                        metavar="outfile")
-    parser.add_argument("-f", "--field", 
+                        help="base filename for output GMF mesh/solution\n"
+                             "outputs OUT.solb and OUT.meshb",
+                        metavar="OUT")
+    parser.add_argument("-f", "--fld", 
                         dest="fieldname", 
                         type=str, 
                         default="all",
                         help="fields to write, supported options:\n"  
                              "all (D), <sensor name>, metric", 
-                        metavar="field")
+                        metavar="FLD")
     args=parser.parse_args()
 
     # Mesh required

@@ -7,7 +7,7 @@
 
 import sys
 import su2gmf
-from argparse import ArgumentParser
+from argparse import ArgumentParser, RawTextHelpFormatter
 
 # -------------------------------------------------------------------
 #  Main 
@@ -16,28 +16,30 @@ from argparse import ArgumentParser
 def main(): 
 
     # Command Line Options
-    parser = ArgumentParser()
-    parser.add_argument("-m", "--mesh", 
+    parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
+    parser.add_argument("-m", "--msh", 
                         dest="meshfilename", 
                         type=str,
-                        help="input GMF mesh (ext required)", 
-                        metavar="meshfile")
+                        help="input GMF mesh with ext", 
+                        metavar="MSH")
     parser.add_argument("-s", "--sol", 
                         dest="solfilename", 
                         type=str,
-                        help="input GMF solution (ext required)", 
-                        metavar="solfile")
-    parser.add_argument("-b", "--boundmesh", 
+                        help="input GMF solution with ext", 
+                        metavar="SOL")
+    parser.add_argument("-b", "--bndmsh", 
                         dest="boundmeshfilename", 
                         type=str,
-                        help="input SU2 format mesh containing boundary marker names (ext required)", 
-                        metavar="boundmeshfile")
+                        help="input SU2 mesh with ext\n"
+                              "contains boundary marker names", 
+                        metavar="BND")
     parser.add_argument("-o", "--out", 
                         dest="outfilename", 
                         type=str, 
                         default="out",
-                        help="output SU2 format mesh/solution (ext NOT required)", 
-                        metavar="outfile")
+                        help="base filename for output SU2 mesh/solution\n"
+                             "outputs OUT.dat and OUT.su2",
+                        metavar="OUT")
     args=parser.parse_args()
 
     # Mesh required

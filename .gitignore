@@ -3,3 +3,7 @@ su2gmf/build
 su2gmf/src/su2gmf.egg-info
 su2gmf/src/su2gmf_wrap.c
 su2gmf/src/su2gmf.py
+su2gmf/src/Doxyfile
+su2gmf/src/html
+su2gmf/src/latex
+su2gmf/src/xml
