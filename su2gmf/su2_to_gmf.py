@@ -71,9 +71,9 @@ def su2_to_gmf( meshfilename ,
                 fieldname    ):
 
     # if (fieldname == 'metric'): # TODO
-    #     su2gmf.py_ConvertSU2toGMF(meshfilename, solfilename, outfilename)
+    #     su2gmf.SU2toGMF(meshfilename, solfilename, outfilename)
     # else:
-    su2gmf.py_ConvertSU2toGMF(meshfilename, solfilename, outfilename, fieldname)
+    su2gmf.SU2toGMF(meshfilename, solfilename, outfilename, fieldname)
 
 #: def su2_to_gmf()
 

@@ -69,7 +69,7 @@ def gmf_to_su2( meshfilename      ,
                 boundmeshfilename ,
                 outfilename       ):
 
-	su2gmf.py_ConvertGMFWithBoundtoSU2(meshfilename, solfilename, boundmeshfilename, outfilename)
+	su2gmf.GMFWithBoundtoSU2(meshfilename, solfilename, boundmeshfilename, outfilename)
 
 #: def gmf_to_su2()
 

@@ -57,7 +57,7 @@ def sol_to_met( mshfilename ,
                 solfilename ,
                 outfilename ):
 
-	su2gmf.py_ConvertGMFSoltoMet(mshfilename, solfilename, outfilename)
+	su2gmf.GMFSoltoMet(mshfilename, solfilename, outfilename)
 
 #: def sol_to_met()
 
