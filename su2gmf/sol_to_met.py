@@ -1,16 +1,12 @@
 #!/usr/bin/env python
 
-## \file sol_to_met.py
-#  \brief python script to convert GMF solution files to metric files
-#  \author Brian Mungu\'ia
-#
+"""! @file sol_to_met.py
+@brief python script to convert GMF solution files to metric files
+@author Brian Mungu\'ia
+"""
 
 import su2gmf
 from argparse import ArgumentParser, RawTextHelpFormatter
-
-# -------------------------------------------------------------------
-#  Main 
-# -------------------------------------------------------------------
 
 def main(): 
 
@@ -47,24 +43,11 @@ def main():
                 args.solfilename  ,
     	        args.outfilename  )
 
-#: def main()
-
-# -------------------------------------------------------------------
-#  Mesh and Solution Conversion Function
-# -------------------------------------------------------------------
-
 def sol_to_met( mshfilename ,
                 solfilename ,
                 outfilename ):
 
 	su2gmf.GMFSoltoMet(mshfilename, solfilename, outfilename)
 
-#: def sol_to_met()
-
-# -------------------------------------------------------------------
-#  Run Main Program
-# -------------------------------------------------------------------
-
-# this is only accessed if running from command prompt
 if __name__ == '__main__':
     main()

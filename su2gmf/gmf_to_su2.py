@@ -1,17 +1,13 @@
 #!/usr/bin/env python
 
-## \file gmf_to_su2.py
-#  \brief python script to convert GMF files to SU2
-#  \author Brian Mungu\'ia
-#
+"""! @file gmf_to_su2.py
+@brief python script to convert GMF files to SU2
+@author Brian Mungu\'ia
+"""
 
 import sys
 import su2gmf
 from argparse import ArgumentParser, RawTextHelpFormatter
-
-# -------------------------------------------------------------------
-#  Main 
-# -------------------------------------------------------------------
 
 def main(): 
 
@@ -60,12 +56,6 @@ def main():
                 args.boundmeshfilename ,
     	        args.outfilename       )
 
-#: def main()
-
-# -------------------------------------------------------------------
-#  Mesh and Solution Conversion Function
-# -------------------------------------------------------------------
-
 def gmf_to_su2( meshfilename      ,
                 solfilename       ,
                 boundmeshfilename ,
@@ -73,12 +63,5 @@ def gmf_to_su2( meshfilename      ,
 
 	su2gmf.GMFWithBoundtoSU2(meshfilename, solfilename, boundmeshfilename, outfilename)
 
-#: def gmf_to_su2()
-
-# -------------------------------------------------------------------
-#  Run Main Program
-# -------------------------------------------------------------------
-
-# this is only accessed if running from command prompt
 if __name__ == '__main__':
     main()
