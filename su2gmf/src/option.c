@@ -11,104 +11,111 @@ Options* AllocOptions()
 
   mshopt->Mod       = -1;
   mshopt->InpFilTyp = 0;
-  
+
   mshopt->flagSol = 0;
-  
+
   mshopt->clean = 0;
-  
+
   strcpy(mshopt->InpNam, "");
   strcpy(mshopt->OutNam, "");
   strcpy(mshopt->BasNam, "");
   strcpy(mshopt->SolNam, "");
-  
+
   return mshopt;
 }
 
 int CheckOptions (Options *mshopt)
 {
   int SolTyp=-1;
-  
-  if ( !strcmp(mshopt->InpNam, "") ) {
+
+  if ( !strcmp(mshopt->InpNam, "") )
+  {
     printf("  ## ERROR CheckOptions : An input name must be provided.\n");
     return 0;
   }
-  
+
   //--- Get mesh file extension
   mshopt->InpFilTyp = GetInputFileType(mshopt->InpNam);
-  
-  if ( !mshopt->InpFilTyp ) {
+
+  if ( !mshopt->InpFilTyp )
+  {
     printf("  ## ERROR CheckOptions : Unknown input file extension.\n");
     return 0;
   }
-    
-  if ( !strcmp(mshopt->OutNam, "") ) {
+
+  if ( !strcmp(mshopt->OutNam, "") )
+  {
     GetBasNam (mshopt->InpNam, mshopt->BasNam);
     sprintf(mshopt->OutNam, "%s.o", mshopt->BasNam);
     printf("  -- Info: Output file name set to %s\n", mshopt->OutNam);
   }
-  
-  
-  if ( strcmp(mshopt->SolNam, "") ) {
+
+
+  if ( strcmp(mshopt->SolNam, "") )
+  {
     SolTyp = GetInputFileType(mshopt->SolNam);
-    
-    if ( mshopt->InpFilTyp == FILE_SU2MSH && SolTyp != FILE_SU2CSV && SolTyp != FILE_SU2BIN ) {
+
+    if ( mshopt->InpFilTyp == FILE_SU2MSH && SolTyp != FILE_SU2CSV && SolTyp != FILE_SU2BIN )
+    {
       printf("  ## ERROR : Wrong format for solution file (.csv or .dat expected)\n");
       return 0;
     }
-    
-    if ( mshopt->InpFilTyp == FILE_GMF && SolTyp != FILE_GMFSOL ) {
+
+    if ( mshopt->InpFilTyp == FILE_GMF && SolTyp != FILE_GMFSOL )
+    {
       printf("  ## ERROR : Wrong format for solution file (.sol[b] expected)\n");
       return 0;
     }
-    
+
   }
-  
-  
+
+
   return 1;
 }
 
 void PrintOptions (Options *mshopt)
 {
-  
+
   printf("\n--- Options Summary ---\n");
   printf("  Input mesh file : %s\n", mshopt->InpNam);
   printf("  Input sol  file : %s\n", (!strcmp(mshopt->SolNam,"")?"(None)":mshopt->SolNam));
   printf("  Output file     : %s\n", mshopt->OutNam);
   printf("-------------------------\n");
-  
+
 }
 
 int GetBasNam (char *InpNam, char *BasNam)
 {
-  
+
   char *ptr = NULL;
-  
-  if ( !InpNam || !BasNam ) {
+
+  if ( !InpNam || !BasNam )
+  {
     printf("  ## ERROR GetBasNam.\n");
     return 0;
   }
-  
+
   strcpy(BasNam,InpNam);
-  
-  ptr = strstr(BasNam,".su2");  
+
+  ptr = strstr(BasNam,".su2");
   if ( ptr != NULL )
     BasNam[ptr-BasNam]='\0';
 
-  ptr = strstr(BasNam,".meshb");  
+  ptr = strstr(BasNam,".meshb");
   if ( ptr != NULL )
     BasNam[ptr-BasNam]='\0';
 
-  ptr = strstr(BasNam,".csv");  
+  ptr = strstr(BasNam,".csv");
   if ( ptr != NULL )
     BasNam[ptr-BasNam]='\0';
 
-  ptr = strstr(BasNam,".dat");  
-  if ( ptr != NULL )
-    BasNam[ptr-BasNam]='\0';
-  
-  ptr = strstr(BasNam,".solb");  
+  ptr = strstr(BasNam,".dat");
   if ( ptr != NULL )
     BasNam[ptr-BasNam]='\0';
 
-  return 1;  
+  ptr = strstr(BasNam,".solb");
+  if ( ptr != NULL )
+    BasNam[ptr-BasNam]='\0';
+
+  return 1;
 }

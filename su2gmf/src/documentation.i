@@ -6,7 +6,7 @@
 
 %feature("docstring") su2gmf::_SwigNonDynamicMeta "
 
-Meta class to enforce nondynamic attributes (no new attributes) for a class.  
+Meta class to enforce nondynamic attributes (no new attributes) for a class.
 ";
 
 // File: structS__Conn.xml
@@ -467,488 +467,488 @@ su2gmf.WriteSol";
 
 %feature("docstring") SU2toGMF "
 
-Wrapper function to convert SU2 mesh and solution to GMF.  
+Wrapper function to convert SU2 mesh and solution to GMF.
 
 Parameters
 ----------
-MshNam : str  
-    input SU2 mesh filename  
-SolNam : str  
-    input SU2 solution filename  
-OutNam : str  
-    output GMF mesh/solution basename  
-FldNam : str  
-    fields to output  
+MshNam : str
+    input SU2 mesh filename
+SolNam : str
+    input SU2 solution filename
+OutNam : str
+    output GMF mesh/solution basename
+FldNam : str
+    fields to output
 ";
 
 %feature("docstring") GMFtoSU2 "
 
-Wrapper function to convert GMF mesh and solution to SU2.  
+Wrapper function to convert GMF mesh and solution to SU2.
 
 Parameters
 ----------
-MshNam : str  
-    input SU2 mesh filename  
-SolNam : str  
-    input SU2 solution filename  
-OutNam : str  
-    output GMF mesh/solution filename  
+MshNam : str
+    input SU2 mesh filename
+SolNam : str
+    input SU2 solution filename
+OutNam : str
+    output GMF mesh/solution filename
 ";
 
 %feature("docstring") GMFWithBoundtoSU2 "
 
 Wrapper function to convert GMF mesh (with SU2 boundary info) and solution to
-SU2.  
+SU2.
 
 Parameters
 ----------
-MshNam : str  
-    input GMF mesh filename  
-SolNam : str  
-    input GMF solution filename  
-BndMshNam : str  
-    input SU2 mesh filename  
-OutNam : str  
-    output SU2 mesh/solution filename  
+MshNam : str
+    input GMF mesh filename
+SolNam : str
+    input GMF solution filename
+BndMshNam : str
+    input SU2 mesh filename
+OutNam : str
+    output SU2 mesh/solution filename
 ";
 
 %feature("docstring") GMFSoltoMet "
 
-Wrapper function to extract GMF metric from solution file.  
+Wrapper function to extract GMF metric from solution file.
 
 Parameters
 ----------
-MshNam : str  
-    input GMF mesh filename  
-SolNam : str  
-    input GMF solution filename  
-OutNam : str  
-    output GMF solution filename  
+MshNam : str
+    input GMF mesh filename
+SolNam : str
+    input GMF solution filename
+OutNam : str
+    output GMF solution filename
 
 Notes
 -----
 Assumes the metric is stored in the last 3*(nDim-1) columns of the
-solution.  
+solution.
 ";
 
 %feature("docstring") ReadMeshAndSol "
 
-Wrapper function to read a SU2 or GMF mesh and solution into python.  
+Wrapper function to read a SU2 or GMF mesh and solution into python.
 
 Parameters
 ----------
-MshNam : str  
-    input mesh filename  
-SolNam : str  
-    input solution filename  
-pyVer : list of float  
-    mesh vertex coordinates  
-pyCor : list of int  
-    mesh corner indices  
-pyTri : list of int  
-    mesh triangle indices  
-pyTet : list of int  
-    mesh tetrahedron indices  
-pyEdg : list of int  
-    mesh edge indices  
-pyHex : list of int  
-    mesh hexahedron indices  
-pyQua : list of int  
-    mesh quadrilateral indices  
-pyPyr : list of int  
-    mesh pyramid indices  
-pyPri : list of int  
-    mesh prism indices  
-pySol : list of float  
-    solution  
-pySolHeader : list of str  
-    solution tags  
-pyMarkers : list of str  
-    mesh boundary marker tags  
+MshNam : str
+    input mesh filename
+SolNam : str
+    input solution filename
+pyVer : list of float
+    mesh vertex coordinates
+pyCor : list of int
+    mesh corner indices
+pyTri : list of int
+    mesh triangle indices
+pyTet : list of int
+    mesh tetrahedron indices
+pyEdg : list of int
+    mesh edge indices
+pyHex : list of int
+    mesh hexahedron indices
+pyQua : list of int
+    mesh quadrilateral indices
+pyPyr : list of int
+    mesh pyramid indices
+pyPri : list of int
+    mesh prism indices
+pySol : list of float
+    solution
+pySolHeader : list of str
+    solution tags
+pyMarkers : list of str
+    mesh boundary marker tags
 ";
 
 %feature("docstring") ReadMesh "
 
-Wrapper function to read a SU2 or GMF mesh into python.  
+Wrapper function to read a SU2 or GMF mesh into python.
 
 Parameters
 ----------
-MshNam : str  
-    input mesh filename  
-pyVer : list of float  
-    mesh vertex coordinates  
-pyCor : list of int  
-    mesh corner indices  
-pyTri : list of int  
-    mesh triangle indices  
-pyTet : list of int  
-    mesh tetrahedron indices  
-pyEdg : list of int  
-    mesh edge indices  
-pyHex : list of int  
-    mesh hexahedron indices  
-pyQua : list of int  
-    mesh quadrilateral indices  
-pyPyr : list of int  
-    mesh pyramid indices  
-pyPri : list of int  
-    mesh prism indices  
-pyMarkers : list of str  
-    mesh boundary marker tags  
+MshNam : str
+    input mesh filename
+pyVer : list of float
+    mesh vertex coordinates
+pyCor : list of int
+    mesh corner indices
+pyTri : list of int
+    mesh triangle indices
+pyTet : list of int
+    mesh tetrahedron indices
+pyEdg : list of int
+    mesh edge indices
+pyHex : list of int
+    mesh hexahedron indices
+pyQua : list of int
+    mesh quadrilateral indices
+pyPyr : list of int
+    mesh pyramid indices
+pyPri : list of int
+    mesh prism indices
+pyMarkers : list of str
+    mesh boundary marker tags
 ";
 
 %feature("docstring") ReadSol "
 
-Wrapper function to read a SU2 or GMF solution into python.  
+Wrapper function to read a SU2 or GMF solution into python.
 
 Parameters
 ----------
-SolNam : str  
-    input solution filename  
-pySol : list of float  
-    solution  
-pySolHeader : list of str  
-    solution tags  
-pyMarkers : list of str  
-    mesh boundary marker tags  
-NbrVer : int  
-    size of mesh  
-Dim : int  
-    dimension of mesh  
+SolNam : str
+    input solution filename
+pySol : list of float
+    solution
+pySolHeader : list of str
+    solution tags
+pyMarkers : list of str
+    mesh boundary marker tags
+NbrVer : int
+    size of mesh
+Dim : int
+    dimension of mesh
 ";
 
 %feature("docstring") WriteMeshAndSol "
 
-Wrapper function to write a SU2 or GMF mesh and solution from python.  
+Wrapper function to write a SU2 or GMF mesh and solution from python.
 
 Parameters
 ----------
-MshNam : str  
-    input mesh filename  
-SolNam : str  
-    input solution filename  
-pyVer : list of float  
-    mesh vertex coordinates  
-pyCor : list of int  
-    mesh corner indices  
-pyTri : list of int  
-    mesh triangle indices  
-pyTet : list of int  
-    mesh tetrahedron indices  
-pyEdg : list of int  
-    mesh edge indices  
-pyHex : list of int  
-    mesh hexahedron indices  
-pyQua : list of int  
-    mesh quadrilateral indices  
-pyPyr : list of int  
-    mesh pyramid indices  
-pyPri : list of int  
-    mesh prism indices  
-pySol : list of float  
-    solution  
-pySolHeader : list of str  
-    solution tags  
-pyMarkers : list of str  
-    mesh boundary marker tags  
-Dim : int  
-    dimension of mesh  
+MshNam : str
+    input mesh filename
+SolNam : str
+    input solution filename
+pyVer : list of float
+    mesh vertex coordinates
+pyCor : list of int
+    mesh corner indices
+pyTri : list of int
+    mesh triangle indices
+pyTet : list of int
+    mesh tetrahedron indices
+pyEdg : list of int
+    mesh edge indices
+pyHex : list of int
+    mesh hexahedron indices
+pyQua : list of int
+    mesh quadrilateral indices
+pyPyr : list of int
+    mesh pyramid indices
+pyPri : list of int
+    mesh prism indices
+pySol : list of float
+    solution
+pySolHeader : list of str
+    solution tags
+pyMarkers : list of str
+    mesh boundary marker tags
+Dim : int
+    dimension of mesh
 ";
 
 %feature("docstring") WriteMesh "
 
-Wrapper function to write a SU2 or GMF mesh from python.  
+Wrapper function to write a SU2 or GMF mesh from python.
 
 Parameters
 ----------
-MshNam : str  
-    input mesh filename  
-pyVer : list of float  
-    mesh vertex coordinates  
-pyCor : list of int  
-    mesh corner indices  
-pyTri : list of int  
-    mesh triangle indices  
-pyTet : list of int  
-    mesh tetrahedron indices  
-pyEdg : list of int  
-    mesh edge indices  
-pyHex : list of int  
-    mesh hexahedron indices  
-pyQua : list of int  
-    mesh quadrilateral indices  
-pyPyr : list of int  
-    mesh pyramid indices  
-pyPri : list of int  
-    mesh prism indices  
-pyMarkers : list of str  
-    mesh boundary marker tags  
-Dim : int  
-    dimension of mesh  
+MshNam : str
+    input mesh filename
+pyVer : list of float
+    mesh vertex coordinates
+pyCor : list of int
+    mesh corner indices
+pyTri : list of int
+    mesh triangle indices
+pyTet : list of int
+    mesh tetrahedron indices
+pyEdg : list of int
+    mesh edge indices
+pyHex : list of int
+    mesh hexahedron indices
+pyQua : list of int
+    mesh quadrilateral indices
+pyPyr : list of int
+    mesh pyramid indices
+pyPri : list of int
+    mesh prism indices
+pyMarkers : list of str
+    mesh boundary marker tags
+Dim : int
+    dimension of mesh
 ";
 
 %feature("docstring") WriteSol "
 
-Wrapper function to write a SU2 or GMF solution from python.  
+Wrapper function to write a SU2 or GMF solution from python.
 
 Parameters
 ----------
-SolNam : str  
-    input solution filename  
-pyVer : list of float  
-    mesh vertex coordinates  
-pySol : list of float  
-    solution  
-pySolHeader : list of str  
-    solution tags  
-NbrVer : int  
-    size of mesh  
-Dim : int  
-    dimension of mesh  
+SolNam : str
+    input solution filename
+pyVer : list of float
+    mesh vertex coordinates
+pySol : list of float
+    solution
+pySolHeader : list of str
+    solution tags
+NbrVer : int
+    size of mesh
+Dim : int
+    dimension of mesh
 ";
 
 // File: su2gmf_8h.xml
 
 %feature("docstring") SU2toGMF "
 
-Wrapper function to convert SU2 mesh and solution to GMF.  
+Wrapper function to convert SU2 mesh and solution to GMF.
 
 Parameters
 ----------
-MshNam : str  
-    input SU2 mesh filename  
-SolNam : str  
-    input SU2 solution filename  
-OutNam : str  
-    output GMF mesh/solution basename  
-FldNam : str  
-    fields to output  
+MshNam : str
+    input SU2 mesh filename
+SolNam : str
+    input SU2 solution filename
+OutNam : str
+    output GMF mesh/solution basename
+FldNam : str
+    fields to output
 ";
 
 %feature("docstring") GMFtoSU2 "
 
-Wrapper function to convert GMF mesh and solution to SU2.  
+Wrapper function to convert GMF mesh and solution to SU2.
 
 Parameters
 ----------
-MshNam : str  
-    input SU2 mesh filename  
-SolNam : str  
-    input SU2 solution filename  
-OutNam : str  
-    output GMF mesh/solution filename  
+MshNam : str
+    input SU2 mesh filename
+SolNam : str
+    input SU2 solution filename
+OutNam : str
+    output GMF mesh/solution filename
 ";
 
 %feature("docstring") GMFWithBoundtoSU2 "
 
 Wrapper function to convert GMF mesh (with SU2 boundary info) and solution to
-SU2.  
+SU2.
 
 Parameters
 ----------
-MshNam : str  
-    input GMF mesh filename  
-SolNam : str  
-    input GMF solution filename  
-BndMshNam : str  
-    input SU2 mesh filename  
-OutNam : str  
-    output SU2 mesh/solution filename  
+MshNam : str
+    input GMF mesh filename
+SolNam : str
+    input GMF solution filename
+BndMshNam : str
+    input SU2 mesh filename
+OutNam : str
+    output SU2 mesh/solution filename
 ";
 
 %feature("docstring") GMFSoltoMet "
 
-Wrapper function to extract GMF metric from solution file.  
+Wrapper function to extract GMF metric from solution file.
 
 Parameters
 ----------
-MshNam : str  
-    input GMF mesh filename  
-SolNam : str  
-    input GMF solution filename  
-OutNam : str  
-    output GMF solution filename  
+MshNam : str
+    input GMF mesh filename
+SolNam : str
+    input GMF solution filename
+OutNam : str
+    output GMF solution filename
 
 Notes
 -----
 Assumes the metric is stored in the last 3*(nDim-1) columns of the
-solution.  
+solution.
 ";
 
 %feature("docstring") ReadMeshAndSol "
 
-Wrapper function to read a SU2 or GMF mesh and solution into python.  
+Wrapper function to read a SU2 or GMF mesh and solution into python.
 
 Parameters
 ----------
-MshNam : str  
-    input mesh filename  
-SolNam : str  
-    input solution filename  
-pyVer : list of float  
-    mesh vertex coordinates  
-pyCor : list of int  
-    mesh corner indices  
-pyTri : list of int  
-    mesh triangle indices  
-pyTet : list of int  
-    mesh tetrahedron indices  
-pyEdg : list of int  
-    mesh edge indices  
-pyHex : list of int  
-    mesh hexahedron indices  
-pyQua : list of int  
-    mesh quadrilateral indices  
-pyPyr : list of int  
-    mesh pyramid indices  
-pyPri : list of int  
-    mesh prism indices  
-pySol : list of float  
-    solution  
-pySolHeader : list of str  
-    solution tags  
-pyMarkers : list of str  
-    mesh boundary marker tags  
+MshNam : str
+    input mesh filename
+SolNam : str
+    input solution filename
+pyVer : list of float
+    mesh vertex coordinates
+pyCor : list of int
+    mesh corner indices
+pyTri : list of int
+    mesh triangle indices
+pyTet : list of int
+    mesh tetrahedron indices
+pyEdg : list of int
+    mesh edge indices
+pyHex : list of int
+    mesh hexahedron indices
+pyQua : list of int
+    mesh quadrilateral indices
+pyPyr : list of int
+    mesh pyramid indices
+pyPri : list of int
+    mesh prism indices
+pySol : list of float
+    solution
+pySolHeader : list of str
+    solution tags
+pyMarkers : list of str
+    mesh boundary marker tags
 ";
 
 %feature("docstring") ReadMesh "
 
-Wrapper function to read a SU2 or GMF mesh into python.  
+Wrapper function to read a SU2 or GMF mesh into python.
 
 Parameters
 ----------
-MshNam : str  
-    input mesh filename  
-pyVer : list of float  
-    mesh vertex coordinates  
-pyCor : list of int  
-    mesh corner indices  
-pyTri : list of int  
-    mesh triangle indices  
-pyTet : list of int  
-    mesh tetrahedron indices  
-pyEdg : list of int  
-    mesh edge indices  
-pyHex : list of int  
-    mesh hexahedron indices  
-pyQua : list of int  
-    mesh quadrilateral indices  
-pyPyr : list of int  
-    mesh pyramid indices  
-pyPri : list of int  
-    mesh prism indices  
-pyMarkers : list of str  
-    mesh boundary marker tags  
+MshNam : str
+    input mesh filename
+pyVer : list of float
+    mesh vertex coordinates
+pyCor : list of int
+    mesh corner indices
+pyTri : list of int
+    mesh triangle indices
+pyTet : list of int
+    mesh tetrahedron indices
+pyEdg : list of int
+    mesh edge indices
+pyHex : list of int
+    mesh hexahedron indices
+pyQua : list of int
+    mesh quadrilateral indices
+pyPyr : list of int
+    mesh pyramid indices
+pyPri : list of int
+    mesh prism indices
+pyMarkers : list of str
+    mesh boundary marker tags
 ";
 
 %feature("docstring") ReadSol "
 
-Wrapper function to read a SU2 or GMF solution into python.  
+Wrapper function to read a SU2 or GMF solution into python.
 
 Parameters
 ----------
-SolNam : str  
-    input solution filename  
-pySol : list of float  
-    solution  
-pySolHeader : list of str  
-    solution tags  
-pyMarkers : list of str  
-    mesh boundary marker tags  
-NbrVer : int  
-    size of mesh  
-Dim : int  
-    dimension of mesh  
+SolNam : str
+    input solution filename
+pySol : list of float
+    solution
+pySolHeader : list of str
+    solution tags
+pyMarkers : list of str
+    mesh boundary marker tags
+NbrVer : int
+    size of mesh
+Dim : int
+    dimension of mesh
 ";
 
 %feature("docstring") WriteMeshAndSol "
 
-Wrapper function to write a SU2 or GMF mesh and solution from python.  
+Wrapper function to write a SU2 or GMF mesh and solution from python.
 
 Parameters
 ----------
-MshNam : str  
-    input mesh filename  
-SolNam : str  
-    input solution filename  
-pyVer : list of float  
-    mesh vertex coordinates  
-pyCor : list of int  
-    mesh corner indices  
-pyTri : list of int  
-    mesh triangle indices  
-pyTet : list of int  
-    mesh tetrahedron indices  
-pyEdg : list of int  
-    mesh edge indices  
-pyHex : list of int  
-    mesh hexahedron indices  
-pyQua : list of int  
-    mesh quadrilateral indices  
-pyPyr : list of int  
-    mesh pyramid indices  
-pyPri : list of int  
-    mesh prism indices  
-pySol : list of float  
-    solution  
-pySolHeader : list of str  
-    solution tags  
-pyMarkers : list of str  
-    mesh boundary marker tags  
-Dim : int  
-    dimension of mesh  
+MshNam : str
+    input mesh filename
+SolNam : str
+    input solution filename
+pyVer : list of float
+    mesh vertex coordinates
+pyCor : list of int
+    mesh corner indices
+pyTri : list of int
+    mesh triangle indices
+pyTet : list of int
+    mesh tetrahedron indices
+pyEdg : list of int
+    mesh edge indices
+pyHex : list of int
+    mesh hexahedron indices
+pyQua : list of int
+    mesh quadrilateral indices
+pyPyr : list of int
+    mesh pyramid indices
+pyPri : list of int
+    mesh prism indices
+pySol : list of float
+    solution
+pySolHeader : list of str
+    solution tags
+pyMarkers : list of str
+    mesh boundary marker tags
+Dim : int
+    dimension of mesh
 ";
 
 %feature("docstring") WriteMesh "
 
-Wrapper function to write a SU2 or GMF mesh from python.  
+Wrapper function to write a SU2 or GMF mesh from python.
 
 Parameters
 ----------
-MshNam : str  
-    input mesh filename  
-pyVer : list of float  
-    mesh vertex coordinates  
-pyCor : list of int  
-    mesh corner indices  
-pyTri : list of int  
-    mesh triangle indices  
-pyTet : list of int  
-    mesh tetrahedron indices  
-pyEdg : list of int  
-    mesh edge indices  
-pyHex : list of int  
-    mesh hexahedron indices  
-pyQua : list of int  
-    mesh quadrilateral indices  
-pyPyr : list of int  
-    mesh pyramid indices  
-pyPri : list of int  
-    mesh prism indices  
-pyMarkers : list of str  
-    mesh boundary marker tags  
-Dim : int  
-    dimension of mesh  
+MshNam : str
+    input mesh filename
+pyVer : list of float
+    mesh vertex coordinates
+pyCor : list of int
+    mesh corner indices
+pyTri : list of int
+    mesh triangle indices
+pyTet : list of int
+    mesh tetrahedron indices
+pyEdg : list of int
+    mesh edge indices
+pyHex : list of int
+    mesh hexahedron indices
+pyQua : list of int
+    mesh quadrilateral indices
+pyPyr : list of int
+    mesh pyramid indices
+pyPri : list of int
+    mesh prism indices
+pyMarkers : list of str
+    mesh boundary marker tags
+Dim : int
+    dimension of mesh
 ";
 
 %feature("docstring") WriteSol "
 
-Wrapper function to write a SU2 or GMF solution from python.  
+Wrapper function to write a SU2 or GMF solution from python.
 
 Parameters
 ----------
-SolNam : str  
-    input solution filename  
-pyVer : list of float  
-    mesh vertex coordinates  
-pySol : list of float  
-    solution  
-pySolHeader : list of str  
-    solution tags  
-NbrVer : int  
-    size of mesh  
-Dim : int  
-    dimension of mesh  
+SolNam : str
+    input solution filename
+pyVer : list of float
+    mesh vertex coordinates
+pySol : list of float
+    solution
+pySolHeader : list of str
+    solution tags
+NbrVer : int
+    size of mesh
+Dim : int
+    dimension of mesh
 ";
 
 // File: su2gmf_8py.xml
@@ -1351,4 +1351,3 @@ Dim : int
 ";
 
 // File: bug.xml
-

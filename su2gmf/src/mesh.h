@@ -48,12 +48,12 @@ typedef struct S_Mesh
   int NbrCor;     /* number of corners        */
   int NbrTri;     /* number of triangles      */
   int NbrEfr;     /* number of boundary edges */
-  int NbrTet;     
+  int NbrTet;
   int NbrQua;
   int NbrHex;
   int NbrPri;
   int NbrPyr;
-  
+
   int MaxNbrVer;     /* number of vertices       */
   int MaxNbrCor;     /* number of corners        */
   int MaxNbrTri;     /* number of triangles      */
@@ -63,34 +63,34 @@ typedef struct S_Mesh
   int MaxNbrHex;
   int MaxNbrPri;
   int MaxNbrPyr;
-  
+
   double3    *Ver;
-  int        *Cor;      
-  int4       *Tri;      
-  int3       *Efr;   
+  int        *Cor;
+  int4       *Tri;
+  int3       *Efr;
   int5       *Tet;
   int9       *Hex;
   int7       *Pri;
-  int5       *Qua;  
+  int5       *Qua;
   int6       *Pyr;
-  
+
   int         NbrMarkers;
   char        Markers[10000][1024];
-  
+
   int     SolSiz;   /* Solution size */
   double *Sol;
   char    SolTag[100][256];
   int     NbrFld;   /* Number of solution fields */
   int    *FldTab;   /* Type of each field (scalar, vector, etc.) as defined by libmesh6*/
-  
+
   int Dim;
-  
+
   char MshNam[1024];
   char SolNam[1024];
-  
+
   int FilTyp;
   int SolTyp;
-    
+
 } Mesh;
 
 typedef struct S_Conn
@@ -104,16 +104,12 @@ typedef struct S_Conn
   int* NbrQua;
   int* NbrPyr;
 
-  int **Tri;      
-  int **Efr;   
+  int **Tri;
+  int **Efr;
   int **Tet;
   int **Hex;
   int **Pri;
-  int **Qua;  
+  int **Qua;
   int **Pyr;
-    
+
 } Conn;
-
-
-
-
