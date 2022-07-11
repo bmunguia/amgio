@@ -902,6 +902,7 @@ void WriteMesh(char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, 
       Msh->NbrVer++;
       AddVertex(Msh,Msh->NbrVer,crd);
     }
+  }
 
 
   if ( PyList_Check(pyMarkers) )
