@@ -20,7 +20,7 @@
  *  @param[in] OutNam output GMF mesh/solution basename
  *  @param[in] FldNam fields to output
  */
-int SU2toGMF( char *MshNam, char *SolNam, char *OutNam, char *FldNam );
+int SU2toGMF(char *MshNam, char *SolNam, char *OutNam, char *FldNam);
 
 /** @brief Wrapper function to convert GMF mesh and solution to SU2.
  *
@@ -28,7 +28,7 @@ int SU2toGMF( char *MshNam, char *SolNam, char *OutNam, char *FldNam );
  *  @param[in] SolNam input SU2 solution filename
  *  @param[in] OutNam output GMF mesh/solution filename
  */
-int GMFtoSU2( char *MshNam, char *SolNam, char *OutNam );
+int GMFtoSU2(char *MshNam, char *SolNam, char *OutNam);
 
 /** @brief Wrapper function to convert GMF mesh (with SU2 boundary info) and solution to SU2.
  *
@@ -37,7 +37,7 @@ int GMFtoSU2( char *MshNam, char *SolNam, char *OutNam );
  *  @param[in] BndMshNam input SU2 mesh filename
  *  @param[in] OutNam output SU2 mesh/solution filename
  */
-int GMFWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam );
+int GMFWithBoundtoSU2(char *MshNam, char *SolNam, char *BndMshNam, char *OutNam);
 
 /** @brief Wrapper function to extract GMF metric from solution file.
  *
@@ -48,7 +48,15 @@ int GMFWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam
  *  @note Assumes the metric is stored in the last
  *        3*(nDim-1) columns of the solution.
  */
-int GMFSoltoMet( char *MshNam, char *SolNam, char *OutNam );
+int GMFSoltoMet(char *MshNam, char *SolNam, char *OutNam);
+
+/** @brief Wrapper function to check mesh element orientation.
+ *
+ *  @param[in] MshNam input GMF mesh filename
+ *  @param[in] OutNam output GMF solution filename
+ *  @param[in] Dim dimension of mesh
+ */
+void PreprocessMesh(char *MshNam, char *OutNam, int Dim);
 
 /** @brief Wrapper function to read a SU2 or GMF mesh and solution into python.
  *

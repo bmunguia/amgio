@@ -18,31 +18,31 @@ int AddSU2MeshSize(char *FilNam, int *SizMsh)
     SizMsh[i] = 0;
 
 
-  if (  GetInputFileType (FilNam) != FILE_SU2MSH )
+  if ( GetFileType(FilNam) != FILE_SU2MSH )
   {
     printf("NOT SU2, return\n");
-    return 0;
+    return 1;
   }
 
 
-  FilHdl = fopen (FilNam, "r");
+  FilHdl = fopen(FilNam, "r");
 
   if ( !FilHdl )
   {
     fprintf(stderr, "  -- Info : Tried to open %s. Failed.\n", FilNam );
-    return 0;
+    return 1;
   }
 
   //--- Dim ?
 
   rewind(FilHdl);
-  SizMsh[GmfDimension] = GetSU2KeywordValue (FilHdl, "NDIME=");
+  SizMsh[GmfDimension] = GetSU2KeywordValue(FilHdl, "NDIME=");
 
   //--- Elements?
 
   NbrTri = NbrTet = NbrHex = NbrPyr = NbrLin = NbrCor = NbrRec = NbrWed = NbrP2Tri = NbrP2Lin =  0;
 
-  NbrElt = GetSU2KeywordValue (FilHdl, "NELEM=");
+  NbrElt = GetSU2KeywordValue(FilHdl, "NELEM=");
 
   for (iElt=0; iElt<NbrElt; iElt++)
   {
@@ -69,29 +69,29 @@ int AddSU2MeshSize(char *FilNam, int *SizMsh)
     else
     {
       printf("  ## ERROR: AddSU2MeshSize: Unknown element type %d\n", typ);
-      return 0;
+      return 1;
     }
     fgets (str, sizeof str, FilHdl);
   }//for iElt
 
   rewind(FilHdl);
-  SizMsh[GmfVertices] = GetSU2KeywordValue (FilHdl, "NPOIN=");
+  SizMsh[GmfVertices] = GetSU2KeywordValue(FilHdl, "NPOIN=");
 
   rewind(FilHdl);
-  NbrCor = GetSU2KeywordValue (FilHdl, "NCORNERS=");
+  NbrCor = GetSU2KeywordValue(FilHdl, "NCORNERS=");
 
   //--- Boundary Elements?
   NbrMark = 0;
 
   rewind(FilHdl);
-  NbrMark = GetSU2KeywordValue (FilHdl, "NMARK=");
+  NbrMark = GetSU2KeywordValue(FilHdl, "NMARK=");
 
 
 
   for (iMark=1; iMark<=NbrMark; iMark++)
   {
 
-    GetSU2KeywordValueStr (FilHdl, "MARKER_TAG=", str);
+    GetSU2KeywordValueStr(FilHdl, "MARKER_TAG=", str);
 
     if ( !strcmp(str,"SEND_RECEIVE") )
     {
@@ -99,7 +99,7 @@ int AddSU2MeshSize(char *FilNam, int *SizMsh)
       continue;
     }
 
-    CptElt = GetSU2KeywordValue (FilHdl, "MARKER_ELEMS=");
+    CptElt = GetSU2KeywordValue(FilHdl, "MARKER_ELEMS=");
 
     for (iElt=0; iElt<CptElt; iElt++)
     {
@@ -115,7 +115,7 @@ int AddSU2MeshSize(char *FilNam, int *SizMsh)
       else
       {
         printf("  ## ERROR: AddSU2MeshSize : Unknown boundary element type %d\n", typ);
-        return 0;
+        return 1;
       }
       fgets (str, sizeof str, FilHdl);
     }
@@ -133,20 +133,19 @@ int AddSU2MeshSize(char *FilNam, int *SizMsh)
   SizMsh[GmfTrianglesP2]    = NbrP2Tri;
   SizMsh[GmfEdgesP2]        = NbrP2Lin;
 
-  if ( FilHdl )
-    fclose(FilHdl);
+  if ( FilHdl ) fclose(FilHdl);
 
-  return 1;
+  return 0;
 }
 
-int GetSU2KeywordValue (FILE *FilHdl, char *Kwd)
+int GetSU2KeywordValue(FILE *FilHdl, char *Kwd)
 {
 
   size_t lenKwd=0, len=0;
   int buf=0, res=0;
   char str[1024], str2[1024], kwd[1024];
 
-  if ( !FilHdl || !Kwd ) return 0;
+  if ( !FilHdl || !Kwd ) return 1;
 
   sprintf(kwd,"%s",Kwd);
 
@@ -160,7 +159,7 @@ int GetSU2KeywordValue (FILE *FilHdl, char *Kwd)
   if (res == EOF)
   {
     fprintf(stderr,"  ## WARNING: MISSING SU2 MESH FILE KEYWORD: %s.\n", Kwd);
-    return 0;
+    return 1;
   }
 
   len = strlen(str);
@@ -173,20 +172,20 @@ int GetSU2KeywordValue (FILE *FilHdl, char *Kwd)
   else
     fscanf(FilHdl, "%d", &buf);
 
-  fgets (str, sizeof str, FilHdl);
+  fgets(str, sizeof str, FilHdl);
 
 
   return buf;
 }
 
-int GetSU2KeywordValueStr (FILE *FilHdl, char *Kwd, char *StrVal)
+int GetSU2KeywordValueStr(FILE *FilHdl, char *Kwd, char *StrVal)
 {
 
   size_t lenKwd=0, len=0;
   int  res=0;
   char str[1024], kwd[1024], buf[1024];
 
-  if ( !FilHdl || !Kwd ) return 0;
+  if ( !FilHdl || !Kwd ) return 1;
 
   strcpy(kwd,Kwd);
   lenKwd = strlen(kwd);
@@ -199,7 +198,7 @@ int GetSU2KeywordValueStr (FILE *FilHdl, char *Kwd, char *StrVal)
   if (res == EOF)
   {
     fprintf(stderr,"  ## ERROR: Invalid SU2 file (Check kwd: %s).\n", Kwd);
-    return 0;
+    return 1;
   }
 
   len = strlen(str);
@@ -212,9 +211,9 @@ int GetSU2KeywordValueStr (FILE *FilHdl, char *Kwd, char *StrVal)
     sprintf(StrVal, "%s", buf);
   }
 
-  fgets (str, sizeof str, FilHdl);
+  fgets(str, sizeof str, FilHdl);
 
-  return 1;
+  return 0;
 }
 
 int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
@@ -234,7 +233,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
   } while( (res != EOF) && strcmp(str, "NELEM=") );
 
   fscanf(FilHdl, "%d", &NbrElt);
-  fgets (str, sizeof str, FilHdl);
+  fgets(str, sizeof str, FilHdl);
 
   idx=0;
 
@@ -253,7 +252,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
         if ( swi[s] > Msh->NbrVer )
         {
           printf("  ## ERROR: LoadSU2Elements: vertex out of bound (vid=%d)\n", swi[s]);
-          return 0;
+          return 1;
         }
         Con->NbrTri[is[s]]++;
       }
@@ -265,7 +264,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       if ( Msh->NbrTri > Msh->MaxNbrTri )
       {
         printf("  ## ERROR: LoadSU2Elements: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
-        return 0;
+        return 1;
       }
 
       AddTriangle(Msh,Msh->NbrTri,is,ref);
@@ -287,7 +286,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       if ( Msh->NbrQua > Msh->MaxNbrQua )
       {
         printf("  ## ERROR: LoadSU2Elements: quad out of bound (id=%d)\n", Msh->NbrQua);
-        return 0;
+        return 1;
       }
 
       AddQuadrilateral(Msh,Msh->NbrQua,is,ref);
@@ -309,7 +308,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       if ( Msh->NbrTet > Msh->MaxNbrTet )
       {
         printf("  ## ERROR: LoadSU2Elements: tetra out of bound (tid=%d)\n", Msh->NbrTet);
-        return 0;
+        return 1;
       }
 
       AddTetrahedron(Msh,Msh->NbrTet,is,ref);
@@ -331,7 +330,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       if ( Msh->NbrPyr > Msh->MaxNbrPyr )
       {
         printf("  ## ERROR: LoadSU2Elements: pyramid out of bound (id=%d)\n", Msh->NbrPyr);
-        return 0;
+        return 1;
       }
 
       AddPyramid(Msh,Msh->NbrPyr,is,ref);
@@ -353,7 +352,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       if ( Msh->NbrPri > Msh->MaxNbrPri )
       {
         printf("  ## ERROR: LoadSU2Elements: prism out of bound (id=%d)\n", Msh->NbrPri);
-        return 0;
+        return 1;
       }
 
       AddPrism(Msh,Msh->NbrPri,is,ref);
@@ -375,7 +374,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       if ( Msh->NbrHex > Msh->MaxNbrHex )
       {
         printf("  ## ERROR: LoadSU2Elements: hexahedron out of bound (hid=%d)\n", Msh->NbrHex);
-        return 0;
+        return 1;
       }
 
       AddHexahedron(Msh,Msh->NbrHex,is,ref);
@@ -383,7 +382,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
     else
     {
       printf("  ## ERROR: LoadSU2Elements: Unknown element type %d\n", typ);
-      return 0;
+      return 1;
     }
 
     fgets (str, sizeof str, FilHdl);
@@ -393,14 +392,14 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
   //--- Read boundary elements
 
   rewind(FilHdl);
-  NbrMark = GetSU2KeywordValue (FilHdl, "NMARK=");
+  NbrMark = GetSU2KeywordValue(FilHdl, "NMARK=");
 
   Msh->NbrMarkers = NbrMark;
 
   for (iMark=1; iMark<=NbrMark; iMark++)
   {
 
-    GetSU2KeywordValueStr (FilHdl, "MARKER_TAG=", str);
+    GetSU2KeywordValueStr(FilHdl, "MARKER_TAG=", str);
 
     if ( iMark < 10000-1 ) strcpy(Msh->Markers[iMark], str);
 
@@ -410,7 +409,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       continue;
     }
 
-    CptElt = GetSU2KeywordValue (FilHdl, "MARKER_ELEMS=");
+    CptElt = GetSU2KeywordValue(FilHdl, "MARKER_ELEMS=");
 
     for (iElt=0; iElt<CptElt; iElt++)
     {
@@ -431,7 +430,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
         if ( Msh->NbrTri > Msh->MaxNbrTri )
         {
           printf("  ## ERROR: LoadSU2Elements: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
-          return 0;
+          return 1;
         }
 
         AddTriangle(Msh,Msh->NbrTri,swi,iMark+1);
@@ -450,7 +449,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
         if ( Msh->NbrQua > Msh->MaxNbrQua )
         {
           printf("  ## ERROR: LoadSU2Elements: quad out of bound (id=%d)\n", Msh->NbrQua);
-          return 0;
+          return 1;
         }
 
         AddQuadrilateral(Msh,Msh->NbrQua,swi,iMark+1);
@@ -469,7 +468,7 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
         if ( Msh->NbrEfr > Msh->MaxNbrEfr )
         {
           printf("  ## ERROR: LoadSU2Elements: boundary edge out of bound (id=%d, max=%d)\n", Msh->NbrEfr, Msh->MaxNbrEfr);
-          return 0;
+          return 1;
         }
 
         AddEdge(Msh,Msh->NbrEfr,swi,iMark+1);
@@ -477,14 +476,14 @@ int LoadSU2Elements(FILE *FilHdl, Mesh *Msh, Conn *Con)
       else
       {
         printf("  ## ERROR: LoadSU2Elements: Unknown element type %d\n", typ);
-        return 0;
+        return 1;
       }
-      fgets (str, sizeof str, FilHdl);
+      fgets(str, sizeof str, FilHdl);
 
     }//for iElt
   }//for iMark
 
-  return 1;
+  return 0;
 }
 
 int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
@@ -511,7 +510,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
 
   Msh->NbrTri = Msh->NbrTet = Msh->NbrHex = Msh->NbrEfr = Msh->NbrQua = Msh->NbrPyr = Msh->NbrPri = 0;
 
-  FILE *FilHdl = fopen (FilNam, "r");
+  FILE *FilHdl = fopen(FilNam, "r");
 
   do
   {
@@ -519,7 +518,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
   } while( (res != EOF) && strcmp(str, "NELEM=") );
 
   fscanf(FilHdl, "%d", &NbrElt);
-  fgets (str, sizeof str, FilHdl);
+  fgets(str, sizeof str, FilHdl);
 
   idx=0;
 
@@ -544,7 +543,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       if ( Msh->NbrTri > Msh->MaxNbrTri )
       {
         printf("  ## ERROR: LoadSU2ConnData: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
-        return 0;
+        return 1;
       }
     }
     else if ( typ == SU2_RECTANGLE )
@@ -563,7 +562,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       if ( Msh->NbrQua > Msh->MaxNbrQua )
       {
         printf("  ## ERROR: LoadSU2ConnData: quad out of bound (id=%d)\n", Msh->NbrQua);
-        return 0;
+        return 1;
       }
     }
     else if ( typ == SU2_TETRAHEDRAL )
@@ -582,7 +581,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       if ( Msh->NbrTet > Msh->MaxNbrTet )
       {
         printf("  ## ERROR: LoadSU2ConnData: tetra out of bound (tid=%d)\n", Msh->NbrTet);
-        return 0;
+        return 1;
       }
     }
     else if ( typ == SU2_PYRAMID )
@@ -601,7 +600,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       if ( Msh->NbrPyr > Msh->MaxNbrPyr )
       {
         printf("  ## ERROR: LoadSU2ConnData: pyramid out of bound (id=%d)\n", Msh->NbrPyr);
-        return 0;
+        return 1;
       }
     }
     else if ( typ == SU2_WEDGE )
@@ -620,7 +619,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       if ( Msh->NbrPri > Msh->MaxNbrPri )
       {
         printf("  ## ERROR: LoadSU2ConnData: prism out of bound (id=%d)\n", Msh->NbrPri);
-        return 0;
+        return 1;
       }
     }
     else if ( typ == SU2_HEXAHEDRAL )
@@ -639,28 +638,28 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       if ( Msh->NbrHex > Msh->MaxNbrHex )
       {
         printf("  ## ERROR: LoadSU2ConnData: hexahedron out of bound (hid=%d)\n", Msh->NbrHex);
-        return 0;
+        return 1;
       }
     }
     else
     {
       printf("  ## ERROR: Unknown element type %d\n", typ);
-      return 0;
+      return 1;
     }
 
-    fgets (str, sizeof str, FilHdl);
+    fgets(str, sizeof str, FilHdl);
 
   }//for iElt
 
   //--- Read boundary elements
 
   rewind(FilHdl);
-  NbrMark = GetSU2KeywordValue (FilHdl, "NMARK=");
+  NbrMark = GetSU2KeywordValue(FilHdl, "NMARK=");
 
   for (iMark=1; iMark<=NbrMark; iMark++)
   {
 
-    GetSU2KeywordValueStr (FilHdl, "MARKER_TAG=", str);
+    GetSU2KeywordValueStr(FilHdl, "MARKER_TAG=", str);
 
     if ( !strcmp(str,"SEND_RECEIVE") )
     {
@@ -668,7 +667,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
       continue;
     }
 
-    CptElt = GetSU2KeywordValue (FilHdl, "MARKER_ELEMS=");
+    CptElt = GetSU2KeywordValue(FilHdl, "MARKER_ELEMS=");
 
     for (iElt=0; iElt<CptElt; iElt++)
     {
@@ -689,7 +688,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
         if ( Msh->NbrTri > Msh->MaxNbrTri )
         {
           printf("  ## ERROR: LoadSU2ConnData: triangle out of bound (tid=%d, max=%d)\n", Msh->NbrTri, Msh->MaxNbrTri);
-          return 0;
+          return 1;
         }
       }
       else if ( typ == SU2_RECTANGLE )
@@ -706,7 +705,7 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
         if ( Msh->NbrQua > Msh->MaxNbrQua )
         {
           printf("  ## ERROR: LoadSU2ConnData: quad out of bound (id=%d)\n", Msh->NbrQua);
-          return 0;
+          return 1;
         }
       }
       else if ( typ == SU2_LINE )
@@ -723,20 +722,20 @@ int LoadSU2ConnData(char *FilNam, Mesh *Msh, Conn *Con)
         if ( Msh->NbrEfr > Msh->MaxNbrEfr )
         {
           printf("  ## ERROR: LoadSU2ConnData: boundary edge out of bound (id=%d, max=%d)\n", Msh->NbrEfr, Msh->MaxNbrEfr);
-          return 0;
+          return 1;
         }
       }
       else
       {
         printf("  ## ERROR: LoadSU2ConnData: Unknown element type %d\n", typ);
-        return 0;
+        return 1;
       }
-      fgets (str, sizeof str, FilHdl);
+      fgets(str, sizeof str, FilHdl);
 
     }//for iElt
   }//for iMark
 
-  return 1;
+  return 0;
 }
 
 int LoadSU2Corners(FILE *FilHdl, Mesh *Msh)
@@ -753,7 +752,7 @@ int LoadSU2Corners(FILE *FilHdl, Mesh *Msh)
   } while( (res != EOF) && strcmp(str, "NCORNERS=") );
 
   fscanf(FilHdl, "%d", &NbrCor);
-  fgets (str, sizeof str, FilHdl);
+  fgets(str, sizeof str, FilHdl);
 
   for (iCor=0; iCor<NbrCor; iCor++)
   {
@@ -766,7 +765,7 @@ int LoadSU2Corners(FILE *FilHdl, Mesh *Msh)
       if ( swi[0] > Msh->NbrVer )
       {
         printf("  ## ERROR: LoadSU2Corners: vertex out of bound (vid=%d)\n", swi[0]);
-        return 0;
+        return 1;
       }
 
       Msh->NbrCor++;
@@ -774,7 +773,7 @@ int LoadSU2Corners(FILE *FilHdl, Mesh *Msh)
       if ( Msh->NbrCor > Msh->MaxNbrCor )
       {
         printf("  ## ERROR: LoadSU2Corners: corner (id=%d, max=%d)\n", Msh->NbrCor, Msh->MaxNbrCor);
-        return 0;
+        return 1;
       }
 
       AddCorner(Msh,Msh->NbrCor,swi);
@@ -783,14 +782,14 @@ int LoadSU2Corners(FILE *FilHdl, Mesh *Msh)
     else
     {
       printf("  ## ERROR: LoadSU2Corners: Unknown element type %d\n", typ);
-      return 0;
+      return 1;
     }
 
-    fgets (str, sizeof str, FilHdl);
+    fgets(str, sizeof str, FilHdl);
 
   }//for iCor
 
-  return 1;
+  return 0;
 }
 
 int LoadSU2Mesh(char *FilNam, Mesh *Msh, Conn *Con)
@@ -801,47 +800,46 @@ int LoadSU2Mesh(char *FilNam, Mesh *Msh, Conn *Con)
   if ( (Msh == NULL) || (FilNam == NULL) )
   {
     printf("  ## ERROR: LoadSU2Mesh: Mesh file name not allocated. \n");
-    return 0;
+    return 1;
   }
 
-  if (  GetInputFileType (FilNam) != FILE_SU2MSH )
-    return 0;
+  if ( GetFileType(FilNam) != FILE_SU2MSH )
+    return 1;
 
-  FilHdl = fopen (FilNam, "r");
+  FilHdl = fopen(FilNam, "r");
 
   if ( !FilHdl )
   {
     fprintf(stderr, "  -- Info : Tried to open %s. Failed.\n", FilNam );
-    return 0;
+    return 1;
   }
 
   strcpy(Msh->MshNam, FilNam);
   Msh->FilTyp = FILE_SU2MSH;
 
   rewind(FilHdl);
-  Msh->Dim = GetSU2KeywordValue (FilHdl, "NDIME=");
+  Msh->Dim = GetSU2KeywordValue(FilHdl, "NDIME=");
 
   rewind(FilHdl);
 
   if ( Msh->Dim != 2 && Msh->Dim != 3 )
   {
     fprintf(stderr, "  ## ERROR: LoadSU2Mesh: Invalid dimension number for mesh %s (dim=%d).\n", FilNam, Msh->Dim);
-    return 0;
+    return 1;
   }
 
   //--- Read vertices
-  LoadSU2Vertices (FilHdl, Msh);
+  LoadSU2Vertices(FilHdl, Msh);
 
   //--- Read corners
-  LoadSU2Corners (FilHdl, Msh);
+  LoadSU2Corners(FilHdl, Msh);
 
   //--- Read Elements
   LoadSU2Elements(FilHdl, Msh, Con);
 
-  if ( FilHdl )
-    fclose(FilHdl);
+  if ( FilHdl ) fclose(FilHdl);
 
-  return 1;
+  return 0;
 }
 
 int GetSU2SolSize(char *SolNam)
@@ -867,7 +865,7 @@ int GetSU2SolSize(char *SolNam)
   while ( getline(&lin, &len, FilHdl) != -1 )
   {
     NbrLin++;
-    tok = strtok (lin, "  ,");
+    tok = strtok(lin, "  ,");
     iVer = atoi(tok)+1;
     iVerMax = max(iVer, iVerMax);
   }
@@ -889,13 +887,13 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
   if ( Msh->Sol )
   {
     printf("  ## ERROR: LoadSU2Solution : Msh->Sol already allocated.\n");
-    return 0;
+    return 1;
   }
 
   if ( (Msh == NULL) || (SolNam == NULL) )
   {
     printf("  ## ERROR: LoadSU2Solution : mesh/solution file not allocated.\n");
-    return 0;
+    return 1;
   }
 
   FilHdl = fopen(SolNam,"r");
@@ -903,7 +901,7 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
   if ( !FilHdl )
   {
     fprintf(stderr,"  ## ERROR: LoadSU2Solution: Unable to open %s.\n", SolNam);
-    return 0;
+    return 1;
   }
 
   strcpy(Msh->SolNam, SolNam);
@@ -911,14 +909,14 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
 
   if ( getline(&lin, &len, FilHdl) != -1 )
   {
-    tok = strtok (lin, "  ,");
+    tok = strtok(lin, "  ,");
     skip = 0;
     SolSiz = 0;
     while ( tok )
     {
       if ( !strcmp(tok,"\"PointID\"") || !strcmp(tok,"\"x\"") || !strcmp(tok,"\"y\"") || !strcmp(tok,"\"z\"")   )
       {
-        tok = strtok (NULL, "  ,");
+        tok = strtok(NULL, "  ,");
         skip++;
         continue;
       }
@@ -927,7 +925,7 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
       StrRemoveChars(Msh->SolTag[SolSiz], '\"');
       StrRemoveChars(Msh->SolTag[SolSiz], '\n');
       SolSiz++;
-      tok = strtok (NULL, "  ,");
+      tok = strtok(NULL, "  ,");
     }
   }
 
@@ -954,7 +952,7 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
   {
 
     NbrLin++;
-    tok = strtok (lin, "  ,");
+    tok = strtok(lin, "  ,");
 
     i=0, idx=0;
     while ( tok )
@@ -970,7 +968,7 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
 
         {
           fprintf(stderr,"  ## ERROR: LoadSU2Solution: Vertex out of bound (vid=%d).\n", iVer);
-          return 0;
+          return 1;
         }
       }
       else if ( i >= skip )
@@ -981,7 +979,7 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
         idx++;
       }
 
-      tok = strtok (NULL, "  ,");
+      tok = strtok(NULL, "  ,");
       i++;
 
       if ( idx == SolSiz )
@@ -994,16 +992,15 @@ int LoadSU2Solution(char *SolNam, Mesh *Msh)
   }
 
 
-  if ( FilHdl )
-    fclose(FilHdl);
+  if ( FilHdl ) fclose(FilHdl);
 
   if ( NbrLin != Msh->NbrVer )
   {
     fprintf(stderr,"  ## ERROR: LoadSU2Sol: Inconsistent number of vertices. \n");
-    return 0;
+    return 1;
   }
 
-  return 1;
+  return 0;
 }
 
 int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
@@ -1024,13 +1021,13 @@ int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
   if ( Msh->Sol )
   {
     printf("  ## ERROR: LoadSU2SolutionBin : Msh->Sol already allocated.\n");
-    return 0;
+    return 1;
   }
 
   if ( (Msh == NULL) || (SolNam == NULL) )
   {
     printf("  ## ERROR: LoadSU2SolutionBin : mesh/solution file not allocated.\n");
-    return 0;
+    return 1;
   }
 
   FilHdl = fopen(SolNam,"rb");
@@ -1038,7 +1035,7 @@ int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
   if ( !FilHdl )
   {
     fprintf(stderr,"  ## ERROR: LoadSU2SolutionBin : Unable to open %s.\n", SolNam);
-    return 0;
+    return 1;
   }
 
   strcpy(Msh->SolNam, SolNam);
@@ -1049,7 +1046,7 @@ int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
   if (ret != (unsigned long)nRestart_Vars)
   {
     printf("  ## ERROR: LoadSU2SolutionBin : Incorrect number of restart vars.\n");
-    return 0;
+    return 1;
   }
   if (Restart_Vars[0] != 535532)
   {
@@ -1057,7 +1054,7 @@ int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
     printf("SU2 reads/writes binary restart files by default.\n");
     printf("Note that backward compatibility for ASCII restart files is\n");
     printf("possible with the WRT_BINARY_RESTART / READ_BINARY_RESTART options.\n");
-    return 0;
+    return 1;
   }
 
   SolSiz = Restart_Vars[1]-Msh->Dim;
@@ -1093,10 +1090,9 @@ int LoadSU2SolutionBin(char *SolNam, Mesh *Msh)
     ret = fread(&Sol[i*SolSiz], sizeof(double), SolSiz, FilHdl);
   }
 
-  if ( FilHdl )
-    fclose(FilHdl);
+  if ( FilHdl ) fclose(FilHdl);
 
-  return 1;
+  return 0;
 }
 
 int LoadSU2Vertices(FILE *FilHdl, Mesh *Msh)
@@ -1107,12 +1103,12 @@ int LoadSU2Vertices(FILE *FilHdl, Mesh *Msh)
 
   rewind(FilHdl);
 
-  Msh->NbrVer = GetSU2KeywordValue (FilHdl, "NPOIN=");
+  Msh->NbrVer = GetSU2KeywordValue(FilHdl, "NPOIN=");
 
   if ( Msh->NbrVer > Msh->MaxNbrVer )
   {
     printf("  ## ERROR: LoadSU2Vertices : INCONSISTENT NUMBER OF VERTICES.\n");
-    return 0;
+    return 1;
   }
 
   for (iVer=1; iVer<=Msh->NbrVer; iVer++)
@@ -1127,19 +1123,19 @@ int LoadSU2Vertices(FILE *FilHdl, Mesh *Msh)
     }
 
     fscanf(FilHdl, "%d", &ref);
-    fgets (str, sizeof str, FilHdl);
+    fgets(str, sizeof str, FilHdl);
 
     AddVertex(Msh, iVer, crd);
   }
 
-  return 1;
+  return 0;
 }
 
 void WriteSU2Mesh(char *nam, Mesh *Msh)
 {
-  int       i, j, s, idx;
-  int       iVer,iCor,iTri,iEfr, iTet, iHex, iPri, iPyr, iQua, NbrElt=0;
-  char      OutNam[512];
+  int  i, j, s, idx;
+  int  iVer,iCor,iTri,iEfr, iTet, iHex, iPri, iPyr, iQua, NbrElt=0;
+  char OutNam[512];
 
   int Dim = Msh->Dim;
 
@@ -1149,13 +1145,16 @@ void WriteSU2Mesh(char *nam, Mesh *Msh)
 
   FILE *OutFil=NULL;
 
-  GetBasNam (nam, OutNam);
+  GetBasNam(nam, OutNam);
   strcat(OutNam, ".su2");
 
   OutFil = fopen(OutNam, "wb");
 
   if ( !OutFil )
+  {
     printf("  ## ERROR: WriteSU2Mesh : Can't open %s\n", OutNam);
+    return 1;
+  }
 
   fprintf(OutFil, "NDIME= %d\n", Dim);
 
@@ -1377,11 +1376,9 @@ void WriteSU2Mesh(char *nam, Mesh *Msh)
   }
 
   //--- close mesh file
-  if ( OutFil )
-    fclose(OutFil);
+  if ( OutFil ) fclose(OutFil);
 
-  if ( BdrTag )
-    free(BdrTag);
+  if ( BdrTag ) free(BdrTag);
 
   return;
 }
@@ -1424,11 +1421,10 @@ int WriteSU2Solution (char *SolNam, int Dim, int NbrVer, double3 *Ver,  double *
   }
 
   //--- close mesh file
-  if ( OutFil )
-    fclose(OutFil);
+  if ( OutFil ) fclose(OutFil);
 
 
-  return 1;
+  return 0;
 }
 
 int WriteSU2SolutionBin (char *SolNam, int Dim, int NbrVer, double3 *Ver,  double *Sol, int SolSiz, char SolTag[100][256])
@@ -1443,7 +1439,10 @@ int WriteSU2SolutionBin (char *SolNam, int Dim, int NbrVer, double3 *Ver,  doubl
   OutFil = fopen(SolNam, "wb");
 
   if ( !OutFil )
+  {
     printf("  ## ERROR: WriteSU2Solution: Can't open %s\n", SolNam);
+    return 1;
+  }
 
   //--- Write restart vars.
   ret = fwrite(var_buf, sizeof(char), var_buf_size*sizeof(int), OutFil);
@@ -1473,9 +1472,7 @@ int WriteSU2SolutionBin (char *SolNam, int Dim, int NbrVer, double3 *Ver,  doubl
   }
 
   //--- Close mesh file
-  if ( OutFil )
-    fclose(OutFil);
+  if ( OutFil ) fclose(OutFil);
 
-
-  return 1;
+  return 0;
 }

@@ -95,6 +95,9 @@ su2gmf.GMFWithBoundtoSU2";
 %feature("docstring") su2gmf::GMFSoltoMet "
 su2gmf.GMFSoltoMet";
 
+%feature("docstring") su2gmf::PreprocessMesh "
+su2gmf.PreprocessMesh";
+
 %feature("docstring") su2gmf::ReadMeshAndSol "
 su2gmf.ReadMeshAndSol";
 
@@ -280,7 +283,7 @@ su2gmf.WriteSol";
 %feature("docstring") PrintMeshInfo "
 ";
 
-%feature("docstring") GetInputFileType "
+%feature("docstring") GetFileType "
 ";
 
 %feature("docstring") StrRemoveChars "
@@ -433,7 +436,7 @@ su2gmf.WriteSol";
 %feature("docstring") CopyBoundaryMarkers "
 ";
 
-%feature("docstring") GetInputFileType "
+%feature("docstring") GetFileType "
 ";
 
 %feature("docstring") StrRemoveChars "
@@ -529,6 +532,20 @@ Notes
 -----
 Assumes the metric is stored in the last 3*(nDim-1) columns of the
 solution.
+";
+
+%feature("docstring") PreprocessMesh "
+
+Wrapper function to check mesh element orientation.
+
+Parameters
+----------
+MshNam : str
+    input SU2 mesh filename
+OutNam : str
+    output GMF mesh/solution basename
+Dim : int
+    dimension of mesh
 ";
 
 %feature("docstring") ReadMeshAndSol "
@@ -773,6 +790,20 @@ Notes
 -----
 Assumes the metric is stored in the last 3*(nDim-1) columns of the
 solution.
+";
+
+%feature("docstring") PreprocessMesh "
+
+Wrapper function to check mesh element orientation.
+
+Parameters
+----------
+MshNam : str
+    input SU2 mesh filename
+OutNam : str
+    output GMF mesh/solution basename
+Dim : int
+    dimension of mesh
 ";
 
 %feature("docstring") ReadMeshAndSol "
@@ -1247,6 +1278,9 @@ Dim : int
 ";
 
 %feature("docstring") _wrap_GMFSoltoMet "
+";
+
+%feature("docstring") _wrap_PreprocessMesh "
 ";
 
 %feature("docstring") _wrap_ReadMeshAndSol "

@@ -31,16 +31,16 @@ int CheckOptions (Options *mshopt)
   if ( !strcmp(mshopt->InpNam, "") )
   {
     printf("  ## ERROR CheckOptions : An input name must be provided.\n");
-    return 0;
+    return 1;
   }
 
   //--- Get mesh file extension
-  mshopt->InpFilTyp = GetInputFileType(mshopt->InpNam);
+  mshopt->InpFilTyp = GetFileType(mshopt->InpNam);
 
   if ( !mshopt->InpFilTyp )
   {
     printf("  ## ERROR CheckOptions : Unknown input file extension.\n");
-    return 0;
+    return 1;
   }
 
   if ( !strcmp(mshopt->OutNam, "") )
@@ -53,24 +53,23 @@ int CheckOptions (Options *mshopt)
 
   if ( strcmp(mshopt->SolNam, "") )
   {
-    SolTyp = GetInputFileType(mshopt->SolNam);
+    SolTyp = GetFileType(mshopt->SolNam);
 
     if ( mshopt->InpFilTyp == FILE_SU2MSH && SolTyp != FILE_SU2CSV && SolTyp != FILE_SU2BIN )
     {
       printf("  ## ERROR : Wrong format for solution file (.csv or .dat expected)\n");
-      return 0;
+      return 1;
     }
 
     if ( mshopt->InpFilTyp == FILE_GMF && SolTyp != FILE_GMFSOL )
     {
       printf("  ## ERROR : Wrong format for solution file (.sol[b] expected)\n");
-      return 0;
+      return 1;
     }
 
   }
 
-
-  return 1;
+  return 0;
 }
 
 void PrintOptions (Options *mshopt)
@@ -92,7 +91,7 @@ int GetBasNam (char *InpNam, char *BasNam)
   if ( !InpNam || !BasNam )
   {
     printf("  ## ERROR GetBasNam.\n");
-    return 0;
+    return 1;
   }
 
   strcpy(BasNam,InpNam);
@@ -117,5 +116,5 @@ int GetBasNam (char *InpNam, char *BasNam)
   if ( ptr != NULL )
     BasNam[ptr-BasNam]='\0';
 
-  return 1;
+  return 0;
 }

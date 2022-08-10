@@ -11,16 +11,15 @@ int ConvertGMFtoSU2Sol (Options *mshopt)
   int skip=0, SolSiz=0;
   size_t  len = 0;
 
-  Msh = SetupMeshAndSolution (mshopt->InpNam, mshopt->SolNam);
+  Msh = SetupMeshAndSolution(mshopt->InpNam, mshopt->SolNam, 0);
 
   if ( Msh->FilTyp != FILE_GMF )
   {
     printf("  ## ERROR : Input mesh file must be a .mesh (GMF) (FilTyp=%d)\n", Msh->FilTyp);
-    return 0;
+    return 1;
   }
 
-  if ( mshopt->clean == 1 )
-    RemoveUnconnectedVertices(Msh);
+  if ( mshopt->clean ) RemoveUnconnectedVertices(Msh);
 
   WriteSU2Mesh(mshopt->OutNam, Msh);
 
@@ -29,19 +28,18 @@ int ConvertGMFtoSU2Sol (Options *mshopt)
     if ( Msh->SolTyp == FILE_SU2BIN )
     {
       sprintf(OutSol, "%s.dat", mshopt->OutNam);
-      WriteSU2SolutionBin (OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
+      WriteSU2SolutionBin(OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
     }
     else
     {
       sprintf(OutSol, "%s.csv", mshopt->OutNam);
-      WriteSU2Solution (OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
+      WriteSU2Solution(OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
     }
   }
 
-  if ( Msh )
-     FreeMesh(Msh);
+  if ( Msh ) FreeMesh(Msh);
 
-  return 1;
+  return 0;
 }
 
 int ConvertGMFWithBoundtoSU2Sol (Options *mshopt, char* BndMshNam)
@@ -55,8 +53,8 @@ int ConvertGMFWithBoundtoSU2Sol (Options *mshopt, char* BndMshNam)
   int skip=0, SolSiz=0;
   size_t  len = 0;
 
-  BndMsh = SetupMeshAndSolution (BndMshNam, "");
-  Msh    = SetupMeshAndSolution (mshopt->InpNam, mshopt->SolNam);
+  BndMsh = SetupMeshAndSolution(BndMshNam, "", 0);
+  Msh    = SetupMeshAndSolution(mshopt->InpNam, mshopt->SolNam, 0);
 
   CopyBoundaryMarkers(Msh, BndMsh);
 
@@ -65,17 +63,16 @@ int ConvertGMFWithBoundtoSU2Sol (Options *mshopt, char* BndMshNam)
   else
   {
     printf("  ## ERROR : No BndMsh. \n");
-    return 0;
+    return 1;
   }
 
   if ( Msh->FilTyp != FILE_GMF )
   {
     printf("  ## ERROR : Input mesh file must be a .mesh (GMF) (FilTyp=%d)\n", Msh->FilTyp);
-    return 0;
+    return ;
   }
 
-  if ( mshopt->clean == 1 )
-    RemoveUnconnectedVertices(Msh);
+  if ( mshopt->clean ) RemoveUnconnectedVertices(Msh);
 
   WriteSU2Mesh(mshopt->OutNam, Msh);
 
@@ -84,22 +81,21 @@ int ConvertGMFWithBoundtoSU2Sol (Options *mshopt, char* BndMshNam)
     if ( Msh->SolTyp == FILE_SU2BIN )
     {
       sprintf(OutSol, "%s.dat", mshopt->OutNam);
-      WriteSU2SolutionBin (OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
+      WriteSU2SolutionBin(OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
     }
     else
     {
       sprintf(OutSol, "%s.csv", mshopt->OutNam);
-      WriteSU2Solution (OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
+      WriteSU2Solution(OutSol, Msh->Dim, Msh->NbrVer, Msh->Ver, Msh->Sol, Msh->SolSiz, Msh->SolTag);
     }
   }
 
-  if ( Msh )
-    FreeMesh(Msh);
+  if ( Msh ) FreeMesh(Msh);
 
-  return 1;
+  return 0;
 }
 
-int ConvertGMFSoltoMet (Options *mshopt)
+int ConvertGMFSoltoMet(Options *mshopt)
 {
   Mesh *Msh = NULL;
   char OutMet[1024];
@@ -110,24 +106,22 @@ int ConvertGMFSoltoMet (Options *mshopt)
   int skip=0, SolSiz=0;
   size_t  len = 0;
 
-  Msh = SetupMeshAndSolution (mshopt->InpNam, mshopt->SolNam);
+  Msh = SetupMeshAndSolution (mshopt->InpNam, mshopt->SolNam, 0);
 
   if ( Msh->FilTyp != FILE_GMF )
   {
     printf("  ## ERROR : Input mesh file must be a .mesh (GMF) (FilTyp=%d)\n", Msh->FilTyp);
-    return 0;
+    return 1;
   }
 
-  if ( mshopt->clean == 1 )
-    RemoveUnconnectedVertices(Msh);
+  if ( mshopt->clean ) RemoveUnconnectedVertices(Msh);
 
   sprintf(OutMet, "%s.solb", mshopt->OutNam);
   WriteGMFMetric(OutMet, Msh, 1);
 
-  if ( Msh )
-    FreeMesh(Msh);
+  if ( Msh ) FreeMesh(Msh);
 
-  return 1;
+  return 0;
 }
 
 int ConvertSU2SolToGMF (Options *mshopt)
@@ -135,12 +129,12 @@ int ConvertSU2SolToGMF (Options *mshopt)
   Mesh *Msh = NULL;
   char OutSol[1024];
 
-  Msh = SetupMeshAndSolution (mshopt->InpNam, mshopt->SolNam);
+  Msh = SetupMeshAndSolution (mshopt->InpNam, mshopt->SolNam, 0);
 
   if ( Msh->FilTyp != FILE_SU2MSH )
   {
     printf("  ## ERROR : Input mesh file must be a .su2.\n");
-    return 0;
+    return 1;
   }
 
   WriteGMFMesh(mshopt->OutNam, Msh, 1);
@@ -148,14 +142,13 @@ int ConvertSU2SolToGMF (Options *mshopt)
   if ( Msh->Sol )
   {
     sprintf(OutSol, "%s.solb", mshopt->OutNam);
-    if ( ! WriteGMFSolutionItf(OutSol, mshopt->FldNam, Msh) )
+    if ( WriteGMFSolutionItf(OutSol, mshopt->FldNam, Msh) )
     {
       printf("  ## ERROR : outputmach FAILED.\n");
     }
   }
 
-  if ( Msh )
-     FreeMesh(Msh);
+  if ( Msh ) FreeMesh(Msh);
 
-  return 1;
+  return 0;
 }

@@ -488,7 +488,7 @@ void CheckBoundQuadrilateral(int5* Qua, double3* Ver, int iQua, int iVol)
   }
 }
 
-Mesh* AllocMesh (int * SizMsh)
+Mesh* AllocMesh(int * SizMsh)
 {
   Mesh *Msh=NULL;
   Msh = (Mesh*)malloc(sizeof(struct S_Mesh));
@@ -551,7 +551,7 @@ Mesh* AllocMesh (int * SizMsh)
   return Msh;
 }
 
-Conn* AllocConn (int NbrVer)
+Conn* AllocConn(int NbrVer)
 {
   Conn* Con=NULL;
   Con = (Conn*)malloc(sizeof(struct S_Conn));
@@ -614,7 +614,7 @@ Conn* AllocConn (int NbrVer)
 
 int FreeMesh(Mesh *Msh)
 {
-  if ( !Msh ) return 0;
+  if ( !Msh ) return 1;
 
   if ( Msh->Ver ) free(Msh->Ver);
   if ( Msh->Cor ) free(Msh->Cor);
@@ -628,13 +628,13 @@ int FreeMesh(Mesh *Msh)
 
   free(Msh);
 
-  return 1;
+  return 0;
 }
 
 int FreeConn(Conn *Con)
 {
 
-  if ( !Con ) return 0;
+  if ( !Con ) return 1;
 
   for (int i = 1; i <= Con->NbrVer; i++)
   {
@@ -665,7 +665,7 @@ int FreeConn(Conn *Con)
 
   free(Con);
 
-  return 1;
+  return 0;
 }
 
 void PrintMeshInfo (Mesh *Msh)
@@ -741,17 +741,17 @@ int RemoveUnconnectedVertices(Mesh *Msh)
   if ( Tag )
     free(Tag);
 
-  return 1;
+  return 0;
 }
 
-Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
+Mesh *SetupMeshAndSolution(char *MshNam, char *SolNam, int Dim)
 {
   Mesh *Msh = NULL;
   Conn *Con = NULL;
   int SizMsh[GmfMaxSizMsh+1];
   int val=0;
 
-  const int MshFilTyp = GetInputFileType(MshNam);
+  const int MshFilTyp = GetFileType(MshNam);
 
   if ( !MshFilTyp )
   {
@@ -760,9 +760,13 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
   }
 
   if ( MshFilTyp == FILE_SU2MSH )
+  {
     AddSU2MeshSize(MshNam, SizMsh);
+  }
   else if ( MshFilTyp == FILE_GMF )
+  {
     AddGMFMeshSize(MshNam, SizMsh);
+  }
 
   Msh = AllocMesh(SizMsh);
   Con = AllocConn(SizMsh[GmfVertices]);
@@ -773,14 +777,14 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
     LoadSU2ConnData(MshNam, Msh, Con);
     if ( strcmp(SolNam,"") )
     {
-      const int SolFilTyp = GetInputFileType(SolNam);
+      const int SolFilTyp = GetFileType(SolNam);
       if (SolFilTyp == FILE_SU2BIN)
         val = LoadSU2SolutionBin(SolNam, Msh);
       else
         val = LoadSU2Solution(SolNam, Msh);
     }
 
-    if ( val != 1 )
+    if ( val )
     {
       Msh->Sol = NULL;
     }
@@ -794,6 +798,8 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
       LoadGMFSolution(SolNam, Msh);
   }
 
+  if ( Dim ) Msh->Dim = Dim;
+
   CheckVolumeElementOrientation(Msh);
   CheckSurfaceElementOrientation(Msh, Con);
 
@@ -802,11 +808,11 @@ Mesh *SetupMeshAndSolution (char *MshNam, char *SolNam)
   return Msh;
 }
 
-Mesh *SetupSolution (char *SolNam, int NbrVer, int Dim)
+Mesh *SetupSolution(char *SolNam, int NbrVer, int Dim)
 {
   Mesh *Sol = NULL;
   int SizSol[GmfMaxSizMsh+1];
-  int FilTyp = GetInputFileType(SolNam);
+  int FilTyp = GetFileType(SolNam);
   int val=0;
 
   if ( !FilTyp )
@@ -824,14 +830,12 @@ Mesh *SetupSolution (char *SolNam, int NbrVer, int Dim)
 
   if ( FilTyp == FILE_SU2BIN )
   {
-    val = LoadSU2SolutionBin(SolNam, Sol);
-    if ( val != 1 )
+    if ( LoadSU2SolutionBin(SolNam, Sol) )
       Sol->Sol = NULL;
   }
   else if ( FilTyp == FILE_SU2CSV )
   {
-    val = LoadSU2Solution(SolNam, Sol);
-    if ( val != 1 )
+    if ( LoadSU2Solution(SolNam, Sol) )
       Sol->Sol = NULL;
   }
   else if ( FilTyp == FILE_GMFSOL )
@@ -842,7 +846,6 @@ Mesh *SetupSolution (char *SolNam, int NbrVer, int Dim)
 
 void CheckVolumeElementOrientation(Mesh *Msh)
 {
-
   double3* Ver = Msh->Ver;
   int i;
 
@@ -865,7 +868,6 @@ void CheckVolumeElementOrientation(Mesh *Msh)
 
 void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con)
 {
-
   double3* Ver = Msh->Ver;
   int i, j, k, l, idx;
   int nbrcheck = 0;
@@ -1205,49 +1207,45 @@ void CheckSurfaceElementOrientation(Mesh *Msh, Conn *Con)
 
 }
 
-void CopyBoundaryMarkers (Mesh *Msh, Mesh *BndMsh)
+void CopyBoundaryMarkers(Mesh *Msh, Mesh *BndMsh)
 {
   int iMark;
   for (iMark = 0; iMark <= BndMsh->NbrMarkers; iMark++)
     strcpy(Msh->Markers[iMark], BndMsh->Markers[iMark]);
 }
 
-int GetInputFileType (char *FilNam)
+int GetFileType(char *FilNam)
 {
   char *ext=NULL;
 
   if ( !FilNam )
   {
-    printf("\n ## ERROR GetInputFileType : No file name provided.\n\n");
-     exit(1);
+    printf("\n ## ERROR GetFileType : No file name provided.\n\n");
+    exit(1);
   }
 
   ext = strrchr(FilNam, '.');
 
-  if (!ext)
-    return 0;
+  if (!ext) return 0;
+  ext = ext+1;
+  if ( strcmp(ext,"su2") == 0  )
+    return FILE_SU2MSH;
+  else if ( strcmp(ext,"csv") == 0  )
+    return FILE_SU2CSV;
+  else if ( strcmp(ext,"dat") == 0  )
+    return FILE_SU2BIN;
+  else if ( strcmp(ext,"mesh") == 0 || strcmp(ext,"meshb") == 0 )
+    return FILE_GMF;
+  else if ( strcmp(ext,"sol") == 0 || strcmp(ext,"solb") == 0 )
+    return FILE_GMFSOL;
+  else if ( strcmp(ext,"geo") == 0  )
+    return FILE_GEO;
   else
-  {
-    ext = ext+1;
-    if ( strcmp(ext,"su2") == 0  )
-      return FILE_SU2MSH;
-    else if ( strcmp(ext,"csv") == 0  )
-      return FILE_SU2CSV;
-    else if ( strcmp(ext,"dat") == 0  )
-      return FILE_SU2BIN;
-    else if ( strcmp(ext,"mesh") == 0 || strcmp(ext,"meshb") == 0 )
-      return FILE_GMF;
-    else if ( strcmp(ext,"sol") == 0 || strcmp(ext,"solb") == 0 )
-      return FILE_GMFSOL;
-    else if ( strcmp(ext,"geo") == 0  )
-      return FILE_GEO;
-    else
-      return 0;
-  }
+    return 0;
 }
 
 //--- Removes all occurences of char c from str
-void StrRemoveChars (char* s, char ch)
+void StrRemoveChars(char* s, char ch)
 {
   char *p = s;
   while (*s)

@@ -11,9 +11,8 @@
 
 #include "su2gmf.h"
 
-int SU2toGMF( char *MshNam, char *SolNam, char *OutNam, char *FldNam  )
+int SU2toGMF(char *MshNam, char *SolNam, char *OutNam, char *FldNam)
 {
-
   Options *mshopt = AllocOptions();
 
   strcpy(mshopt->OutNam,OutNam);
@@ -23,18 +22,16 @@ int SU2toGMF( char *MshNam, char *SolNam, char *OutNam, char *FldNam  )
 
   mshopt->clean = 0; // remove unconnected vertices
 
-  if ( !CheckOptions(mshopt) )
+  if ( CheckOptions(mshopt) )
   {
-    return 0;
+    return 1;
   }
 
-  return ConvertSU2SolToGMF (mshopt);
-
+  return ConvertSU2SolToGMF(mshopt);
 }
 
-int GMFtoSU2( char *MshNam, char *SolNam, char *OutNam )
+int GMFtoSU2(char *MshNam, char *SolNam, char *OutNam)
 {
-
   Options *mshopt = AllocOptions();
 
   strcpy(mshopt->OutNam,OutNam);
@@ -43,18 +40,16 @@ int GMFtoSU2( char *MshNam, char *SolNam, char *OutNam )
 
   mshopt->clean = 0; // remove unconnected vertices
 
-  if ( !CheckOptions(mshopt) )
+  if ( CheckOptions(mshopt) )
   {
-    return 0;
+    return 1;
   }
 
-  return ConvertGMFtoSU2Sol (mshopt);
-
+  return ConvertGMFtoSU2Sol(mshopt);
 }
 
-int GMFWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam )
+int GMFWithBoundtoSU2(char *MshNam, char *SolNam, char *BndMshNam, char *OutNam)
 {
-
   Options *mshopt = AllocOptions();
 
   strcpy(mshopt->OutNam,OutNam);
@@ -63,18 +58,16 @@ int GMFWithBoundtoSU2( char *MshNam, char *SolNam, char *BndMshNam, char *OutNam
 
   mshopt->clean = 0; // remove unconnected vertices
 
-  if ( !CheckOptions(mshopt) )
+  if ( CheckOptions(mshopt) )
   {
-    return 0;
+    return 1;
   }
 
-  return ConvertGMFWithBoundtoSU2Sol (mshopt, BndMshNam);
-
+  return ConvertGMFWithBoundtoSU2Sol(mshopt, BndMshNam);
 }
 
-int GMFSoltoMet( char *MshNam, char *SolNam, char *OutNam )
+int GMFSoltoMet(char *MshNam, char *SolNam, char *OutNam)
 {
-
   Options *mshopt = AllocOptions();
 
   strcpy(mshopt->InpNam,MshNam);
@@ -83,18 +76,40 @@ int GMFSoltoMet( char *MshNam, char *SolNam, char *OutNam )
 
   mshopt->clean = 0; // remove unconnected vertices
 
-  if ( !CheckOptions(mshopt) )
+  if ( CheckOptions(mshopt) )
   {
-    return 0;
+    return 1;
   }
 
-  return ConvertGMFSoltoMet (mshopt);
-
+  return ConvertGMFSoltoMet(mshopt);
 }
 
-void ReadMeshAndSol (char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet,
-                     PyObject *pyEdg, PyObject *pyHex, PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pySol,
-                     PyObject *pySolHeader,  PyObject *pyMarkers)
+void PreprocessMesh(char *MshNam, char *OutNam, int Dim)
+{
+  Options *mshopt = AllocOptions();
+
+  strcpy(mshopt->InpNam,MshNam);
+  strcpy(mshopt->OutNam,OutNam);
+  strcpy(mshopt->SolNam,"\0");
+
+  Mesh *Msh = NULL;
+  Msh = SetupMeshAndSolution(mshopt->InpNam, mshopt->SolNam, Dim);
+
+  if ( GetFileType(mshopt->OutNam) == FILE_GMF )
+  {
+    WriteGMFMesh(mshopt->OutNam, Msh, 1);
+  }
+  else if ( GetFileType(mshopt->OutNam) == FILE_SU2MSH )
+  {
+    WriteSU2Mesh(mshopt->OutNam, Msh);
+  }
+
+  if ( Msh ) FreeMesh(Msh);
+}
+
+void ReadMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet,
+                    PyObject *pyEdg, PyObject *pyHex, PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pySol,
+                    PyObject *pySolHeader,  PyObject *pyMarkers)
 {
   int i, j, d;
 
@@ -106,7 +121,7 @@ void ReadMeshAndSol (char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCo
   //--- Open mesh/solution file
 
   Mesh *Msh = NULL;
-  Msh = SetupMeshAndSolution (mshopt->InpNam, mshopt->SolNam);
+  Msh = SetupMeshAndSolution(mshopt->InpNam, mshopt->SolNam, 0);
 
   for (i=1; i<=Msh->NbrVer; i++)
   {
@@ -188,13 +203,12 @@ void ReadMeshAndSol (char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCo
 
   }
 
-  if ( Msh )
-     FreeMesh(Msh);
+  if ( Msh ) FreeMesh(Msh);
 
 }
 
-void ReadMesh (char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, PyObject *pyEdg,
-               PyObject *pyHex, PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pyMarkers)
+void ReadMesh(char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet, PyObject *pyEdg,
+              PyObject *pyHex, PyObject *pyQua, PyObject *pyPyr, PyObject *pyPri, PyObject *pyMarkers)
 {
   int i, j, d;
 
@@ -206,7 +220,7 @@ void ReadMesh (char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, 
   //--- Open mesh/solution file
 
   Mesh *Msh = NULL;
-  Msh = SetupMeshAndSolution (mshopt->InpNam, mshopt->SolNam);
+  Msh = SetupMeshAndSolution(mshopt->InpNam, mshopt->SolNam, 0);
 
   for (i=1; i<=Msh->NbrVer; i++)
   {
@@ -268,8 +282,7 @@ void ReadMesh (char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, 
     PyList_Append(pyMarkers, PyUnicode_FromString(Msh->Markers[i]));
   }
 
-  if ( Msh )
-     FreeMesh(Msh);
+  if ( Msh ) FreeMesh(Msh);
 
 }
 
@@ -299,8 +312,7 @@ void ReadSol(char *SolNam, PyObject *pySol, PyObject *pySolHeader, int NbrVer, i
     }
   }
 
-  if ( Sol )
-     FreeMesh(Sol);
+  if ( Sol ) FreeMesh(Sol);
 }
 
 void WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, PyObject *pyTet,
@@ -615,8 +627,8 @@ void WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCo
 
   //--- Write Mesh
 
-  int FilTyp = GetInputFileType(MshNam);
-  int SolTyp = GetInputFileType(SolNam);
+  int FilTyp = GetFileType(MshNam);
+  int SolTyp = GetFileType(SolNam);
   char *ptr = NULL;
   char BasNam[1024], BasNamSol[1024], OutSol[1024], FldNam[1024];
 
@@ -632,7 +644,7 @@ void WriteMeshAndSol(char *MshNam, char *SolNam, PyObject *pyVer, PyObject *pyCo
     {
       sprintf(OutSol, "%s.solb", BasNamSol);
       strcpy(FldNam, "all");
-      if ( ! WriteGMFSolutionItf(OutSol, FldNam, Msh) )
+      if ( WriteGMFSolutionItf(OutSol, FldNam, Msh) )
       {
         printf("  ## ERROR : Output solution FAILED.\n");
       }
@@ -917,7 +929,7 @@ void WriteMesh(char *MshNam, PyObject *pyVer, PyObject *pyCor, PyObject *pyTri, 
 
   //--- Write Mesh
 
-  int FilTyp = GetInputFileType(MshNam);
+  int FilTyp = GetFileType(MshNam);
   char *ptr = NULL;
   char BasNam[1024];
 
@@ -949,7 +961,7 @@ void WriteSol(char *SolNam, PyObject *pyVer, PyObject *pySol, PyObject *pySolHea
   if ( PyList_Check(pySolHeader) )
     NbrTag = PyList_Size(pySolHeader);
 
-  int FilTyp = GetInputFileType(SolNam);
+  int FilTyp = GetFileType(SolNam);
 
   if ( siz > 0 )
   {
@@ -1029,13 +1041,8 @@ void WriteSol(char *SolNam, PyObject *pyVer, PyObject *pySol, PyObject *pySolHea
 
   }
 
-  if ( FldTab )
-    free(FldTab);
-
-  if ( Sol )
-    free(Sol);
-
-  if ( Ver )
-    free(Ver);
+  if ( FldTab ) free(FldTab);
+  if ( Sol ) free(Sol);
+  if ( Ver ) free(Ver);
 
 }

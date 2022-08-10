@@ -33,7 +33,7 @@ else:
     package_data = {'': ['_su2gmf.so']}
 
     setup(name='su2gmf',
-          version= '3.3.1',
+          version= '0.2.0',
           description='''Extension to convert SU2 meshes and solutions to GMF.''',
           author='Victorien Menier, Brian C. Munguía',
           author_email='bmunguia@stanford.edu',
